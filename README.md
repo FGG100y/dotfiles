@@ -1,5 +1,9 @@
 # Dotfiles on my Ubuntu
 
 ## .bashrc .bash_aliases for bash
-## .vimrc for vim
-## .tmux.conf for tmux
+### .bashrc for default settings
+### .bash_aliases: renewable and personal aliases/functiions etc.
+## .vimrc 
+### vim for python
+## .tmux.conf for tmux2
+### sessions, windows and panes...Oh my tmux!
