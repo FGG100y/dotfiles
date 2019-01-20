@@ -121,3 +121,7 @@ fi
 
 # added by Anaconda3 installer
 export PATH="/home/fgg/anaconda3/bin:$PATH"
+
+# 15:09 20-Jan-2019 git_prompt_in_shell
+GIT_PROMPT_ONLY_IN_REPO=1
+source ~/.bash-git-prompt/gitprompt.sh
