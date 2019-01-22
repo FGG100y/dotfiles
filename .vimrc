@@ -1,661 +1,225 @@
-" =============================
-" fanmh's rebuilted vimrc file
-" PYTHON SPECIAL
-" date: 2018-07-14
-" =============================
+" ===================================
+" fanmh's vimrc (Ubuntu Evns)
+" lastest update: 2019-01-22
+" ===================================
 "
-" Vundle for plugins management
-" ----Block begin--------------
-set nocompatible		"required
-filetype off			"required
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" vundle for managing vundle
+" #############################
+"  Part-I: <Leader> relative
+" #############################
+let mapleader=","		" leader set to be the comma
+" -----------------------------------
+" groups of <leader> + ?  | Short Cut
+" -----------------------------------
+" shotcut for source ~/_vimrc
+nnoremap <leader><leader>s :source ~/_vimrc<cr>
+" shotcut for edit ~/_vimrc
+nnoremap <leader>ev :split $MYVIMRC<cr>
+" quick save/exit etc
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
+
+" yanking/pasting with system clipboard
+" pasting from sys clipboard to vim
+nmap <leader>v "+gp  
+" yank to sys clipboard only in Visual Mode
+vnoremap <leader>c "+y  
+
+" shotcuts to new tabs and moving around
+nnoremap <leader>] :tabn<cr>
+nnoremap <leader>[ :tabp<cr>
+nnoremap <leader>tn :tabnew<cr>
+nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tm :tabmove<cr>
+nnoremap <leader>tl :tablast<cr>
+" opens a new tab with the current buffer's path
+" map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>
+
+" buffers relatives
+" close the current buffer
+nnoremap <leader>bd :bclose<cr>:tabclose<cr>gT
+" quick select buffer
+nnoremap <leader>bl :bnext<cr>
+nnoremap <leader>bh :bprevious<cr>
+" split horizonal panes & navigations
+nnoremap <leader>- :sv<cr>
+" Ctrl + j,k,l,h to move around the panes
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" turn off highlights
+nnoremap <leader><space> :nohlsearch<CR>
+
+" Commenting blocks of code, e.g., sh, python
+noremap <silent> <Leader>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> <Leader>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
+" Join lines by <leader>j becuase I usually forget turn to lower case
+noremap <leader>j J
+" ==== Leader settings end =============
+"
+"
+" #############################
+"  Part-II:  Set vim
+" #############################
+
+set nocompatible              " be improved, also required for Vundle
+
+" enable syntax highlight
+syntax enable
+" allow variable syntax highlight approches instead of the default
+syntax on
+" filetype detecte
+filetype on
+filetype indent on
+" GUI setting
+let g:solarized_termcolors=256
+if has('gui_running')
+	" set background=dark
+	" setcolorscheme solarized
+	" setcolorscheme molokai
+	colorscheme phd
+    au GUIEnter * simalt ~x
+else
+	colorscheme zenburn
+	" setcolorscheme solarized
+	" setcolorscheme molokai
+endif
+call togglebg#map("<F4>")  " change color scheme
+
+" gui no toolbar
+set guioptions-=T
+set guioptions-=m
+set guioptions-=L
+set guioptions-=r
+set guioptions-=b
+
+" Do not use a mouse, otherwise :set mouse=n/v/i/a
+set mouse=
+" backspace for del
+set backspace=indent,eol,start
+" Split windows manners
+set splitbelow
+set splitright
+" Searching
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+" UI settings
+set noruler
+set cursorline
+set cursorcolumn
+set number relativenumber
+set cursorline
+set showcmd
+set wildmenu
+set showmatch
+set noshowmode
+set laststatus=2
+" always keep cursor away 3 lines from the bottom
+set scrolloff=3
+set sidescroll=3
+" do not wrap the code
+set nowrap
+" code fold
+set foldmethod=syntax
+" do not fold when first startup vim
+set nofoldenable
+
+" History
+set history=1024
+set viminfo+=h  " do no store searches
+
+" py_PEP8
+set encoding=utf-8
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+
+" #############################
+"  Part-III:  autocmd groups
+" #############################
+" auto begin in newline when exceed 79 chars
+autocmd FileType python setlocal textwidth=79 formatoptions+=t
+" comment leader for different filetypes
+autocmd FileType sh,python let b:comment_leader = '# '
+"
+" #############################
+"  Part-IV:  Plugins
+" #############################
+" ----------------------------
+" " Vundle for plugins
+" ----------------------------
+filetype off                  " required
+" set the runtime path to include Vundle and initialize
+set rtp+=$HOME/.vim/bundle/Vundle.vim/  " ~/vimfiles/bundle/Vundle.vim
+call vundle#begin()  " '$HOME/.vim/bundle/'
+" alternatively, pass a path where Vundle should install plugins
+" call vundle#begin('~/some/path/here')
+" NOTE : all the Plugins which is managed by Vundle must lie between
+" vundle#begin() and vundle#end
+
+" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
 " other plugins
+" =============
 Plugin 'jnurmine/Zenburn'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-scripts/phd'
-Plugin 'tomasr/molokai'
 Plugin 'SuperTab'
-Plugin 'itchyny/lightline.vim'
-Plugin 'python-mode/python-mode', {'branch': 'develop'}
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 Plugin 'tpope/vim-fugitive'
-" Plugin 'kshenoy/vim-signature'
-" Plugin 'davidhalter/jedi-vim'
-call vundle#end()
-filetype plugin indent on	"required
-" ----Block end----------------
-
-" dispaly date&time on statusbar
-" let timer = timer start(4000, 'UpdateStatusBar',{'repeat':-1})
-" function! UpdateStatusBar(timer)
-"     execute 'let &ro = &ro'
-" endfunction
-
-" GUI Manner
-" ----Block begin--------------
-if has('gui_running')
-	set background=dark
-	colorscheme solarized
-	" colorscheme phd
-	" colorscheme molokai
-    set go=
-    set clipboard=unnamed
-else
-	set background=dark
-	colorscheme zenburn
-    " colorscheme solarized  " 素雅
-    " colorscheme phd      " 复古
-    " colorscheme molokai  " 多彩
-endif
-call togglebg#map("<F5>")  " switch dark/light theme
-" ----Block end----------------
-
-" Common Keywork Non-Plugin
-" ----Block begin--------------
-let mapleader=","		" leader is colon
-" +y copy text to sys clipboard
-vnoremap <Leader>y "+y
-" +p paste sys clipboard text to vim
-nnoremap <Leader>v "+p
-nnoremap <Leader>q :q<CR>   " quit active window
-nnoremap <Leader>w :w<CR>   " save active window
-" Split windows
-set splitbelow
-set splitright
-" split navigations
-nnoremap nw <C-W><C-W>  " move to next window
-nnoremap <C-J> <C-W><C-J>  " Ctrl + J: move to the split below
-nnoremap <C-K> <C-W><C-K>  " Ctrl + K: move to the split above
-nnoremap <C-L> <C-W><C-L>  " Ctrl + L: move to the split to the right
-nnoremap <C-H> <C-W><C-H>  " Ctrl + H: move to the split to the left
-nnoremap <space> za    " Enable folding with the spacebar
-nnoremap <leader><space> : nohlsearch<CR>  " turn off search highlight
-" move vertically by every visual line (NOT Good)
-" nnoremap j gj
-" nnoremap k gk
-" ----Block end----------------
-"
-" autocmd BufWritePost $MYVIMRC source $MYVIMRC  " auto active the vimrc settings with save operation
-
-" *** Common Sets ***
-" ----Block begin--------------
-filetype indent on
-set encoding=utf-8
-set noshowmode
-set laststatus=2    " always show the statusline
-set nu  " line number
-set number relativenumber  " line relative number
-" syntax processing
-let python_highlight_all=1
-syntax on           " allow other syntax highlight settings
-syntax enable       " turn on syntax highlight
-" python PEP8
-set tabstop=4
-set softtabstop=4
-set expandtab
-set shiftwidth=4
-set autoindent
-autocmd FileType python setlocal textwidth=79 formatoptions+=t
-set wildmenu			" visual autocomplete for command menu
-set showmatch
-set mat=2      " How many tenths of a second to blink when matching brackets
-set showcmd
-set cursorline
-set cursorcolumn
-set incsearch			" search as characters are entered
-set hlsearch			" highlight matches
-" code flodmethod
-set foldmethod=indent
-set foldlevel=99
-set nowrap              " do not wrap the code line
-" set Comment start
-autocmd BufNewFile *.py exec ":call SetComment()" |normal 11Go
-func SetComment()
-    call append(0,  '#!usr/bin/env python')
-    call append(1,  '# -*- coding: utf8 -*-')
-    call append(2,  '#')
-    call append(3,  '# --------------------------------')
-    call append(4,  '#       FileName: '.expand("%"))
-    call append(5,  '#')
-    call append(6,  '#         Author: Fanmh_GG')
-    call append(7,  '#         Create: '.strftime("%Y-%m-%d %H:%M"))
-    call append(8,  '#  Last Modified: '.strftime("%Y-%m-%d %H:%M"))
-    call append(9,  '#    Distription: ')
-    call append(10, '# --------------------------------')
-    echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
-endfunc
-"set Last Modified start
-func DataInsert()
-    call cursor(9,1)
-    if search ('Last Modified') != 0
-        let line = line('.')
-        call setline(line, '# Last Modified: '.strftime("%Y-%m-%d %H:%M"))
-    endif
-endfunc
-
-autocmd FileWritePre,BufWritePre *.py ks|call DataInsert() |'s
-
-"--------------------------------------
-" GitHub__python-mode/plugin/pymode.vim
-"--------------------------------------
-" let g:pymode_python = 'python3'
-" pymode needs
-filetype plugin on
-" OPTIONS: {{{
-
-" Vim Python interpreter. Set to 'disable' for remove python features.
-if has("python3") && executable('python3')
-    call pymode#default('g:pymode_python', 'python3')
-else
-    call pymode#default('g:pymode_python', 'python')
-endif
-
-" Disable pymode warnings
-call pymode#default('g:pymode_warning', 1)
-
-" Additional python paths
-call pymode#default('g:pymode_paths', [])
-
-" Python documentation support
-call pymode#default('g:pymode_doc', 1)
-call pymode#default('g:pymode_doc_bind', 'K')
-
-" Enable/Disable pymode PEP8 indentation
-call pymode#default("g:pymode_indent", 1)
-
-" Auto remove unused whitespaces on save
-call pymode#default("g:pymode_trim_whitespaces", 1)
-
-" Set recomended python options
-call pymode#default("g:pymode_options", 1)
-call pymode#default("g:pymode_options_max_line_length", 79)
-"call pymode#default("g:pymode_options_colorcolumn", 1)
-
-" Enable/disable vertical display of python documentation
-call pymode#default("g:pymode_doc_vertical", 0)
-
-" Minimal height of pymode quickfix window
-call pymode#default('g:pymode_quickfix_maxheight', 6)
-
-" Maximal height of pymode quickfix window
-call pymode#default('g:pymode_quickfix_minheight', 3)
-
-" }}}
-"
-" RUN PYTHON {{{
-"
-" Enable code running support
-call pymode#default('g:pymode_run', 1)
-
-" Key's map for run python code
-call pymode#default('g:pymode_run_bind', '<leader>r')
-
-" }}}
-
-" CHECK CODE {{{
-"
-"" Code checking
-"call pymode#default('g:pymode_lint', 1)
-"
-"" Check code asynchronously
-"call pymode#default('g:pymode_lint_async', 1)
-"call pymode#default('g:pymode_lint_async_updatetime', 1000)
-"
-"" Check code every save if file has been modified
-"call pymode#default("g:pymode_lint_on_write", 1)
-"
-"" Check code every save (every)
-"call pymode#default("g:pymode_lint_unmodified", 0)
-"
-"" Check code on fly
-"call pymode#default("g:pymode_lint_on_fly", 0)
-"
-"" Show message about error in command line
-"call pymode#default("g:pymode_lint_message", 1)
-"
-"" Choices are: pylint, pyflakes, pep8, mccabe and pep257
-"call pymode#default("g:pymode_lint_checkers", ['pyflakes', 'pep8', 'mccabe'])
-
-" Code checkers options
-"" TODO: check if most adequate name name is pep8 or pycodestyle.
-"call pymode#default("g:pymode_lint_options_pep8",
-"    \ {'max_line_length': g:pymode_options_max_line_length})
-"
-"call pymode#default("g:pymode_lint_options_pylint",
-"    \ {'max-line-length': g:pymode_options_max_line_length})
-"
-"call pymode#default("g:pymode_lint_options_mccabe",
-"    \ {'complexity': 12})
-"
-"call pymode#default("g:pymode_lint_options_pep257", {})
-"call pymode#default("g:pymode_lint_options_pyflakes", { 'builtins': '_' })
-
-
-" }}}
-"
-" " SET/UNSET BREAKPOINTS {{{
-"
-
-"" Create/remove breakpoints
-"call pymode#default('g:pymode_breakpoint', 1)
-"
-"" Key's map for add/remove breakpoint
-"call pymode#default('g:pymode_breakpoint_bind', '<leader>b')
-"
-"" Default pattern for making breakpoints. Leave this empty for auto search available debuggers (pdb, ipdb, ...)
-"call pymode#default('g:pymode_breakpoint_cmd', '')
-
-" }}}
-"
-"command! PymodeVersion echomsg "Pymode version: " . g:pymode_version . " interpreter: " . g:pymode_python . " lint: " . g:pymode_lint . " rope: " . g:pymode_rope
-
-"augroup pymode
-
-"Github__python-mode/syntax/python.vim --> 405 lines (320 sloc) 18.7 KB
-" vim: ft=vim:fdm=marker
-
-" Enable pymode syntax for python files
-call pymode#default('g:pymode', 1)
-call pymode#default('g:pymode_syntax', g:pymode)
-
-" DESC: Disable script loading
-if !g:pymode || !g:pymode_syntax || pymode#default('b:current_syntax', 'pymode')
-    finish
-endif
-
-" OPTIONS: {{{
-
-" Highlight all by default
-call pymode#default('g:pymode_syntax_all', 1)
-
-" Highlight 'print' as function
-call pymode#default("g:pymode_syntax_print_as_function", 0)
-"
-" Highlight 'async/await' keywords
-call pymode#default("g:pymode_syntax_highlight_async_await", g:pymode_syntax_all)
-
-" Highlight '=' operator
-call pymode#default('g:pymode_syntax_highlight_equal_operator', g:pymode_syntax_all)
-
-" Highlight '*' operator
-call pymode#default('g:pymode_syntax_highlight_stars_operator', g:pymode_syntax_all)
-
-" Highlight 'self' keyword
-call pymode#default('g:pymode_syntax_highlight_self', g:pymode_syntax_all)
-
-" Highlight indent's errors
-call pymode#default('g:pymode_syntax_indent_errors', g:pymode_syntax_all)
-
-" Highlight space's errors
-call pymode#default('g:pymode_syntax_space_errors', g:pymode_syntax_all)
-
-" Highlight string formatting
-call pymode#default('g:pymode_syntax_string_formatting', g:pymode_syntax_all)
-call pymode#default('g:pymode_syntax_string_format', g:pymode_syntax_all)
-call pymode#default('g:pymode_syntax_string_templates', g:pymode_syntax_all)
-call pymode#default('g:pymode_syntax_doctests', g:pymode_syntax_all)
-
-" Support docstrings in syntax highlighting
-call pymode#default('g:pymode_syntax_docstrings', 1)
-
-" Highlight builtin objects (True, False, ...)
-call pymode#default('g:pymode_syntax_builtin_objs', g:pymode_syntax_all)
-
-" Highlight builtin types (str, list, ...)
-call pymode#default('g:pymode_syntax_builtin_types', g:pymode_syntax_all)
-
-" Highlight builtin types (div, eval, ...)
-call pymode#default('g:pymode_syntax_builtin_funcs', g:pymode_syntax_all)
-
-" Highlight exceptions (TypeError, ValueError, ...)
-call pymode#default('g:pymode_syntax_highlight_exceptions', g:pymode_syntax_all)
-
-" More slow synchronizing. Disable on the slow machine, but code in docstrings
-" could be broken.
-call pymode#default('g:pymode_syntax_slow_sync', 1)
-
-" }}}
-
-" For version 5.x: Clear all syntax items
-if version < 600
-    syntax clear
-endif
-
-" Keywords {{{
-" ============
-
-    syn keyword pythonStatement break continue del
-    syn keyword pythonStatement exec return
-    syn keyword pythonStatement pass raise
-    syn keyword pythonStatement global nonlocal assert
-    syn keyword pythonStatement yield
-    syn keyword pythonLambdaExpr lambda
-    syn keyword pythonStatement with as
-
-    syn keyword pythonStatement def nextgroup=pythonFunction skipwhite
-    syn match pythonFunction "\%(\%(def\s\|@\)\s*\)\@<=\h\%(\w\|\.\)*" contained nextgroup=pythonVars
-    syn region pythonVars start="(" skip=+\(".*"\|'.*'\)+ end=")" contained contains=pythonParameters transparent keepend
-    syn match pythonParameters "[^,]*" contained contains=pythonParam skipwhite
-    syn match pythonParam "[^,]*" contained contains=pythonExtraOperator,pythonLambdaExpr,pythonBuiltinObj,pythonBuiltinType,pythonConstant,pythonString,pythonNumber,pythonBrackets,pythonSelf,pythonComment skipwhite
-    syn match pythonBrackets "{[(|)]}" contained skipwhite
-
-    syn keyword pythonStatement class nextgroup=pythonClass skipwhite
-    syn match pythonClass "\%(\%(class\s\)\s*\)\@<=\h\%(\w\|\.\)*" contained nextgroup=pythonClassVars
-    syn region pythonClassVars start="(" end=")" contained contains=pythonClassParameters transparent keepend
-    syn match pythonClassParameters "[^,\*]*" contained contains=pythonBuiltin,pythonBuiltinObj,pythonBuiltinType,pythonExtraOperatorpythonStatement,pythonBrackets,pythonString,pythonComment skipwhite
-
-    syn keyword pythonRepeat        for while
-    syn keyword pythonConditional   if elif else
-    syn keyword pythonInclude       import from
-    syn keyword pythonException     try except finally
-    syn keyword pythonOperator      and in is not or
-
-    syn match pythonExtraOperator "\%([~!^&|/%+-]\|\%(class\s*\)\@<!<<\|<=>\|<=\|\%(<\|\<class\s\+\u\w*\s*\)\@<!<[^<]\@=\|===\|==\|=\~\|>>\|>=\|=\@<!>\|\.\.\.\|\.\.\|::\)"
-    syn match pythonExtraPseudoOperator "\%(-=\|/=\|\*\*=\|\*=\|&&=\|&=\|&&\|||=\||=\|||\|%=\|+=\|!\~\|!=\)"
-
-    if !g:pymode_syntax_print_as_function
-        syn keyword pythonStatement print
-    endif
-
-    if g:pymode_syntax_highlight_async_await
-        syn keyword pythonStatement async await
-        syn match pythonStatement "\<async\s\+def\>" nextgroup=pythonFunction skipwhite
-        syn match pythonStatement "\<async\s\+with\>" display
-        syn match pythonStatement "\<async\s\+for\>" nextgroup=pythonRepeat skipwhite
-    endif
-
-    if g:pymode_syntax_highlight_equal_operator
-        syn match pythonExtraOperator "\%(=\)"
-    endif
-
-    if g:pymode_syntax_highlight_stars_operator
-        syn match pythonExtraOperator "\%(\*\|\*\*\)"
-    endif
-
-    if g:pymode_syntax_highlight_self
-        syn keyword pythonSelf self cls
-    endif
-
-" }}}
-
-" Decorators {{{
-" ==============
-
-    syn match   pythonDecorator "@" display nextgroup=pythonDottedName skipwhite
-    syn match   pythonDottedName "[a-zA-Z_][a-zA-Z0-9_]*\(\.[a-zA-Z_][a-zA-Z0-9_]*\)*" display contained
-    syn match   pythonDot        "\." display containedin=pythonDottedName
-
-" }}}
-
-" Comments {{{
-" ============
-
-    syn match   pythonComment   "#.*$" display contains=pythonTodo,@Spell
-    syn match   pythonRun       "\%^#!.*$"
-    syn match   pythonCoding    "\%^.*\(\n.*\)\?#.*coding[:=]\s*[0-9A-Za-z-_.]\+.*$"
-    syn keyword pythonTodo      TODO FIXME XXX contained
-
-" }}}
-
-" Errors {{{
-" ==========
-
-    syn match pythonError       "\<\d\+\D\+\>" display
-    syn match pythonError       "[$?]" display
-    syn match pythonError       "[&|]\{2,}" display
-    syn match pythonError       "[=]\{3,}" display
-
-    " Indent errors (mix space and tabs)
-    if g:pymode_syntax_indent_errors
-        syn match pythonIndentError "^\s*\( \t\|\t \)\s*\S"me=e-1 display
-    endif
-
-    " Trailing space errors
-    if g:pymode_syntax_space_errors
-        syn match pythonSpaceError  "\s\+$" display
-    endif
-
-" }}}
-
-" Strings {{{
-" ===========
-
-    syn region pythonString     start=+[bB]\='+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end=+$+ keepend contains=pythonEscape,pythonEscapeError,@Spell
-    syn region pythonString     start=+[bB]\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end=+$+ keepend contains=pythonEscape,pythonEscapeError,@Spell
-    syn region pythonString     start=+[bB]\="""+ end=+"""+ keepend contains=pythonEscape,pythonEscapeError,pythonDocTest2,pythonSpaceError,@Spell
-    syn region pythonString     start=+[bB]\='''+ end=+'''+ keepend contains=pythonEscape,pythonEscapeError,pythonDocTest,pythonSpaceError,@Spell
-
-    syn match  pythonEscape     +\\[abfnrtv'"\\]+ display contained
-    syn match  pythonEscape     "\\\o\o\=\o\=" display contained
-    syn match  pythonEscapeError    "\\\o\{,2}[89]" display contained
-    syn match  pythonEscape     "\\x\x\{2}" display contained
-    syn match  pythonEscapeError    "\\x\x\=\X" display contained
-    syn match  pythonEscape     "\\$"
-
-    " Unicode
-    syn region pythonUniString  start=+[uU]'+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end=+$+ keepend contains=pythonEscape,pythonUniEscape,pythonEscapeError,pythonUniEscapeError,@Spell
-    syn region pythonUniString  start=+[uU]"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end=+$+ keepend contains=pythonEscape,pythonUniEscape,pythonEscapeError,pythonUniEscapeError,@Spell
-    syn region pythonUniString  start=+[uU]"""+ end=+"""+ keepend contains=pythonEscape,pythonUniEscape,pythonEscapeError,pythonUniEscapeError,pythonDocTest2,pythonSpaceError,@Spell
-    syn region pythonUniString  start=+[uU]'''+ end=+'''+ keepend contains=pythonEscape,pythonUniEscape,pythonEscapeError,pythonUniEscapeError,pythonDocTest,pythonSpaceError,@Spell
-
-    syn match  pythonUniEscape          "\\u\x\{4}" display contained
-    syn match  pythonUniEscapeError     "\\u\x\{,3}\X" display contained
-    syn match  pythonUniEscape          "\\U\x\{8}" display contained
-    syn match  pythonUniEscapeError     "\\U\x\{,7}\X" display contained
-    syn match  pythonUniEscape          "\\N{[A-Z ]\+}" display contained
-    syn match  pythonUniEscapeError "\\N{[^A-Z ]\+}" display contained
-
-    " Raw strings
-    syn region pythonRawString  start=+[rR]'+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end=+$+ keepend contains=pythonRawEscape,@Spell
-    syn region pythonRawString  start=+[rR]"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end=+$+ keepend contains=pythonRawEscape,@Spell
-    syn region pythonRawString  start=+[rR]"""+ end=+"""+ keepend contains=pythonDocTest2,pythonSpaceError,@Spell
-    syn region pythonRawString  start=+[rR]'''+ end=+'''+ keepend contains=pythonDocTest,pythonSpaceError,@Spell
-
-    syn match pythonRawEscape           +\\['"]+ display transparent contained
-
-    " Unicode raw strings
-    syn region pythonUniRawString   start=+[uU][rR]'+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end=+$+ keepend contains=pythonRawEscape,pythonUniRawEscape,pythonUniRawEscapeError,@Spell
-    syn region pythonUniRawString   start=+[uU][rR]"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end=+$+ keepend contains=pythonRawEscape,pythonUniRawEscape,pythonUniRawEscapeError,@Spell
-    syn region pythonUniRawString   start=+[uU][rR]"""+ end=+"""+ keepend contains=pythonUniRawEscape,pythonUniRawEscapeError,pythonDocTest2,pythonSpaceError,@Spell
-    syn region pythonUniRawString   start=+[uU][rR]'''+ end=+'''+ keepend contains=pythonUniRawEscape,pythonUniRawEscapeError,pythonDocTest,pythonSpaceError,@Spell
-
-    syn match  pythonUniRawEscape   "\([^\\]\(\\\\\)*\)\@<=\\u\x\{4}" display contained
-    syn match  pythonUniRawEscapeError  "\([^\\]\(\\\\\)*\)\@<=\\u\x\{,3}\X" display contained
-
-    " String formatting
-    if g:pymode_syntax_string_formatting
-        syn match pythonStrFormatting   "%\(([^)]\+)\)\=[-#0 +]*\d*\(\.\d\+\)\=[hlL]\=[diouxXeEfFgGcrs%]" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-        syn match pythonStrFormatting   "%[-#0 +]*\(\*\|\d\+\)\=\(\.\(\*\|\d\+\)\)\=[hlL]\=[diouxXeEfFgGcrs%]" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-    endif
-
-    " Str.format syntax
-    if g:pymode_syntax_string_format
-        syn match pythonStrFormat "{{\|}}" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-        syn match pythonStrFormat "{\([a-zA-Z0-9_]*\|\d\+\)\(\.[a-zA-Z_][a-zA-Z0-9_]*\|\[\(\d\+\|[^!:\}]\+\)\]\)*\(![rs]\)\=\(:\({\([a-zA-Z_][a-zA-Z0-9_]*\|\d\+\)}\|\([^}]\=[<>=^]\)\=[ +-]\=#\=0\=\d*\(\.\d\+\)\=[bcdeEfFgGnoxX%]\=\)\=\)\=}" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-    endif
-
-    " String templates
-    if g:pymode_syntax_string_templates
-        syn match pythonStrTemplate "\$\$" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-        syn match pythonStrTemplate "\${[a-zA-Z_][a-zA-Z0-9_]*}" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-        syn match pythonStrTemplate "\$[a-zA-Z_][a-zA-Z0-9_]*" contained containedin=pythonString,pythonUniString,pythonRawString,pythonUniRawString
-    endif
-
-    " DocTests
-    if g:pymode_syntax_doctests
-        syn region pythonDocTest    start="^\s*>>>" end=+'''+he=s-1 end="^\s*$" contained
-        syn region pythonDocTest2   start="^\s*>>>" end=+"""+he=s-1 end="^\s*$" contained
-    endif
-
-    " DocStrings
-    if g:pymode_syntax_docstrings
-        syn region pythonDocstring  start=+^\s*[uU]\?[rR]\?"""+ end=+"""+ keepend excludenl contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError
-        syn region pythonDocstring  start=+^\s*[uU]\?[rR]\?'''+ end=+'''+ keepend excludenl contains=pythonEscape,@Spell,pythonDoctest,pythonDocTest2,pythonSpaceError
-    endif
-
-
-" }}}
-
-" Numbers {{{
-" ===========
-
-    syn match   pythonHexError  "\<0[xX][0-9a-fA-F_]*[g-zG-Z][0-9a-fA-F_]*[lL]\=\>" display
-    syn match   pythonHexNumber "\<0[xX][0-9a-fA-F_]*[0-9a-fA-F][0-9a-fA-F_]*[lL]\=\>" display
-    syn match   pythonOctNumber "\<0[oO][0-7_]*[0-7][0-7_]*[lL]\=\>" display
-    syn match   pythonBinNumber "\<0[bB][01_]*[01][01_]*[lL]\=\>" display
-    syn match   pythonNumber    "\<[0-9][0-9_]*[lLjJ]\=\>" display
-    syn match   pythonFloat "\.[0-9_]*[0-9][0-9_]*\([eE][+-]\=[0-9_]*[0-9][0-9_]*\)\=[jJ]\=\>" display
-    syn match   pythonFloat "\<[0-9][0-9_]*[eE][+-]\=[0-9_]\+[jJ]\=\>" display
-    syn match   pythonFloat "\<[0-9][0-9_]*\.[0-9_]*\([eE][+-]\=[0-9_]*[0-9][0-9_]*\)\=[jJ]\=" display
-    syn match   pythonOctError  "\<0[oO]\=[0-7_]*[8-9][0-9_]*[lL]\=\>" display
-    syn match   pythonBinError  "\<0[bB][01_]*[2-9][0-9_]*[lL]\=\>" display
-
-" }}}
-
-" Builtins {{{
-" ============
-
-    " Builtin objects and types
-    if g:pymode_syntax_builtin_objs
-        syn keyword pythonBuiltinObj True False Ellipsis None NotImplemented
-        syn keyword pythonBuiltinObj __debug__ __doc__ __file__ __name__ __package__
-    endif
-
-    if g:pymode_syntax_builtin_types
-        syn keyword pythonBuiltinType type object
-        syn keyword pythonBuiltinType str basestring unicode buffer bytearray bytes chr unichr
-        syn keyword pythonBuiltinType dict int long bool float complex set frozenset list tuple
-        syn keyword pythonBuiltinType file super
-    endif
-
-    " Builtin functions
-    if g:pymode_syntax_builtin_funcs
-        syn keyword pythonBuiltinFunc   __import__ abs all any apply
-        syn keyword pythonBuiltinFunc   bin callable classmethod cmp coerce compile
-        syn keyword pythonBuiltinFunc   delattr dir divmod enumerate eval execfile filter
-        syn keyword pythonBuiltinFunc   format getattr globals locals hasattr hash help hex id
-        syn keyword pythonBuiltinFunc   input intern isinstance issubclass iter len map max min
-        syn keyword pythonBuiltinFunc   next oct open ord pow property range xrange
-        syn keyword pythonBuiltinFunc   raw_input reduce reload repr reversed round setattr
-        syn keyword pythonBuiltinFunc   slice sorted staticmethod sum vars zip
-
-        if g:pymode_syntax_print_as_function
-            syn keyword pythonBuiltinFunc   print
-        endif
-
-    endif
-
-    " Builtin exceptions and warnings
-    if g:pymode_syntax_highlight_exceptions
-        syn keyword pythonExClass   BaseException
-        syn keyword pythonExClass   Exception StandardError ArithmeticError
-        syn keyword pythonExClass   LookupError EnvironmentError
-        syn keyword pythonExClass   AssertionError AttributeError BufferError EOFError
-        syn keyword pythonExClass   FloatingPointError GeneratorExit IOError
-        syn keyword pythonExClass   ImportError IndexError KeyError
-        syn keyword pythonExClass   KeyboardInterrupt MemoryError NameError
-        syn keyword pythonExClass   NotImplementedError OSError OverflowError
-        syn keyword pythonExClass   ReferenceError RuntimeError StopIteration
-        syn keyword pythonExClass   SyntaxError IndentationError TabError
-        syn keyword pythonExClass   SystemError SystemExit TypeError
-        syn keyword pythonExClass   UnboundLocalError UnicodeError
-        syn keyword pythonExClass   UnicodeEncodeError UnicodeDecodeError
-        syn keyword pythonExClass   UnicodeTranslateError ValueError VMSError
-        syn keyword pythonExClass   BlockingIOError ChildProcessError ConnectionError
-        syn keyword pythonExClass   BrokenPipeError ConnectionAbortedError
-        syn keyword pythonExClass   ConnectionRefusedError ConnectionResetError
-        syn keyword pythonExClass   FileExistsError FileNotFoundError InterruptedError
-        syn keyword pythonExClass   IsADirectoryError NotADirectoryError PermissionError
-        syn keyword pythonExClass   ProcessLookupError TimeoutError
-        syn keyword pythonExClass   WindowsError ZeroDivisionError
-        syn keyword pythonExClass   Warning UserWarning BytesWarning DeprecationWarning
-        syn keyword pythonExClass   PendingDepricationWarning SyntaxWarning
-        syn keyword pythonExClass   RuntimeWarning FutureWarning
-        syn keyword pythonExClass   ImportWarning UnicodeWarning
-    endif
-
-" }}}
-
-if g:pymode_syntax_slow_sync
-    syn sync minlines=2000
-else
-    " This is fast but code inside triple quoted strings screws it up. It
-    " is impossible to fix because the only way to know if you are inside a
-    " triple quoted string is to start from the beginning of the file.
-    syn sync match pythonSync grouphere NONE "):$"
-    syn sync maxlines=200
-endif
-
-" Highlight {{{
-" =============
-
-    hi def link  pythonStatement    Statement
-    hi def link  pythonLambdaExpr   Statement
-    hi def link  pythonInclude      Include
-    hi def link  pythonFunction     Function
-    hi def link  pythonClass        Type
-    hi def link  pythonParameters   Normal
-    hi def link  pythonParam        Normal
-    hi def link  pythonBrackets     Normal
-    hi def link  pythonClassParameters Normal
-    hi def link  pythonSelf         Identifier
-
-    hi def link  pythonConditional  Conditional
-    hi def link  pythonRepeat       Repeat
-    hi def link  pythonException    Exception
-    hi def link  pythonOperator     Operator
-    hi def link  pythonExtraOperator        Operator
-    hi def link  pythonExtraPseudoOperator  Operator
-
-    hi def link  pythonDecorator    Define
-    hi def link  pythonDottedName   Function
-    hi def link  pythonDot          Normal
-
-    hi def link  pythonComment      Comment
-    hi def link  pythonCoding       Special
-    hi def link  pythonRun          Special
-    hi def link  pythonTodo         Todo
-
-    hi def link  pythonError        Error
-    hi def link  pythonIndentError  Error
-    hi def link  pythonSpaceError   Error
-
-    hi def link  pythonString       String
-    hi def link  pythonDocstring    String
-    hi def link  pythonUniString    String
-    hi def link  pythonRawString    String
-    hi def link  pythonUniRawString String
-
-    hi def link  pythonEscape       Special
-    hi def link  pythonEscapeError  Error
-    hi def link  pythonUniEscape    Special
-    hi def link  pythonUniEscapeError Error
-    hi def link  pythonUniRawEscape Special
-    hi def link  pythonUniRawEscapeError Error
-
-    hi def link  pythonStrFormatting Special
-    hi def link  pythonStrFormat    Special
-    hi def link  pythonStrTemplate  Special
-
-    hi def link  pythonDocTest      Special
-    hi def link  pythonDocTest2     Special
-
-    hi def link  pythonNumber       Number
-    hi def link  pythonHexNumber    Number
-    hi def link  pythonOctNumber    Number
-    hi def link  pythonBinNumber    Number
-    hi def link  pythonFloat        Float
-    hi def link  pythonOctError     Error
-    hi def link  pythonHexError     Error
-    hi def link  pythonBinError     Error
-
-    hi def link  pythonBuiltinType  Type
-    hi def link  pythonBuiltinObj   Structure
-    hi def link  pythonBuiltinFunc  Function
-
-    hi def link  pythonExClass      Structure
-
-" }}}
-
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'kshenoy/vim-signature'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'w0rp/ale'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'itchyny/lightline.vim'
+" Plugin 'python-mode/python-mode', { 'branch': 'develop' }
+" Plugin 'octol/vim-cpp-enhanced-highlight'
+" Plugin 'suan/vim-instant-markdown'
+" Plugin 'derekwyatt/vim-fswitch'
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
+" ----------------------------
+" EasyMotion settings
+" ----------------------------
+let g:EasyMotion_do_mapping=0  " disable default prefix <leader><leader>
+let g:EasyMotion_smartcase=1   " case insensitive on
+" find motions: line motions
+map <leader>f <Plug>(easymotion-f)
+map <leader>F <Plug>(easymotion-F)
+
+" ----------------------------
+" vim-indent-guides settings
+" ----------------------------
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+" leader + i to turn on/off the indent_guide
+nmap <silent> <leader>i <Plug>IndentGuidesToggle
+" ----------------------------
+" UltiSnips settings
+" ----------------------------
+let g:UltiSnipsUsePythonVersion = 3
+" let g:UltiSnipsSnippetDirectories=['My_snippets']
+" make sure self-defined snippets samples is under '~/.vim/bundle/'
+let g:UltiSnipsSnippetsDir = '~/.vim/bundle/vim-snippets/'
+let g:UltiSnipsExpandTrigger = "<leader><Tab>"
+let g:UltiSnipsListSnippets = '<C-Tab>'
+let g:UltiSnipsJumpForwardTrigger = "<leader><Tab>"
+let g:UltiSnipsJumpBackwardTrigger = '<leader><S-Tab>'
+
+" ----------------------------
+" airline settings
+" ----------------------------
+" let g:airline_theme='simple'
