@@ -11,9 +11,9 @@ let mapleader=","		" leader set to be the comma
 " groups of <leader> + ?  | Short Cut
 " -----------------------------------
 " shotcut for source ~/_vimrc
-nnoremap <leader><leader>s :source ~/_vimrc<cr>
-" shotcut for edit ~/_vimrc
-nnoremap <leader>ev :split $MYVIMRC<cr>
+nnoremap <leader><leader>s :source ~/.vimrc<cr>
+" shotcut for vertical split help
+nnoremap <leader>vh :vert help<cr>
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
@@ -52,11 +52,11 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <leader><space> :nohlsearch<CR>
 
 " Commenting blocks of code, e.g., sh, python
-noremap <silent> <Leader>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> <Leader>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+nnoremap <silent> <Leader>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+nnoremap <silent> <Leader>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 " Join lines by <leader>j becuase I usually forget turn to lower case
-noremap <leader>j J
+nnoremap <leader>j J
 " ==== Leader settings end =============
 "
 "
@@ -74,19 +74,20 @@ syntax on
 filetype on
 filetype indent on
 " GUI setting
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
 if has('gui_running')
 	" set background=dark
-	" setcolorscheme solarized
-	" setcolorscheme molokai
-	colorscheme phd
+	colorscheme solarized
+    call togglebg#map("<F4>")  " change colorscheme'bg
+	" colorscheme molokai
+	" colorscheme phd
     au GUIEnter * simalt ~x
-else
-	colorscheme zenburn
-	" setcolorscheme solarized
-	" setcolorscheme molokai
 endif
-call togglebg#map("<F4>")  " change color scheme
+set background=dark
+" colorscheme solarized
+" call togglebg#map("<F4>")  " change colorscheme'bg
+colorscheme zenburn
+" colorscheme molokai
 
 " gui no toolbar
 set guioptions-=T
@@ -143,10 +144,6 @@ set autoindent
 " #############################
 "  Part-III:  autocmd groups
 " #############################
-" auto begin in newline when exceed 79 chars
-autocmd FileType python setlocal textwidth=79 formatoptions+=t
-" comment leader for different filetypes
-autocmd FileType sh,python let b:comment_leader = '# '
 "
 " #############################
 "  Part-IV:  Plugins
@@ -158,35 +155,61 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=$HOME/.vim/bundle/Vundle.vim/  " ~/vimfiles/bundle/Vundle.vim
 call vundle#begin()  " '$HOME/.vim/bundle/'
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-" NOTE : all the Plugins which is managed by Vundle must lie between
-" vundle#begin() and vundle#end
+    " alternatively, pass a path where Vundle should install plugins
+    " call vundle#begin('~/some/path/here')
+    " NOTE : all the Plugins which is managed by Vundle must lie between
+    " vundle#begin() and vundle#end
+    
+    " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+    "-------------------=== Code/Project navigation ===-------------
+    " Plugin 'scrooloose/nerdtree'                " Project and file navigation
+    Plugin 'majutsushi/tagbar'                  " Class/module browser
+    Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
+    Plugin 'nathanaelkane/vim-indent-guides'    " indent guides visulized
+    Plugin 'kshenoy/vim-signature'              " bookmark etc
+    Plugin 'easymotion/vim-easymotion'
 
-" other plugins
-" =============
-Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-scripts/phd'
-Plugin 'SuperTab'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'tpope/vim-fugitive'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'kshenoy/vim-signature'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'w0rp/ale'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'itchyny/lightline.vim'
-" Plugin 'python-mode/python-mode', { 'branch': 'develop' }
-" Plugin 'octol/vim-cpp-enhanced-highlight'
-" Plugin 'suan/vim-instant-markdown'
-" Plugin 'derekwyatt/vim-fswitch'
+    "-------------------=== Other ===-------------------------------
+    Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
+    Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
+    Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
+    Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
+    Plugin 'rosenfeld/conque-term'              " Consoles as buffers
+    Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
+    Plugin 'flazz/vim-colorschemes'             " Colorschemes
+
+    "-------------------=== Snippets support ===--------------------
+    Plugin 'garbas/vim-snipmate'                " Snippets manager
+    Plugin 'MarcWeber/vim-addon-mw-utils'       " dependencies #1
+    Plugin 'tomtom/tlib_vim'                    " dependencies #2
+    Plugin 'honza/vim-snippets'                 " snippets repo
+
+    "-------------------=== Languages support ===-------------------
+    Plugin 'SuperTab'
+    Plugin 'tpope/vim-commentary'               " Comment stuff out
+    Plugin 'tpope/vim-fugitive'
+    " Plugin 'mitsuhiko/vim-sparkup'              " Sparkup(XML/jinja/htlm-django/etc.) support
+    " Plugin 'Rykka/riv.vim'                      " ReStructuredText plugin
+    " Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
+
+    "-------------------=== Python  ===-----------------------------
+    Plugin 'klen/python-mode'                   " Python mode (docs, refactor, lints...)
+    Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
+
+    " other plugins
+    " =============
+    " Plugin 'jnurmine/Zenburn'
+    " Plugin 'altercation/vim-colors-solarized'
+    " Plugin 'w0rp/ale'
+    " Plugin 'itchyny/lightline.vim'
+    " Plugin 'octol/vim-cpp-enhanced-highlight'
+    " Plugin 'suan/vim-instant-markdown'
+    " Plugin 'derekwyatt/vim-fswitch'
 call vundle#end()            " required
+filetype on
+filetype plugin on
 filetype plugin indent on    " required
 
 
@@ -210,16 +233,118 @@ nmap <silent> <leader>i <Plug>IndentGuidesToggle
 " ----------------------------
 " UltiSnips settings
 " ----------------------------
-let g:UltiSnipsUsePythonVersion = 3
+" let g:UltiSnipsUsePythonVersion = 3
 " let g:UltiSnipsSnippetDirectories=['My_snippets']
 " make sure self-defined snippets samples is under '~/.vim/bundle/'
-let g:UltiSnipsSnippetsDir = '~/.vim/bundle/vim-snippets/'
-let g:UltiSnipsExpandTrigger = "<leader><Tab>"
-let g:UltiSnipsListSnippets = '<C-Tab>'
-let g:UltiSnipsJumpForwardTrigger = "<leader><Tab>"
-let g:UltiSnipsJumpBackwardTrigger = '<leader><S-Tab>'
+" let g:UltiSnipsSnippetsDir = '~/.vim/bundle/vim-snippets/'
+" let g:UltiSnipsExpandTrigger = "<leader><Tab>"
+" let g:UltiSnipsListSnippets = '<C-Tab>'
+" let g:UltiSnipsJumpForwardTrigger = "<leader><Tab>"
+" let g:UltiSnipsJumpBackwardTrigger = '<leader><S-Tab>'
 
 " ----------------------------
 " airline settings
 " ----------------------------
-" let g:airline_theme='simple'
+let g:airline_theme='badwolf'
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#formatter='unique_tail'
+let g:airline_powerline_fonts=1
+
+" ----------------------------
+" tagbar settings
+" ----------------------------
+let g:tagbar_autofocus=0
+let g:tagbar_width=42
+autocmd BufEnter *.py :call tagbar#autoopen(0)
+autocmd BufWinLeave *.py :TagbarClose
+
+" ----------------------------
+" snipmate settings
+" ----------------------------
+let g:snippets_dir='~/.vim/bundle/vim-snippets/snippets'
+
+" ----------------------------
+" python settings
+" ----------------------------
+" python executables for different plugins
+let g:pymode_python='python'
+let g:syntastic_python_python_exec='python'
+
+" rope
+let g:pymode_rope=0
+let g:pymode_rope_completion=0
+let g:pymode_rope_complete_on_dot=0
+let g:pymode_rope_auto_project=0
+let g:pymode_rope_enable_autoimport=0
+let g:pymode_rope_autoimport_generate=0
+let g:pymode_rope_guess_project=0
+
+" documentation
+let g:pymode_doc=0
+let g:pymode_doc_bind='K'
+
+" lints
+let g:pymode_lint=0
+
+" virtualenv
+let g:pymode_virtualenv=1
+
+" breakpoints
+let g:pymode_breakpoint=1
+let g:pymode_breakpoint_key='<leader>b'
+
+" syntax highlight
+let g:pymode_syntax=1
+let g:pymode_syntax_slow_sync=1
+let g:pymode_syntax_all=1
+let g:pymode_syntax_print_as_function=g:pymode_syntax_all
+let g:pymode_syntax_highlight_async_await=g:pymode_syntax_all
+let g:pymode_syntax_highlight_equal_operator=g:pymode_syntax_all
+let g:pymode_syntax_highlight_stars_operator=g:pymode_syntax_all
+let g:pymode_syntax_highlight_self=g:pymode_syntax_all
+let g:pymode_syntax_indent_errors=g:pymode_syntax_all
+let g:pymode_syntax_string_formatting=g:pymode_syntax_all
+let g:pymode_syntax_space_errors=g:pymode_syntax_all
+let g:pymode_syntax_string_format=g:pymode_syntax_all
+let g:pymode_syntax_string_templates=g:pymode_syntax_all
+let g:pymode_syntax_doctests=g:pymode_syntax_all
+let g:pymode_syntax_builtin_objs=g:pymode_syntax_all
+let g:pymode_syntax_builtin_types=g:pymode_syntax_all
+let g:pymode_syntax_highlight_exceptions=g:pymode_syntax_all
+let g:pymode_syntax_docstrings=g:pymode_syntax_all
+
+" highlight 'long' lines (>= 79 symbols) in python files
+augroup vimrc_autocmds
+    autocmd!
+    autocmd FileType python,rst,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,rst,c,cpp match Excess /\%80v.*/
+    autocmd FileType python,rst,c,cpp set nowrap
+    autocmd FileType python,rst,c,cpp set colorcolumn=79
+    " auto begin in newline when exceed 79 chars
+    autocmd FileType python setlocal textwidth=79 formatoptions+=t
+    " comment leader for different filetypes
+    autocmd FileType sh,python let b:comment_leader = '# '
+augroup END
+
+" code folding
+let g:pymode_folding=0
+
+" pep8 indents
+let g:pymode_indent=1
+
+" code running
+let g:pymode_run=1
+let g:pymode_run_bind='<leader>r'
+
+" syntastic
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_enable_signs=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_aggregate_errors=1
+let g:syntastic_loc_list_height=5
+let g:syntastic_error_symbol='X'
+let g:syntastic_style_error_symbol='X'
+let g:syntastic_warning_symbol='x'
+let g:syntastic_style_warning_symbol='x'
+let g:syntastic_python_checkers=['flake8', 'pydocstyle', 'python']
