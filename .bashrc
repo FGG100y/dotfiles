@@ -119,9 +119,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# added by Anaconda3 installer
-export PATH="/home/fgg/anaconda3/bin:$PATH"
+# added spark-shell/pyspark
+# export PATH="$PATH:/home/fgg/Bigdata/spark/bin"
 
 # 15:09 20-Jan-2019 git_prompt_in_shell
 GIT_PROMPT_ONLY_IN_REPO=1
 source ~/.bash-git-prompt/gitprompt.sh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# added by Anaconda3 installer
+export PATH="/home/fgg/anaconda3/bin:$PATH"

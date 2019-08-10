@@ -1,7 +1,6 @@
 " ===================================
-" fanmh's vimrc (Ubuntu Envs)
+" fanmh's vimrc (Ubuntu Evns)
 " builted: 2018-07-16
-" update: Sat 22 Jun 2019 11:08:39
 " ===================================
 "
 
@@ -69,8 +68,8 @@ call vundle#begin()
     " Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
 
     "-------------------=== Code lint= ==-----------------------------
-    Plugin 'w0rp/ale'
     " Plugin 'python-mode/python-mode'
+    Plugin 'w0rp/ale'
     " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
 
     " local installation using the ['file://'+'absolute path'] protocol
@@ -130,7 +129,8 @@ nnoremap <leader><space> :nohlsearch<cr>
 
 
 " windows/panes resize
-nnoremap <space>w :vertical resize +7<cr>
+nnoremap <space>w :vertical resize +3<cr>
+nnoremap <space><space>w :vertical resize +9<cr>
 nnoremap <S-w> :resize +5<cr>
 
 " self-define whitespace.vim for *.py
@@ -238,7 +238,7 @@ set autoindent
 " Note: syntax enable is needed
 syntax on
 syntax enable
-" set background=dark
+set background=dark
 " set background=light
 if has('gui_running')
     " GUI setting, no toolbar
@@ -256,11 +256,11 @@ if has('gui_running')
     " set guifont=Lucida_Console:h9            " some other fonts
     " au GUIEnter * simalt ~x                   " full screen when initiate gvim
 else
-    " colorscheme zenburn
-    colorscheme solarized
+    colorscheme zenburn
+    " colorscheme solarized
     " let g:solarized_termcolors=256
-    let g:solarized_contrast="normal"
-    call togglebg#map("<F5>")
+    " let g:solarized_contrast="normal"
+    " call togglebg#map("<F5>")
 endif
 
 
@@ -562,10 +562,10 @@ let g:ale_linters = {
             \   'cpp': ['clang', 'clangd'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shellcheck'],
-            \   'python': ['flake8','pylint', 'pycodestyle']
+            \   'python': ['flake8']
             \}
-let g:ale_python_pyflakes_executable = 1
-let g:ale_python_pyflakes_use_global = 1
+" let g:ale_python_flake8_executable = 1
+let g:ale_python_flake8_use_global = 1
 
 let g:ale_fixers = {
             \   'python': ['autopep8', 'trim_whitespace', 'yapf']
