@@ -19,9 +19,6 @@ alias Gitr='cd /home/fgg/fggit/GitHub_repos/'
 alias Leco='cd /home/fgg/fggit/GitHub_repos/LeetCode/'
 alias Dpro='cd /home/fgg/Downloads/programs/'
 
-# ssh names
-# alias dxcS='192.168.1.104'
-
 # watch Nvidia gpu utilization --tensorflow
 alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'
 
@@ -47,9 +44,8 @@ alias srcsh='source ~/.bashrc'
 # poweroff
 alias poff='poweroff'
 # tree the directory
-alias tree2='tree -aL 2'
-alias tree3='tree -dL 3'
-# alias treed='tree -aL 2 -D'
+alias treed2='tree -dL 2'
+alias treed3='tree -dL 3'
 
 # edit dotfiles
 alias vimbz='vim ~/.bashrc_aliases'
@@ -60,12 +56,13 @@ alias vimtx='vim ~/.tmux.conf'
 alias vlcbgm='vlc ~/Music/bg_music.mp4 &'
 
 # quick check with git command alias
-alias ggit='cat $HOME/.bash_aliases | grep git'
+alias ggit='cat $HOME/.bashrc_aliases | grep git'
 # git command lines
 alias gits='git status'
 alias gitbr='git branch'
-alias gitad='git add'
+alias gitadd='git add'
 alias gitcm='git commit -m'
+alias gitcam='git commit -am'
 alias gitpom='git push origin master'
 alias gitmv='git mv'
     # git mv to rename file's name

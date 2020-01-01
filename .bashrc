@@ -126,7 +126,6 @@ fi
 GIT_PROMPT_ONLY_IN_REPO=1
 source ~/.bash-git-prompt/gitprompt.sh
 
-<<<<<<< HEAD
 # initialize fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
@@ -140,9 +139,3 @@ if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export PROJECT_HOME=$HOME/fggit/csds/PyVenvs
     source ~/.local/bin/virtualenvwrapper.sh
 fi
-=======
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# added by Anaconda3 installer
-export PATH="/home/fgg/anaconda3/bin:$PATH"
->>>>>>> 286f4be6bb3a06c648566813395ab01c790ecabe
