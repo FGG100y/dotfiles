@@ -90,12 +90,9 @@ let mapleader=","		                        " leader set to be the comma
 " -----------------------------------
 " groups of <leader> + ?  | Short Cut
 " -----------------------------------
-" source vimrc && echo 'reloaded'
-nnoremap <silent> <leader><leader>s :source ~/.vimrc<CR>:echo '-*- vimrc reloaded -*-'<CR>
-" shotcut to edit ~/_vimrc
+" shotcut to edit ~/_vimrc in new tab
 nnoremap <leader>ev :tabnew <bar> :e $MYVIMRC<cr>
-" nnoremap <leader>ev :vs ~/.vimrc<cr>
-nnoremap <leader>sv :sp ~/.vimrc<cr>
+nnoremap <leader>sv :sp $MYVIMRC<cr>
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
@@ -134,19 +131,6 @@ nnoremap <S-w> :resize +5<cr>
 " The "e" flag tells ":substitute" that not finding a match is not an error.
 " strip trailing whitespace (,,t)
 nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
-
-" Or using a function in vimrc directly
-" augroup whitespace
-"     autocmd!
-"     function! StripWhitespace ()
-"         let save_cursor = getpos(".")
-"         let old_query = getreg('/')
-"         :%s/\s\+$//e
-"         call setpos('.', save_cursor)
-"         call setreg('/', old_query)
-"     endfunction
-"     noremap <leader>ss :call StripWhitespace()<cr>
-" augroup END
 
 " insert the datetime
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
@@ -219,7 +203,7 @@ set shiftwidth=4
 set autoindent
 
 " updatetime=4000(default)
-set updatetime=2000
+set updatetime=1000
 
 " #############################
 "  Part-IV: colorscheme && GUI
@@ -309,15 +293,13 @@ let g:fzf_colors =
 let g:gitgutter_signs = 1
 let g:gitgutter_max_signs = 500
 let g:gitgutter_sign_allow_clobber = 1
-
-nmap [h <Plug>GitGutterPrevHunk
-nmap ]h <Plug>GitGutterNextHunk
-
 let g:gitgutter_sign_added = '++'
 let g:gitgutter_sign_modified = '~~'
 let g:gitgutter_sign_removed = '--'
 " let g:gitgutter_sign_removed_first_line = '^^'
 " let g:gitgutter_sign_modified_removed = 'ww'
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
 
 " ----------------------------
 " vim-instant_markdown
