@@ -1,7 +1,10 @@
 " ===================================
 " fanmh's vimrc (Ubuntu Evns)
 " builted: 2018-07-16
+<<<<<<< HEAD
 " update: Wed 01 Jan 2020 22:33:58
+=======
+>>>>>>> 286f4be6bb3a06c648566813395ab01c790ecabe
 " ===================================
 
 set nocompatible                                " be iMproved
@@ -68,11 +71,17 @@ call vundle#begin()
     " Plugin 'tpope/vim-commentary'                 " Comment stuff out
 
     "-------------------=== Code lint= ==-----------------------------
+<<<<<<< HEAD
     Plugin 'w0rp/ale'                           " support all major programming language
     " Plugin 'python-mode/python-mode'
 
     "-------------------=== other plugins ===-----------------------------
     " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
+=======
+    " Plugin 'python-mode/python-mode'
+    Plugin 'w0rp/ale'
+    " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
+>>>>>>> 286f4be6bb3a06c648566813395ab01c790ecabe
 
     " local installation using the ['file://'+'absolute path'] protocol
 
@@ -244,6 +253,13 @@ if has('gui_running')
     colorscheme zenburn                       " backup colorscheme
 else
     colorscheme zenburn
+<<<<<<< HEAD
+=======
+    " colorscheme solarized
+    " let g:solarized_termcolors=256
+    " let g:solarized_contrast="normal"
+    " call togglebg#map("<F5>")
+>>>>>>> 286f4be6bb3a06c648566813395ab01c790ecabe
 endif
 
 " markdown settings
