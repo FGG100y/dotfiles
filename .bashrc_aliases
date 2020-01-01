@@ -193,12 +193,10 @@ count_files () {
 # }
 
 # update the dotfiles in my git_repos
-update_dotf () {
-    files="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
-    files="$(echo "$files" | sed -e 's/\n//g')"
-    echo "$files"
-    # cp "$files" .
-    # cp "$files" "$1"
+Gdotfiles () {
+    # export dotfiles to env
+    dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
+    export dotfiles
 }
     
 # bind -x '"\C-p":  && echo "$files" |  && cp "$files" .'

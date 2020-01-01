@@ -1,8 +1,8 @@
 " ===================================
 " fanmh's vimrc (Ubuntu Evns)
 " builted: 2018-07-16
+" update: Wed 01 Jan 2020 22:33:58
 " ===================================
-"
 
 set nocompatible                                " be iMproved
 
