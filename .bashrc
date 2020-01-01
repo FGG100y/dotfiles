@@ -104,8 +104,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f ~/.bashrc_aliases ]; then
+    . ~/.bashrc_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -119,9 +119,23 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# added by Anaconda3 installer
-export PATH="/home/fgg/anaconda3/bin:$PATH"
+# added spark-shell/pyspark
+# export PATH="$PATH:/home/fgg/Bigdata/spark/bin"
 
 # 15:09 20-Jan-2019 git_prompt_in_shell
 GIT_PROMPT_ONLY_IN_REPO=1
 source ~/.bash-git-prompt/gitprompt.sh
+
+# initialize fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
+# NOTE: the virtualenvwrapper.sh was located different from the office doc said
+#       due to installation with 'pip3 install --user'
+if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
+    export WORKON_HOME=$HOME/.virtualenvs
+    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
+    export PROJECT_HOME=$HOME/fggit/csds/PyVenvs
+    source ~/.local/bin/virtualenvwrapper.sh
+fi

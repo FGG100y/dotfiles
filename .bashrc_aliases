@@ -1,0 +1,207 @@
+# Ubuntu18.04-LTS ^^
+#-------------------
+# Personal Aliases
+#-------------------
+# personal directory
+alias fits='cd /home/fgg/fggit/'
+alias book='cd /home/fgg/fggbooks/textbook_csds/'
+alias moon='cd /home/fgg/fggit/moon/'
+alias Upan='cd /media/fgg/fmhU/'
+alias ds='cd /home/fgg/fggit/csds/Practical_DS/'
+alias db='cd /home/fgg/fggit/csds/Practical_db/'
+alias ss='cd /home/fgg/fggit/csds/Practical_ss/'
+alias da='cd /home/fgg/fggit/csds/ml_datasets/'
+alias cv='cd /home/fgg/fggit/csds/Practical_DS/CV/'
+alias pypy='cd /home/fgg/fggit/csds/Practical_Py3/'
+alias ccpp='cd /home/fgg/fggit/csds/Practical_Cpp/'
+alias envs='cd /home/fgg/fggit/csds/PyVenvs/'
+alias Gitr='cd /home/fgg/fggit/GitHub_repos/'
+alias Leco='cd /home/fgg/fggit/GitHub_repos/LeetCode/'
+alias Dpro='cd /home/fgg/Downloads/programs/'
+
+# ssh names
+# alias dxcS='192.168.1.104'
+
+# watch Nvidia gpu utilization --tensorflow
+alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'
+
+# vim edit multiple files vertically split windows
+alias vimvs='vim -O'
+
+# shell scripts commands
+alias chmodx='chmod u+x'
+
+# complier for C++
+# alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
+alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
+# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
+alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
+
+# NOTE: more paras/flags for clang:
+# clang -Wno-disabled-macro-expansion -Wno-float-equal -Wno-c++98-compat-pedantic'
+#       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
+#       -Wno-old-style-cast 
+
+# source ***
+alias srcsh='source ~/.bashrc'
+# poweroff
+alias poff='poweroff'
+# tree the directory
+alias tree2='tree -aL 2'
+alias tree3='tree -dL 3'
+# alias treed='tree -aL 2 -D'
+
+# edit dotfiles
+alias vimbz='vim ~/.bashrc_aliases'
+alias vimrc='vim ~/.vimrc'
+alias vimtx='vim ~/.tmux.conf'
+
+# some music
+alias vlcbgm='vlc ~/Music/bg_music.mp4 &'
+
+# quick check with git command alias
+alias ggit='cat $HOME/.bash_aliases | grep git'
+# git command lines
+alias gits='git status'
+alias gitbr='git branch'
+alias gitad='git add'
+alias gitcm='git commit -m'
+alias gitpom='git push origin master'
+alias gitmv='git mv'
+    # git mv to rename file's name
+    # git mv means exactly:
+    #   mv file_from file_to
+    #   git rm file_from
+    #   git add file_to
+# remove the staged file from repos but still stay in local file system
+alias gitrmc='git rm --cached'
+# check history commits
+alias gitlg='git log'
+alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
+alias gitlgg='git log --pretty=format:"%h %s" --graph'
+alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
+# quick search, git log -Sfunction_name: commits with function_name
+alias gitlgs='git log -S'
+
+alias tmux='tmux -2'
+# tmux commands
+alias txls='tmux ls'
+# alias txat='tmux attach'
+alias txatt='tmux attach -t'
+alias txns='tmux new-session -s'
+alias txsh='tmux new-session -s shell'
+alias txks='tmux kill-session -t'
+
+# python -m activate envs
+alias Qenv='deactivate'
+
+# wget
+alias wget='wget -c'
+
+# In case of careless rm
+alias rm='rm -i'
+alias rmd='rm -I'
+alias mv='mv -i'
+alias cpr='cp -r'
+
+# Prevents accidentally clobbering files
+alias mkdir='mkdir -p'
+
+alias his='history'
+alias which='type -a'
+alias ..='cd ..'
+
+# Makes a more readable output
+# alias du='du -mh'
+alias df='df -kTh'
+
+#-------------------
+# The 'ls' family :)
+#-------------------
+# Add colors for filetype and  human-readable sizes by default on 'ls':
+alias ls='ls -h --color'
+alias lx='ls -lXB'         #  Sort by extension.
+alias lk='ls -lSr'         #  Sort by size, biggest last.
+alias lt='ls -ltr'         #  Sort by date, most recent last.
+alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
+
+# The ubiquitous 'll': directories first, with alphanumeric sorting:
+alias ll="ls -lv --group-directories-first"
+alias llm='ll | more'        #  Pipe through 'more'
+alias llr='ll -R'           #  Recursive ls.
+alias la='ll -A'           #  Show hidden files.
+#alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
+
+# Creates an archive (*.tar.gz) from given directory
+function mktar() { tar cvzf "${1%%/}.tar.gz" "${1%%/}"; }
+
+# Creates a ZIP archive of file or folder
+function mkzip() { zip -r "${1%%/}.zip" "$1" ; }
+
+function extract()      # Handy Extract Program
+{
+    if [ -f "$1" ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf "$1"     ;;
+            *.tar.xz)    tar xvJf "$1"     ;;
+            *.tar.gz)    tar xvzf "$1"     ;;
+            *.bz2)       bunzip2 "$1"      ;;
+            *.rar)       unrar x "$1"      ;;
+            *.gz)        gunzip "$1"       ;;
+            *.tar)       tar xvf "$1"      ;;
+            *.tbz2)      tar xvjf "$1"     ;;
+            *.tgz)       tar xvzf "$1"     ;;
+            *.zip)       unzip "$1"        ;;
+            *.Z)         uncompress "$1"   ;;
+            *.7z)        7z x "$1"         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+
+# Wed 30 Oct 2019 20:26:53
+# Usage: mkgo dir_name
+mkgo () {
+    mkdir -p "$1"
+    cd "$1" || exit
+}
+
+# Usage: counts_files dir
+count_files () {
+    num_dir=0
+    num_f=0
+    if [ -d "$1" ]; then
+        for f in "$1"/*; do
+            if [ -d "$f" ]; then
+                num_dir=$(( num_dir + 1 ))
+            elif [ -f "$f" ]; then
+                num_f=$(( num_f + 1 ))
+            fi
+        done
+    else
+        echo "Bad argument. Must be a directory."
+    fi
+    echo "Total files: $(( num_dir + num_f ))"
+    echo "$num_dir directories, $num_f files"
+}
+
+# fzf find file in given path, then pile to software
+# viewbook () {
+     # fzf | xargs xdg-open &
+# }
+
+# update the dotfiles in my git_repos
+update_dotf () {
+    files="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
+    files="$(echo "$files" | sed -e 's/\n//g')"
+    echo "$files"
+    # cp "$files" .
+    # cp "$files" "$1"
+}
+    
+# bind -x '"\C-p":  && echo "$files" |  && cp "$files" .'
+
+# more generally: using Ctrl-o to open file with which fzf selected
+bind -x '"\C-o": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]]  && xdg-open "$files"'

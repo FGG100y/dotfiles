@@ -1,7 +1,6 @@
 " ===================================
-" fanmh's vimrc (Ubuntu Envs)
+" fanmh's vimrc (Ubuntu Evns)
 " builted: 2018-07-16
-" update: Sat 22 Jun 2019 11:08:39
 " ===================================
 "
 
@@ -12,25 +11,21 @@ set nocompatible                                " be iMproved
 " #############################
 "  Part-I:  Plugins
 " #############################
-" ----------------------------
-" " Vundle for plugins management
-" ----------------------------
+" -----------------------------
+" Vundle for plugins management
+" -----------------------------
 filetype off                                    " required
 
 set rtp+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
-" set rtp+= ~/vimfiles/bundle/Vundle.vim
+
 call vundle#begin()
-" alternatively, pass a path and call
-" vundle#begin('~/some/path/here')
-" NOTE: all the Plugins which is managed
-" by Vundle must lie between
+" NOTE: all the Plugins which is managed by Vundle must lie between
 " vundle#begin() and vundle#end
-    
+
     "-------------------=== Vundle itself ===-------------
     Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
 
     "-------------------=== Code/Project navigation ===-------------
-    " Plugin 'scrooloose/nerdtree'                " Project and file navigation
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
     Plugin 'majutsushi/tagbar'                  " Class/module browser
     Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
@@ -38,14 +33,18 @@ call vundle#begin()
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     Plugin 'easymotion/vim-easymotion'
+    " Plugin 'scrooloose/nerdtree'                " Project and file navigation
 
     "-------------------=== vim outfit ===-------------------------------
     Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
     Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
     Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
-    Plugin 'jnurmine/Zenburn'
-    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'jnurmine/Zenburn'                   " For good mood
+    Plugin 'altercation/vim-colors-solarized'   " For good mood
+
+    "-------------------=== asyncrun ===-------------------------------
+    Plugin 'skywind3000/asyncrun.vim'           " run cml within vim, and output with quickfix
 
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
@@ -55,69 +54,68 @@ call vundle#begin()
     Plugin 'honza/vim-snippets'                 " snippets repo
 
     "-------------------=== Languages support ===-------------------
-    " Plugin 'tpope/vim-commentary'                 " Comment stuff out
-    Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'tpope/vim-fugitive'                 " awsome git wrapper!
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'tpope/vim-repeat'                   " enhance . repeat
     Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
+    Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'hdima/Python-Syntax'                " highlights for python
     Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
     Plugin 'plasticboy/vim-markdown'
-    " Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    " Plugin 'tpope/vim-commentary'                 " Comment stuff out
 
     "-------------------=== Code lint= ==-----------------------------
-    Plugin 'w0rp/ale'
+    Plugin 'w0rp/ale'                           " support all major programming language
     " Plugin 'python-mode/python-mode'
-    " Plugin 'scrooloose/syntastic'               " Syntax checking plugin for Vim
+
+    "-------------------=== other plugins ===-----------------------------
+    " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
 
     " local installation using the ['file://'+'absolute path'] protocol
 
-    " other plugins
-    " =============
-    " Plugin 'altercation/vim-colors-solarized'
-    " Plugin 'suan/vim-instant-markdown'
-    " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
 call vundle#end()            " required
 filetype on
 filetype plugin on
 filetype plugin indent on    " required
 
 
-
 " #############################
 "  Part-II: <Leader> relative
 " #############################
-let mapleader=","		" leader set to be the comma
+
+let mapleader=","		                        " leader set to be the comma
 " -----------------------------------
 " groups of <leader> + ?  | Short Cut
 " -----------------------------------
-
 " source vimrc && echo 'reloaded'
 nnoremap <silent> <leader><leader>s :source ~/.vimrc<CR>:echo '-*- vimrc reloaded -*-'<CR>
 " shotcut to edit ~/_vimrc
-nnoremap <leader>ev :vs ~/.vimrc<cr>
+nnoremap <leader>ev :tabnew <bar> :e $MYVIMRC<cr>
+" nnoremap <leader>ev :vs ~/.vimrc<cr>
+nnoremap <leader>sv :sp ~/.vimrc<cr>
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
-nnoremap <leader><S-q> :q!<cr>
 " vertical split help
 nnoremap <leader>vh :vert help<cr>
 
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
-nmap <leader>p "+gp  
+nmap <leader>p "+gp
 " yank to sys clipboard only in Visual Mode
-vnoremap <leader>y "+y  
+vnoremap <leader>y "+y
 
+" close quickfix window (,,q)
+map <leader><leader>q :cclose<cr>
 
 " shotcuts to new tabs and moving around
 nnoremap <leader>tn :tabn<cr>
 nnoremap <leader>tp :tabp<cr>
-nnoremap <leader>te :tabnew<cr>
-nnoremap <leader>to :tabonly<cr>
+" nnoremap <leader>te :tabnew<cr>
+" nnoremap <leader>to :tabonly<cr>
 
 " quick select buffer and delete it
 " nnoremap <leader>bn :bnext<cr>
@@ -128,16 +126,16 @@ nnoremap <leader>to :tabonly<cr>
 " turn off highlights
 nnoremap <leader><space> :nohlsearch<cr>
 
-
 " windows/panes resize
-nnoremap <space>w :vertical resize +7<cr>
+nnoremap <space>w :vertical resize +3<cr>
+nnoremap <space><space>w :vertical resize +9<cr>
 nnoremap <S-w> :resize +5<cr>
 
-" self-define whitespace.vim for *.py
-" nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
+" The "e" flag tells ":substitute" that not finding a match is not an error.
+" strip trailing whitespace (,,t)
+nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
 
 " Or using a function in vimrc directly
-" strip trailing whitespace (,ss)
 " augroup whitespace
 "     autocmd!
 "     function! StripWhitespace ()
@@ -150,33 +148,17 @@ nnoremap <S-w> :resize +5<cr>
 "     noremap <leader>ss :call StripWhitespace()<cr>
 " augroup END
 
-" close quickfix window (,,q)
-map <leader><leader>q :cclose<cr>
-
 " insert the datetime
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 
+" only for PPPCpp practicing
+iab stdlib #include "../std_lib_facilities.h"
 
-"" If buffer modified, update any 'Last modified: ' in the first 20 lines.
-"" 'Last modified: ' can have up to 10 characters before (they are retained).
-"" Restores cursor and window position using save_cursor variable.
-" function! LastModified()
-"   if &modified
-"     let save_cursor = getpos(".")
-"     let n = min([20, line("$")])
-"     keepjumps exe '1,' . n . 's#^\(.\{,10}Last modified: \).*#\1' .
-"           \ strftime('%a %b %d, %Y  %I:%M%p') . '#e'
-"     call histdel('search', -1)
-"     call setpos('.', save_cursor)
-"   endif
-" endfun
-" autocmd BufWritePre * call LastModified()
-" ==== Leader settings end =============
-"
-"
+
 " #############################
 "  Part-III:  Set vim
 " #############################
+
 " enable syntax highlight
 syntax enable
 " allow variable syntax highlight approches instead of the default
@@ -209,13 +191,18 @@ set showcmd
 set wildmenu
 set showmatch
 set noshowmode
-" always keep cursor away 5 lines from the bottom
+" always keep cursor away 7 lines from the bottom
 set scrolloff=7
 set sidescrolloff=3
 " do not wrap the code
 set nowrap
 " code fold
-set foldmethod=syntax
+" press Space to toggle the current fold open/close;
+" with fmd=manual, create a fold by visually selecting lines
+set foldmethod=manual
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+
 " do not fold when first startup vim
 set nofoldenable
 
@@ -231,6 +218,9 @@ set softtabstop=4
 set shiftwidth=4
 set autoindent
 
+" updatetime=4000(default)
+set updatetime=2000
+
 " #############################
 "  Part-IV: colorscheme && GUI
 " #############################
@@ -238,7 +228,7 @@ set autoindent
 " Note: syntax enable is needed
 syntax on
 syntax enable
-" set background=dark
+set background=dark
 " set background=light
 if has('gui_running')
     " GUI setting, no toolbar
@@ -247,36 +237,160 @@ if has('gui_running')
     set guioptions-=L
     set guioptions-=r
     set guioptions-=b
-    " GUI colorscheme, font, screensize, etc
+    " set guifont=Lucida_Console:h9           " some other fonts
+    " au GUIEnter * simalt ~x                 " full screen when initiate gvim
     " colorscheme solarized
-    " let g:solarized_termcolors=256
-    " let g:solarized_contrast="normal"
     " call togglebg#map("<F5>")
     colorscheme zenburn                       " backup colorscheme
-    " set guifont=Lucida_Console:h9            " some other fonts
-    " au GUIEnter * simalt ~x                   " full screen when initiate gvim
 else
-    " colorscheme zenburn
-    colorscheme solarized
-    " let g:solarized_termcolors=256
-    let g:solarized_contrast="normal"
-    call togglebg#map("<F5>")
+    colorscheme zenburn
 endif
+
+" markdown settings
+set conceallevel=2
 
 
 " #############################
 " Part-V: plugin setting groups
 " #############################
+
 " ----------------------------
-" vim-instant-markdown
+" ctags
 " ----------------------------
-" Uncomment to override defaults
-let g:instant_markdown_slow = 1
+" look in the current directory for "tags", and work up the tree towards root
+" until one is found.
+set tags=./tags;/
+" set tags=./tags;$HOME
+" NOTE: already setup goto with YcmCompleter, seems this is overlap Wed 01 Jan
+" 2020 18:45:52
+" generate tag file, so we can Ctrl-] to goto definitions
+" nnoremap <F9> :!ctags -R<cr>
+
+" ----------------------------
+" fzf as vim-plugin
+" ----------------------------
+set rtp+=~/fggit/GitHub_repos/fzf
+let g:fzf_layout = {'down': '~40%'}
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" ----------------------------
+" vim gitgutter
+" ----------------------------
+let g:gitgutter_signs = 1
+let g:gitgutter_max_signs = 500
+let g:gitgutter_sign_allow_clobber = 1
+
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
+
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '~~'
+let g:gitgutter_sign_removed = '--'
+" let g:gitgutter_sign_removed_first_line = '^^'
+" let g:gitgutter_sign_modified_removed = 'ww'
+
+" ----------------------------
+" vim-instant_markdown
+" ----------------------------
+" let it be slow (real-time update seems not mystyle)
+let g:instant_markdown_slow = 0
+" let g:instant_markdown_slow = 1
+" manual trigger the preview window
+" let g:instant_markdown_autostart = 1
 let g:instant_markdown_autostart = 0
-"let g:instant_markdown_open_to_the_world = 1 
-"let g:instant_markdown_allow_unsafe_content = 1
-"let g:instant_markdown_allow_external_content = 0
-"let g:instant_markdown_mathjax = 1
+" uses MathJax
+let g:instant_markdown_mathjax = 1
+" only if not want to load images, stylesheets etc.
+let g:instant_markdown_allow_external_content = 1
+" to allow scripts to run
+let g:instant_markdown_allow_unsafe_content = 1
+" new in ver0.2.0 and latter
+" choose a custom port instead of default 8090
+" let g:instant_markdown_port = 8888
+" auto-scrolls to Where the cursor is positioned
+let g:instant_markdown_autoscroll = 1
+" choose a custom browser
+" let g:instant_markdown_browser = "firefox --new-window"
+" let's just keep it on local for now
+"let g:instant_markdown_open_to_the_world = 1
+"let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+
+" ----------------------------
+" vim-asyncrun
+" ----------------------------
+" open quickfix by 10 lines height after commands starts
+let g:asyncrun_open = 10
+" save current(1) or all(2) modified buffer(s) before executing
+let g:asyncrun_save = 1
+" trim empty line in quickfix
+let g:asyncrun_trim = 1
+" if encoding problems with Chinese
+" let g:asyncrun_encs = 'gbk'
+
+" ----------------------------
+" vim-markdown
+" ----------------------------
+" fold style
+let g:vim_markdown_folding_style_pythonic = 1
+" To prevent foldtext from being set
+let g:vim_markdown_override_foldtext = 0
+" set header folding level
+let g:vim_markdown_folding_level = 6
+" no default key mappings
+" let g:vim_markdown_no_default_key_mapping = 1
+" enable TOC windown auto-fit
+let g:vim_markdown_toc_autofit = 1
+" text emphasis resriction to single line
+" let g:vim_markdown_emphasis_multiline = 0
+" syntax concealing
+" disable math conceal with LaTex math syntax enable
+" let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+" do not require .md extensions for Markdown links
+let g:vim_markdown_no_extensions_in_markdown = 1
+" how to open new files [tab, vsplit, hsplit, current]
+let g:vim_markdown_edit_url_in = 'hsplit'
+" go to next header
+map ]] <Plug>Markdown_MoveToNextHeader
+map [[ <Plug>Markdown_MoveToNextHeader
+
+" To disable a map use:
+" map <Plug> <Plug>Markdown_MoveToParentHeader
+
+" ----------------------------
+" tabular
+" ----------------------------
+let g:tabular_loaded = 1
 
 " ----------------------------
 " python-syntax highlight
@@ -298,8 +412,8 @@ let g:UltiSnipsExpandTrigger="<leader><tab>"
 let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
 let g:UltiSnipsJumpBackwardTrigger="<leader><S-tab>"
 " include self-define Snippets
-" let g:UltiSnipsSnippetDirectories=[]
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsSnippetDir="$HOME/.vim/bundle/ultisnips"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "fggsnippets"]
 " let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 " UltiSinpsUsePythonVersion
@@ -335,7 +449,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
+" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
 " ----------------------------
@@ -379,19 +493,20 @@ let g:SignatureMap = {
 " ----------------------------
 " YCM settings
 " ----------------------------
+" *youcompleteme-configuring-through-vim-options*
 " Fri 05 Apr 2019 15:23:53 didn't understand following lines' meaning
-" let g:ycm_python_interpreter_path = ''
-" let g:ycm_python_sys_path = []
-" let g:ycm_extra_conf_vim_data = [
-"   \  'g:ycm_python_interpreter_path',
-"   \  'g:ycm_python_sys_path'
-"   \]
-" let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
+let g:ycm_python_interpreter_path = ''
+let g:ycm_python_sys_path = []
+let g:ycm_extra_conf_vim_data = [
+  \  'g:ycm_python_interpreter_path',
+  \  'g:ycm_python_sys_path'
+  \]
+let g:ycm_global_ycm_extra_conf = '~/ycm_extra_conf/global_extra_conf.py'
+" *youcompleteme-configuring-through-vim-options*
+" what is this for?
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 
-" set the ycm_server to python2, and it will be fine
-" it will not complain about 'ycm server shutdown blabla...'
-let g:ycm_server_python_interpreter = 'python2'
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 " 允许vim加载.ycm_confirm_extra_conf.py文件，不再提示
 let g:ycm_confirm_extra_conf=0
 " 补全功能在注释中有效
@@ -407,7 +522,23 @@ let g:ycm_seed_indentifiers_with_syntax=1
 " 引入 C++ 标准库tags
 " set tags+=/data/misc/software/misc./vim/stdcpp.tags
 " 从下往上选择补全选项
-" let g:ycm_key_list_select_completion = ['<TAB>', '<Up>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Up>']
+" let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+
+" ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
+" ------------------------
+" This command tries to perform the "most sensible" GoTo operation it can.
+nnoremap <leader>g :YcmCompleter GoTo<CR>
+" Looks up the symbol under the cursor and jumps to its declaration.
+nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+" Looks up the symbol under the cursor and jumps to its definition.
+nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+" Displays the preview window populated with quick info about the identifier under the cursor.
+nnoremap <leader>k :YcmCompleter GetDoc<CR>
+" Echos the type of the variable or method under the cursor, and where it differs, the derived type.
+nnoremap <leader>kt :YcmCompleter GetType<CR>
+" [For C/C++, not python] Where available, attempts to make changes to the buffer to correct diagnostics on the current line.
+nnoremap <leader><leader>f :YcmCompleter FixIt<CR>
 
 " ----------------------------
 " EasyMotion settings
@@ -417,7 +548,6 @@ let g:EasyMotion_smartcase=1   " case insensitive on
 " find motions: line motions
 map <leader>f <Plug>(easymotion-f)
 map <leader>F <Plug>(easymotion-F)
-
 
 " ----------------------------
 " tagbar settings
@@ -430,72 +560,9 @@ let g:tagbar_sort=0
 let g:tagbar_show_linenumbers = 2     " show relative nu
 let g:tagbar_expand = 1
 " remap keys
-nnoremap <F9> :TagbarToggle<CR>
+nnoremap <c-b> :TagbarToggle<CR>
 " autocmd BufEnter *.py :call tagbar#autoopen(0)
 " autocmd BufWinLeave *.py :TagbarClose
-
-" ----------------------------
-" ctrlp settings
-" ----------------------------
-let g:ctrlp_map='<C-p>'            " Invoke the Ctrlp in Normal mode
-let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_by_filename = 1        " <C-d> toggle on/off inside
-let g:ctrlp_max_files = 10000
-
-" MRU mode options:~
-let g:ctrlp_mruf_max = 250
-" let g:ctrlp_mruf_include = '\.py$\|\.sh$|\.cpp$|\.c$'
-let g:ctrlp_mruf_save_on_update = 1
-" Set this to 1 to show only MRU files in the current working directory:
-let g:ctrlp_mruf_relative = 0
-let g:ctrlp_mruf_case_sensitive = 1           " Avoid duplicate MRU entries
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
-
-" remap commands && kb shortcuts
-" only to find the buffers
-nnoremap <leader>b :CtrlPBuffer<CR>
-" only to find Most-Reccently-Used files
-nnoremap <leader>m :CtrlPMRU<cr>
-
-" Ctrlp Opening/Creating a file:~
-"   <cr>
-"     Open the selected file in the 'current' window if possible.
-"   <c-t>
-"     Open the selected file in a new 'tab'.
-"   <c-v>
-"     Open the selected file in a 'vertical' split.
-"   <c-x>,
-"   <c-cr>,
-"   <c-s>
-"     Open the selected file in a 'horizontal' split.
-"   <c-y>
-"     Create a new file and its parent directories.
-
-" E - jump when <cr> is press, to window anywhere
-" e - jump when <cr> is press, but only to window in the current tab
-" t - jump when <c-t> is press, but only to window in the another tab
-let g:ctrlp_switch_buffer = 'Et'
-
-" Where to put the new tab page when opening one: >
-" a - after; c - current tab;
-let g:ctrlp_tabpage_position = 'ac'
-
-" Use this option to specify how the newly created file is to be opened when
-" pressing <c-y>: >
-let g:ctrlp_open_new_file = 'v'
-
-" Customized the line highlight color in ctrlp
-" let g:ctrlp_buffer_func = { 'enter': 'BrightHighlightOn', 'exit': 'BrightHighlightOff', }
-
-" function BrightHighlightOn()
-"   " hi CursorLine cterm=NONE ctermbg=darkgrey guibg=darkred guifg=white ctermfg=None
-"   hi CursorLine guibg=darkred
-" endfunction
-"
-" function BrightHighlightOff()
-"   hi CursorLine guibg=#191919
-"   " hi CursorLine guibg='default'
-" endfunction
 
 " ----------------------------
 " vim-indent-guides settings
@@ -510,7 +577,7 @@ nmap <silent> <leader>> <Plug>IndentGuidesToggle
 " airline settings
 " ----------------------------
 let g:airline#extensions#tabline = 1
-let g:airline_theme='simple'
+let g:airline_theme='zenburn'
 let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline' ]
 let g:airline_powerline_fonts=1
 if !exists('g:airline_symbols')
@@ -559,16 +626,16 @@ let g:ale_lint_on_text_changed = 'never'
 
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
-            \   'cpp': ['clang', 'clangd'],
+            \   'cpp': ['libclang', 'gcc', 'clangcheck', 'clangd'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shellcheck'],
-            \   'python': ['flake8','pylint', 'pycodestyle']
+            \   'python': ['flake8']
             \}
-let g:ale_python_pyflakes_executable = 1
-let g:ale_python_pyflakes_use_global = 1
+" let g:ale_python_flake8_executable = 1
+let g:ale_python_flake8_use_global = 1
 
 let g:ale_fixers = {
-            \   'python': ['autopep8', 'trim_whitespace', 'yapf']
+            \   'python': ['autopep8', 'yapf']
             \}
 
 " shell scripts static syntax linter
@@ -598,68 +665,47 @@ nmap <silent> <C-n> <Plug>(ale_next_wrap)
 " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
 
-
-" " ----------------------------
-" " python-mode settings
-" " ----------------------------
-" let g:pymode = 0
-" syntax highlight
-" let g:pymode_syntax=0
-" let g:pymode_syntax_slow_sync=1
-" let g:pymode_syntax_all=1
-" let g:pymode_syntax_print_as_function=g:pymode_syntax_all
-" let g:pymode_syntax_highlight_async_await=g:pymode_syntax_all
-" let g:pymode_syntax_highlight_equal_operator=g:pymode_syntax_all
-" let g:pymode_syntax_highlight_stars_operator=g:pymode_syntax_all
-" let g:pymode_syntax_highlight_self=g:pymode_syntax_all
-" let g:pymode_syntax_indent_errors=g:pymode_syntax_all
-" let g:pymode_syntax_string_formatting=g:pymode_syntax_all
-" let g:pymode_syntax_space_errors=g:pymode_syntax_all
-" let g:pymode_syntax_string_format=g:pymode_syntax_all
-" let g:pymode_syntax_string_templates=g:pymode_syntax_all
-" let g:pymode_syntax_doctests=g:pymode_syntax_all
-" let g:pymode_syntax_builtin_objs=g:pymode_syntax_all
-" let g:pymode_syntax_builtin_types=g:pymode_syntax_all
-" let g:pymode_syntax_highlight_exceptions=g:pymode_syntax_all
-" let g:pymode_syntax_docstrings=g:pymode_syntax_all
-                                  
-" ----------------------------   
-" Syntastic settings             
-" NOTE: this plugin is similar
-" with the pymode. I cannot
-" tell the difference between
-" their performent. Jan-25, 19
-" Fri 05 Apr 2019 16:01:16 And already has ALE
 " ----------------------------
-" 
-" let g:syntastic_always_populate_loc_list=1
-" let g:syntastic_auto_loc_list=1
-" let g:syntastic_enable_signs=1
-" let g:syntastic_check_on_wq=1
-" let g:syntastic_aggregate_errors=1
-" let g:syntastic_loc_list_height=10
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_error_symbol=">>"
-" let g:syntastic_style_error_symbol="S>"
-" let g:syntastic_warning_symbol="->"
-" let g:syntastic_style_warning_symbol="->"
-" let g:syntastic_python_checkers=['pyflakes', 'pydocstyle', 'python']
-
-
-" ----------------------------   
 " autocmd groups
 " ----------------------------
-" highlight 'long' lines (>= 79 symbols) in python files
+" highlight 'long' lines (>= 79 symbols) in files
 augroup vimrc_autocmds
     autocmd!
-    autocmd FileType python,sh,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,sh,c,cpp match Excess /\%80v.*/
-    autocmd FileType python,sh,c,cpp set nowrap
-    autocmd FileType python,sh,c,cpp set colorcolumn=79
+    autocmd FileType python,sh,markdown,md,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,sh,markdown,md,c,cpp match Excess /\%80v.*/
+    autocmd FileType python,sh,markdown,md,c,cpp set nowrap
+    autocmd FileType python,sh,markdown,md,c,cpp set colorcolumn=79
     " auto begin in newline when exceed 79 chars when edit these filetypes
-    autocmd FileType python,sh,c,cpp setlocal textwidth=79 formatoptions+=t
+    autocmd FileType python,sh,markdown,md,c,cpp setlocal textwidth=79 formatoptions+=t
     " Don't add the comment prefix when I hit enter or o/O on a comment line
-    autocmd FileType python,sh,c,cpp setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType python,sh,markdown,md,c,cpp,vim setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     " make change in vimrc working immediately
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
+" augroup for edit *.gpg encrypted files
+" Don't save backups of *.gpg files
+set backupskip+=*.gpg
+" To avoid that parts of the file is saved to .viminfo when yanking or deleting, empty the viminfo option
+set viminfo=
+
+augroup encrypted
+    au!
+    " Disable swap files, and set binary file format before reading the file
+    autocmd BufReadPre,FileReadPre *.gpg
+        \ setlocal noswapfile bin
+    " Decrypt the contents after reading the file, reset binary file format and run any BufReadPost
+    " autocmds matching the file name without the .gpg extension
+    autocmd BufReadPost,FileReadPost *.gpg
+        \ execute "'[,']!gpg --decrypt --default-recipient-self" |
+        \ setlocal nobin |
+        \ execute "doautocmd BufReadPost " . expand("%:r")
+    " Set binary file format and encrypt the contents before writing the file
+    autocmd BufWritePre,FileWritePre *.gpg
+        \ setlocal bin |
+        \ '[,']!gpg --encrypt --default-recipient-self
+    " After writing the file, do an :undo to revert the encryption in the buffer, and reset binary file format
+    autocmd BufWritePost,FileWritePost *.gpg
+        \ silent u |
+        \ setlocal nobin
 augroup END
