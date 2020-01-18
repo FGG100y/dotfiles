@@ -16,6 +16,7 @@ alias pypy='cd /home/fgg/fggit/csds/Practical_Py3/'
 alias ccpp='cd /home/fgg/fggit/csds/Practical_Cpp/'
 alias envs='cd /home/fgg/fggit/csds/PyVenvs/'
 alias Gitr='cd /home/fgg/fggit/GitHub_repos/'
+alias gdot='cd /home/fgg/fggit/GitHub_repos/fmhGRs/dotfiles/'
 alias Leco='cd /home/fgg/fggit/GitHub_repos/LeetCode/'
 alias Dpro='cd /home/fgg/Downloads/programs/'
 
@@ -97,7 +98,6 @@ alias wget='wget -c'
 
 # In case of careless rm
 alias rm='rm -i'
-alias rmd='rm -I'
 alias mv='mv -i'
 alias cpr='cp -r'
 
@@ -189,14 +189,32 @@ count_files () {
      # fzf | xargs xdg-open &
 # }
 
+# cat *file's contents about some 'key'
+Galias () {
+    cat ~/.bashrc_aliases | grep "$1"
+}
+
+# copy .gitignore file to .
+Gignore () {
+    myfile="$HOME"/fggit/GitHub_repos/gitignore/"$1".gitignore
+    if [ -f "$myfile" ]; then
+        cp "$myfile" ./.gitignore
+    else
+        echo "No such file/dir"
+    fi
+}
+
 # update the dotfiles in my git_repos
 Gdotfiles () {
     # export dotfiles to env
     dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
     export dotfiles
 }
+# and then manually type: cp $dotfiles .
+# What a goose!
     
-# bind -x '"\C-p":  && echo "$files" |  && cp "$files" .'
-
 # more generally: using Ctrl-o to open file with which fzf selected
-bind -x '"\C-o": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]]  && xdg-open "$files"'
+bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
+    ebook-viewer "$files"'
+bind -x '"\C-p": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
+    xdg-open "$files"'

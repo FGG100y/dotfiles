@@ -26,14 +26,10 @@ call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
 
     "-------------------=== Code/Project navigation ===-------------
-    Plugin 'scrooloose/nerdcommenter'           " code line/block commented
     Plugin 'majutsushi/tagbar'                  " Class/module browser
-    Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
-    Plugin 'nathanaelkane/vim-indent-guides'    " indent guides visulized
-    Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
     Plugin 'kshenoy/vim-signature'              " bookmark etc
-    Plugin 'easymotion/vim-easymotion'
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
+    " Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
 
     "-------------------=== vim outfit ===-------------------------------
     Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
@@ -48,7 +44,7 @@ call vundle#begin()
 
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
-
+    Plugin 'edkolev/tmuxline.vim'
     "-------------------=== Snippets support ===--------------------
     Plugin 'SirVer/ultisnips'                   " snippets management/engine
     Plugin 'honza/vim-snippets'                 " snippets repo
@@ -60,8 +56,11 @@ call vundle#begin()
     Plugin 'tpope/vim-repeat'                   " enhance . repeat
     Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
+    Plugin 'easymotion/vim-easymotion'
+    Plugin 'scrooloose/nerdcommenter'           " code line/block commented
     Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'hdima/Python-Syntax'                " highlights for python
+    Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
     Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
     Plugin 'plasticboy/vim-markdown'
     Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
@@ -115,8 +114,8 @@ nnoremap <leader>tp :tabp<cr>
 " nnoremap <leader>to :tabonly<cr>
 
 " quick select buffer and delete it
-" nnoremap <leader>bn :bnext<cr>
-" nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
 " nnoremap <leader>bf :ls<cr>
 " nnoremap <leader>bd :bd<cr>
 
@@ -237,6 +236,23 @@ set conceallevel=2
 " #############################
 " Part-V: plugin setting groups
 " #############################
+
+" ----------------------------
+" tmuxline
+" ----------------------------
+let g:tmuxline_theme = 'zenburn'
+let g:airline#extensions#tmuxline#enabled = 1
+let g:tmuxline_powerline_separators = 0
+" let g:tmuxline_preset = '' "see autoload/tmuxline/preset/*
+" \'y'    : '#(whoami)',\uE0A2
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : '\u2206t #(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
+      \'c'    : '',
+      \'win'  : '#I #W',
+      \'cwin' : '#I #W',
+      \'y'    : ['%R','%a', '%F' ],
+      \'z'    : '#H'}
 
 " ----------------------------
 " ctags
@@ -593,10 +609,10 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 " set marked window indicator string >
-" let g:airline#extensions#obsession#indicator_text = '$'
-let g:airline_section_z = airline#section#create([
-                    \   '%{ObsessionStatus(''$'','''')}',
-                    \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
+let g:airline#extensions#obsession#indicator_text = '$'
+" let g:airline_section_z = airline#section#create([
+                    " \   '%{ObsessionStatus(''$'','''')}',
+"                     \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
 " ----------------------------
 " ale settings
@@ -641,8 +657,8 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
-" this is conflit with CtrlP
-" nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+" ale movements
+nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
 " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
