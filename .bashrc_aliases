@@ -213,11 +213,9 @@ Gignore () {
 Gdotfiles () {
     # export dotfiles to env
     dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
-    export dotfiles
+    cp "$dotfiles" .
 }
-# and then manually type: cp $dotfiles .
-# What a goose!
-    
+
 # more generally: using Ctrl-o to open file with which fzf selected
 bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
     ebook-viewer "$files"'
