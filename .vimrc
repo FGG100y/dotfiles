@@ -179,7 +179,7 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 " shotcut to edit ~/_vimrc in new tab
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
-nnoremap <space>v :sp $MYVIMRC<cr>
+nnoremap <leader>vb :sp $MYVIMRC<cr>
 
 " common rule were: splitright & splitbelow
 " but sometimes need to split on leftabove or above
@@ -188,9 +188,9 @@ nnoremap <leader>up :above split
 
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
-nmap <leader>p "+gp
+nmap <Space>p "+gp
 " yank to sys clipboard only in Visual Mode
-vnoremap <leader>y "+y
+vnoremap <Space>y "+y
 
 " shotcuts to new tabs and moving around
 nnoremap <leader>tn :tabn<cr>
@@ -213,22 +213,19 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader><space> :nohlsearch<cr>
 
 " windows/panes resize
-nnoremap <space>w :vertical resize +3<cr>
+nnoremap <C-w> :vertical resize +3<cr>
 nnoremap <S-w> :resize +5<cr>
 
 " close quickfix/local window
-map <space>q :cclose<cr>
-map <space><space>q :lclose<cr>
+nnoremap <space>q :cclose<cr>
+nnoremap <space><space>q :lclose<cr>
 
 " fzf shotcut
-nnoremap <space>f :FZF<cr>
+nnoremap <Space>f :FZF<cr>
 
 " vertical split help
-nnoremap <space>h :vert help<cr>
+nnoremap <Space>h :vert help<cr>
 
-" vertical split help
-" 设置OmniCppComplete补全引擎的快捷键
-inoremap <space>; <C-x><C-o>
 " alternative way to back to normal mode
 inoremap jj <ESC>
 
