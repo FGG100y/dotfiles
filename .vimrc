@@ -9,7 +9,7 @@ set nocompatible                                " be iMproved
 " ALWAYS PUT PLUGINS FIRST PLACE
 " TO ADVOID SOME SILLY MISTAKES.
 " #############################
-"  Part-I:  Plugins
+"  Part-1:  Plugins
 " #############################
 " -----------------------------
 " Vundle for plugins management
@@ -29,7 +29,6 @@ call vundle#begin()
     Plugin 'majutsushi/tagbar'                  " Class/module browser
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
-    " Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
 
     "-------------------=== vim outfit ===-------------------------------
     Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
@@ -79,67 +78,34 @@ call vundle#end()            " required
 filetype on
 filetype plugin on
 filetype plugin indent on    " required
-
+  
+" #############################
+"  Part-2: colorscheme && GUI
+" #############################
+" gui appearance && colorschemes
+" Note: syntax enable is needed
+syntax on
+syntax enable
+set background=dark
+" set background=light
+if has('gui_running')
+    " GUI setting, no toolbar
+    set guioptions-=T
+    set guioptions-=m
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=b
+    " set guifont=Lucida_Console:h9           " some other fonts
+    " au GUIEnter * simalt ~x                 " full screen when initiate gvim
+    " colorscheme solarized
+    " call togglebg#map("<F5>")
+    colorscheme zenburn                       " backup colorscheme
+else
+    colorscheme zenburn
+endif
 
 " #############################
-"  Part-II: <Leader> relative
-" #############################
-
-let mapleader=","		                        " leader set to be the comma
-" -----------------------------------
-" groups of <leader> + ?  | Short Cut
-" -----------------------------------
-" shotcut to edit ~/_vimrc in new tab
-nnoremap <leader>ev :tabnew <bar> :e $MYVIMRC<cr>
-nnoremap <leader>sv :sp $MYVIMRC<cr>
-" quick save/exit etc
-nnoremap <leader>w :w<cr>
-nnoremap <leader>q :q<cr>
-" vertical split help
-nnoremap <leader>vh :vert help<cr>
-
-" yanking/pasting with system clipboard
-" pasting from sys clipboard to vim
-nmap <leader>p "+gp
-" yank to sys clipboard only in Visual Mode
-vnoremap <leader>y "+y
-
-" close quickfix window (,,q)
-map <leader><leader>q :cclose<cr>
-
-" shotcuts to new tabs and moving around
-nnoremap <leader>tn :tabn<cr>
-nnoremap <leader>tp :tabp<cr>
-" nnoremap <leader>te :tabnew<cr>
-" nnoremap <leader>to :tabonly<cr>
-
-" quick select buffer and delete it
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
-" nnoremap <leader>bf :ls<cr>
-" nnoremap <leader>bd :bd<cr>
-
-" turn off highlights
-nnoremap <leader><space> :nohlsearch<cr>
-
-" windows/panes resize
-nnoremap <space>w :vertical resize +3<cr>
-nnoremap <space><space>w :vertical resize +9<cr>
-nnoremap <S-w> :resize +5<cr>
-
-" The "e" flag tells ":substitute" that not finding a match is not an error.
-" strip trailing whitespace (,,t)
-nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
-
-" insert the datetime
-iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
-
-" only for PPPCpp practicing
-iab stdlib #include "../std_lib_facilities.h"
-
-
-" #############################
-"  Part-III:  Set vim
+"  Part-3:  Set vim
 " #############################
 
 " enable syntax highlight
@@ -153,12 +119,7 @@ set backspace=indent,eol,start
 " Split windows manners
 set splitbelow
 set splitright
-" Ctrl + j,k,l,h to move around the panes
-" Conflit with tmux-navigator's hotkey, Sun 31 Mar 2019 10:30:04)
-" nnoremap <C-j> <C-W><C-J>
-" nnoremap <C-k> <C-W><C-K>
-" nnoremap <C-l> <C-W><C-L>
-" nnoremap <C-h> <C-W><C-H>
+" or split windows at will, detail at Part-3
 " " Searching
 set incsearch
 set hlsearch
@@ -204,37 +165,86 @@ set autoindent
 " updatetime=4000(default)
 set updatetime=1000
 
-" #############################
-"  Part-IV: colorscheme && GUI
-" #############################
-" gui appearance && colorschemes
-" Note: syntax enable is needed
-syntax on
-syntax enable
-set background=dark
-" set background=light
-if has('gui_running')
-    " GUI setting, no toolbar
-    set guioptions-=T
-    set guioptions-=m
-    set guioptions-=L
-    set guioptions-=r
-    set guioptions-=b
-    " set guifont=Lucida_Console:h9           " some other fonts
-    " au GUIEnter * simalt ~x                 " full screen when initiate gvim
-    " colorscheme solarized
-    " call togglebg#map("<F5>")
-    colorscheme zenburn                       " backup colorscheme
-else
-    colorscheme zenburn
-endif
-
 " markdown settings
 set conceallevel=2
 
+" #############################
+"  Part-4: <Leader> relative
+" #############################
+let mapleader=","		                        " leader set to be the comma
+" groups of <leader> + ?  | Short Cut
+" -----------------------------------
+" quick save/exit etc
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
+" shotcut to edit ~/_vimrc in new tab
+nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
+nnoremap <space>v :sp $MYVIMRC<cr>
+
+" common rule were: splitright & splitbelow
+" but sometimes need to split on leftabove or above
+" nnoremap <leader>lf :leftabove split
+nnoremap <leader>up :above split
+
+" yanking/pasting with system clipboard
+" pasting from sys clipboard to vim
+nmap <leader>p "+gp
+" yank to sys clipboard only in Visual Mode
+vnoremap <leader>y "+y
+
+" shotcuts to new tabs and moving around
+nnoremap <leader>tn :tabn<cr>
+nnoremap <leader>tp :tabp<cr>
+" nnoremap <leader>te :tabnew<cr>
+" nnoremap <leader>to :tabonly<cr>
+" tmuxline snapshot file-saved
+nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-snapshot saved***"<cr>
+" The "e" flag tells ":substitute" that not finding a match is not an error.
+" strip trailing whitespace (,,t)
+nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
+
+" quick select buffer and delete it
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
+" nnoremap <leader>bf :ls<cr>
+" nnoremap <leader>bd :bd<cr>
+
+" turn off highlights
+nnoremap <leader><space> :nohlsearch<cr>
+
+" windows/panes resize
+nnoremap <space>w :vertical resize +3<cr>
+nnoremap <S-w> :resize +5<cr>
+
+" close quickfix/local window
+map <space>q :cclose<cr>
+map <space><space>q :lclose<cr>
+
+" fzf shotcut
+nnoremap <space>f :FZF<cr>
+
+" vertical split help
+nnoremap <space>h :vert help<cr>
+
+" vertical split help
+" 设置OmniCppComplete补全引擎的快捷键
+inoremap <space>; <C-x><C-o>
+" alternative way to back to normal mode
+inoremap jj <ESC>
+
+" AsyncRun python current buffer
+noremap <F6> :AsyncRun -raw python % <cr>
+
+" groups of iab | Short Cut
+" -----------------------------------
+" insert the datetime
+iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+
+" only for PPPCpp practicing
+iab stdlib #include "../std_lib_facilities.h"
 
 " #############################
-" Part-V: plugin setting groups
+" Part-5: plugin setting groups
 " #############################
 
 " ----------------------------
@@ -244,10 +254,9 @@ let g:tmuxline_theme = 'zenburn'
 let g:airline#extensions#tmuxline#enabled = 1
 let g:tmuxline_powerline_separators = 0
 " let g:tmuxline_preset = '' "see autoload/tmuxline/preset/*
-" \'y'    : '#(whoami)',\uE0A2
 let g:tmuxline_preset = {
       \'a'    : '#S',
-      \'b'    : '\u2206t #(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
+      \'b'    : '\u2206t#(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
       \'c'    : '',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
@@ -506,22 +515,29 @@ let g:ycm_global_ycm_extra_conf = '~/ycm_extra_conf/global_extra_conf.py'
 
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
 " 允许vim加载.ycm_confirm_extra_conf.py文件，不再提示
-let g:ycm_confirm_extra_conf=0
+" to prevent execution of malicious code in .ycm_confirm_extra_conf.py
+let g:ycm_confirm_extra_conf = 0
 " 补全功能在注释中有效
-let g:ycm_complete_in_comments=1
-" 设置OmniCppComplete补全引擎的快捷键
-inoremap <leader>; <C-x><C-o>
-" 补全内容不以分割子窗口出现，只显示补全列表
-set completeopt-=preview
+let g:ycm_complete_in_comments = 1
+" 在注释和字符串中获取标识符
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" show the full function prototype and overload
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 " 禁止缓存匹配项，每次都重新生成匹配项
 let g:ycm_cache_omnifunc=0
 " 语法关键字补全
 let g:ycm_seed_indentifiers_with_syntax=1
+" 从下往上选择补全选项
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+" 显示详细诊断信息
+let g:ycm_key_detailed_diagnostics = '<leader>d'
+
 " 引入 C++ 标准库tags
 " set tags+=/data/misc/software/misc./vim/stdcpp.tags
-" 从下往上选择补全选项
-let g:ycm_key_list_select_completion = ['<TAB>', '<Up>']
-" let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+" let g:ycm_collect_identifiers_from_tags_files = 0
+" 补全内容不以分割子窗口出现，只显示补全列表
+" set completeopt-=preview
 
 " ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " ------------------------
@@ -536,7 +552,8 @@ nnoremap <leader>k :YcmCompleter GetDoc<CR>
 " Echos the type of the variable or method under the cursor, and where it differs, the derived type.
 nnoremap <leader>kt :YcmCompleter GetType<CR>
 " [For C/C++, not python] Where available, attempts to make changes to the buffer to correct diagnostics on the current line.
-nnoremap <leader><leader>f :YcmCompleter FixIt<CR>
+" Highly unlikely using this command frequently
+" nnoremap <leader><leader>f :YcmCompleter FixIt<CR>
 
 " ----------------------------
 " EasyMotion settings
@@ -645,8 +662,8 @@ let g:ale_sign_column_always = 1
 let g:ale_echo_cursor = 1
 
 let g:ale_open_list = 1
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
 " This can be useful if you are combining ALE with
 " some other plugin which sets quickfix errors, etc.
 let g:ale_keep_list_window_open = 0
