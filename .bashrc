@@ -2,14 +2,16 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# enable a 256-color terminal(newly added|2018-12-22)
-# [-z "$TMUX"] && export TERM=xterm-256color #this command didn't work!
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
+
+# shell startup tmux to session called 'shell' | Thu 13 Feb 2020 22:37:11
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s shell
+fi
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -126,12 +128,19 @@ fi
 GIT_PROMPT_ONLY_IN_REPO=1
 source ~/.bash-git-prompt/gitprompt.sh
 
-# initialize fzf
+# initialize fzf | Tue 11 Feb 2020 17:22:38
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --type f'
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+# NOTE: If you want the command to follow symbolic links, and don't want it to
+# exclude hidden files, use the following command:
+# export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 # python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
-# NOTE: the virtualenvwrapper.sh was located different from the office doc said
-#       due to installation with 'pip3 install --user'
 if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=$HOME/.virtualenvs
     export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
