@@ -209,11 +209,20 @@ Gignore () {
     fi
 }
 
-# update the dotfiles in my git_repos
+# update the $HOME/dotfiles into my dotfiles git repos
 Gdotfiles () {
     # export dotfiles to env
     dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
     cp "$dotfiles" .
+}
+
+# more robust Gdotfiles, from git repos to $HOME and vice versa.
+# Usage: Update_dotfiles . ~
+# Usage: Update_dotfiles ~ .
+Update_dotfiles () {
+    # export dotfiles to env
+    dotfiles="$(ls -d "$1"/.[bv]*rc*) $(ls -d "$1"/.tmux.conf)"
+    cp "$dotfiles" "$2"
 }
 
 # more generally: using Ctrl-o to open file with which fzf selected
