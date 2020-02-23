@@ -209,20 +209,24 @@ Gignore () {
     fi
 }
 
-# cp the $HOME/dotfiles into my dotfiles git repos
-Ghomedots () {
-    # export dotfiles to env
-    dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
-    cp "$dotfiles" .
-}
+# # cp the $HOME/dotfiles into my dotfiles git repos
+# # NOTE this will also cp the .swp file if there is one
+# Ghomedots () {
+#     # export dotfiles to env
+#     dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
+#     echo "$dotfiles"
+#     # cp "$dotfiles" .
+# }
 
-# update the $HOME dotfiles with latest dotfiles from my git repo
-Uhomedots () {
-    # export dotfiles to env
-    dotfiles="$(ls -d ./.[bv]*rc*) $(ls -d ./.tmux.conf)"
-    cp "$dotfiles" ~
+# ---------
+# fzf grops
+# ---------
+# cdf - cd into the directory of the selected file
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
-
 # more generally: using Ctrl-o to open file with which fzf selected
 bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
     ebook-viewer "$files"'
