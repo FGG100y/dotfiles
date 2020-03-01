@@ -3,10 +3,10 @@ TODO:
   - try dotfiles management tool like dotbot etc
   - update the comments/annotations
 
-## set up git bare repo for dotfiles: step by step [original from here](https://www.atlassian.com/git/tutorials/dotfiles)
+## set up git bare repo for dotfiles: step by step [(original from here)](https://www.atlassian.com/git/tutorials/dotfiles)
 1. prior to 'install' the dotfiles, commits the alias to .bashrc first:
  ```shell
-echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME' >> $HOME/.bashrc"
+echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
 ```
 2. source repository ignores the folder where will be cloned into, to avoid
    weird recursiion problems:
@@ -44,3 +44,4 @@ config commit -m 'add vimrc'
 ...
 config push
 ```
+NOTE that the alias 'config' may seem confusing sometime, change it at will
