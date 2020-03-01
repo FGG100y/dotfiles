@@ -66,12 +66,12 @@ alias vimtx='vim ~/.tmux.conf'
 # config add .vimrc or config commit -m 'bababa' etc.
 alias dcfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dcfgs='dcfg status'
-alias dcfgcm='dcfg commit -m'
 alias dcfgbr='dcfg branch'
+alias dcfgcm='dcfg commit -m'
 alias dcfgcam='dcfg commit -am'
-alias dcfglgp='git log --pretty=format:"%h -%an, %ar : %s"'
-alias dcfglgg='git log --pretty=format:"%h %s" --graph'
-alias dcfglgw='git log --pretty=format:"%h -%an, %ar : %s" --since=1.weeks'
+alias dcfglgp='dcfg log --pretty=format:"%h -%an, %ar : %s"'
+alias dcfglgg='dcfg log --pretty=format:"%h %s" --graph'
+alias dcfglgw='dcfg log --pretty=format:"%h -%an, %ar : %s" --since=1.weeks'
 
 # --------------------------
 # git command lines shotcuts
