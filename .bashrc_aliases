@@ -1,41 +1,126 @@
-# Ubuntu18.04-LTS ^^
 #-------------------
+# Ubuntu18.04-LTS ^^
 # Personal Aliases
 #-------------------
+# last modified: Sun 01 Mar 2020 13:36:02
+
+# ----------------
+# change dir group
+# ----------------
+# step back to parent dir
+alias ..='cd ..'
+# back to the last dir
+alias _='cd -'
+# personal directory
+alias fits='cd /home/fgg/fggit/'
+alias Upan='cd /media/fgg/fmhU/'
+alias book='cd /home/fgg/fggbooks/textbook_csds/'
+alias ds='cd /home/fgg/fggit/csds/Practical_DS/'
+alias db='cd /home/fgg/fggit/csds/Practical_db/'
+alias ss='cd /home/fgg/fggit/csds/Practical_ss/'
+alias cv='cd /home/fgg/fggit/csds/Practical_DS/CV/'
+alias pypy='cd /home/fgg/fggit/csds/Practical_Py3/'
+alias ccpp='cd /home/fgg/fggit/csds/Practical_Cpp/'
+alias envs='cd /home/fgg/fggit/csds/PyVenvs/'
+alias Gitr='cd /home/fgg/fggit/GitHub_repos/'
+alias Leco='cd /home/fgg/fggit/GitHub_repos/LeetCode/'
+alias Dpro='cd /home/fgg/Downloads/programs/'
+alias data='cd /home/fgg/fggit/csds/ml_datasets/'
+alias moon='cd /home/fgg/fggit/moon/'
+
+# -----------------------
+# common use sys commands
+# -----------------------
+# source ***
+alias srcsh='source ~/.bashrc'
+# poweroff
+alias pof='poweroff'
+# wget continue download flags
+alias wget='wget -c'
+# tree the directory
+alias treed2='tree -dL 2'
+alias treed3='tree -dL 3'
+# In case of careless rm
+alias rm='rm -i'
+alias mv='mv -i'
+alias cpr='cp -r'
+# Prevents accidentally clobbering files
+alias mkdir='mkdir -p'
+alias his='history'
+alias which='type -a'
+# Makes a more readable output
+alias du='du -mh'
+alias df='df -kTh'
+# some music
+alias vlcbgm='vlc ~/Music/bg_music.mp4 &'
+
+# --------------
+# dotfiles group
+# --------------
+# edit dotfiles
+alias vimbz='vim ~/.bashrc_aliases'
+alias vimrc='vim ~/.vimrc'
+alias vimtx='vim ~/.tmux.conf'
 # dotfiles management by git bare repos technique
 # now that the command 'config' is as the 'git' command, e.g.,
 # config add .vimrc or config commit -m 'bababa' etc.
 alias dcfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dcfgs='dcfg status'
 alias dcfgcm='dcfg commit -m'
+alias dcfgbr='dcfg branch'
+alias dcfgcam='dcfg commit -am'
+alias dcfglgp='git log --pretty=format:"%h -%an, %ar : %s"'
+alias dcfglgg='git log --pretty=format:"%h %s" --graph'
+alias dcfglgw='git log --pretty=format:"%h -%an, %ar : %s" --since=1.weeks'
 
-# personal directory
-alias fits='cd /home/fgg/fggit/'
-alias book='cd /home/fgg/fggbooks/textbook_csds/'
-alias moon='cd /home/fgg/fggit/moon/'
-alias Upan='cd /media/fgg/fmhU/'
-alias ds='cd /home/fgg/fggit/csds/Practical_DS/'
-alias db='cd /home/fgg/fggit/csds/Practical_db/'
-alias ss='cd /home/fgg/fggit/csds/Practical_ss/'
-alias da='cd /home/fgg/fggit/csds/ml_datasets/'
-alias cv='cd /home/fgg/fggit/csds/Practical_DS/CV/'
-alias pypy='cd /home/fgg/fggit/csds/Practical_Py3/'
-alias ccpp='cd /home/fgg/fggit/csds/Practical_Cpp/'
-alias envs='cd /home/fgg/fggit/csds/PyVenvs/'
-alias Gitr='cd /home/fgg/fggit/GitHub_repos/'
-alias gdot='cd /home/fgg/fggit/GitHub_repos/fmhGRs/dotfiles/'
-alias Leco='cd /home/fgg/fggit/GitHub_repos/LeetCode/'
-alias Dpro='cd /home/fgg/Downloads/programs/'
+# --------------------------
+# git command lines shotcuts
+# --------------------------
+alias gits='git status'
+alias gitbr='git branch'
+alias gitadd='git add'
+alias gitcm='git commit -m'
+alias gitcam='git commit -am'
+alias gitmv='git mv'
+# remove the staged file from repos but still stay in local file system
+alias gitrmc='git rm --cached'
+# check history commits
+alias gitlg='git log'
+alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
+alias gitlgg='git log --pretty=format:"%h %s" --graph'
+alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
+# quick search, git log -Sfunction_name: commits with function_name
+alias gitlgs='git log -S'
 
-# watch Nvidia gpu utilization --tensorflow
-alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'
+# -------------
+# tmux commands
+# -------------
+alias tmux='tmux -2'
+alias txls='tmux ls'
+alias txat='tmux attach -t'
+alias txks='tmux kill-session -t'
+# alias txns='tmux new-session -s'
+# alias txsh='tmux new-session -s shell'
 
-# vim edit multiple files vertically split windows
-alias vimvs='vim -O'
+# ------------------
+# The 'ls' family :)
+# barely changed
+# ------------------
+# Add colors for filetype and  human-readable sizes by default on 'ls':
+alias ls='ls -h --color'
+alias lx='ls -lXB'         #  Sort by extension.
+alias lk='ls -lSr'         #  Sort by size, biggest last.
+alias lt='ls -ltr'         #  Sort by date, most recent last.
+alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
+# The ubiquitous 'll': directories first, with alphanumeric sorting:
+alias ll="ls -lv --group-directories-first"
+alias llm='ll | more'        #  Pipe through 'more'
+alias llr='ll -R'           #  Recursive ls.
+alias la='ll -A'           #  Show hidden files.
 
-# shell scripts commands
-alias chmodx='chmod u+x'
-
+# --------------
+# language group
+# --------------
 # complier for C++
 # alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
 alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
@@ -47,95 +132,14 @@ alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno
 #       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
 #       -Wno-old-style-cast 
 
-# source ***
-alias srcsh='source ~/.bashrc'
-# poweroff
-alias pof='poweroff'
-# tree the directory
-alias treed2='tree -dL 2'
-alias treed3='tree -dL 3'
-
-# edit dotfiles
-alias vimbz='vim ~/.bashrc_aliases'
-alias vimrc='vim ~/.vimrc'
-alias vimtx='vim ~/.tmux.conf'
-
-# some music
-alias vlcbgm='vlc ~/Music/bg_music.mp4 &'
-
-# quick check with git command alias
-alias ggit='cat $HOME/.bashrc_aliases | grep git'
-# git command lines
-alias gits='git status'
-alias gitbr='git branch'
-alias gitadd='git add'
-alias gitcm='git commit -m'
-alias gitcam='git commit -am'
-alias gitpom='git push origin master'
-alias gitmv='git mv'
-    # git mv to rename file's name
-    # git mv means exactly:
-    #   mv file_from file_to
-    #   git rm file_from
-    #   git add file_to
-# remove the staged file from repos but still stay in local file system
-alias gitrmc='git rm --cached'
-# check history commits
-alias gitlg='git log'
-alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
-alias gitlgg='git log --pretty=format:"%h %s" --graph'
-alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
-# quick search, git log -Sfunction_name: commits with function_name
-alias gitlgs='git log -S'
-
-alias tmux='tmux -2'
-# tmux commands
-alias txls='tmux ls'
-alias txat='tmux attach -t'
-alias txns='tmux new-session -s'
-alias txsh='tmux new-session -s shell'
-alias txks='tmux kill-session -t'
-
 # python -m activate envs
 alias Qenv='deactivate'
+# watch Nvidia gpu utilization --tensorflow
+alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'
 
-# wget
-alias wget='wget -c'
-
-# In case of careless rm
-alias rm='rm -i'
-alias mv='mv -i'
-alias cpr='cp -r'
-
-# Prevents accidentally clobbering files
-alias mkdir='mkdir -p'
-
-alias his='history'
-alias which='type -a'
-alias ..='cd ..'
-alias _='cd -'
-
-# Makes a more readable output
-# alias du='du -mh'
-alias df='df -kTh'
-
-#-------------------
-# The 'ls' family :)
-#-------------------
-# Add colors for filetype and  human-readable sizes by default on 'ls':
-alias ls='ls -h --color'
-alias lx='ls -lXB'         #  Sort by extension.
-alias lk='ls -lSr'         #  Sort by size, biggest last.
-alias lt='ls -ltr'         #  Sort by date, most recent last.
-alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
-
-# The ubiquitous 'll': directories first, with alphanumeric sorting:
-alias ll="ls -lv --group-directories-first"
-alias llm='ll | more'        #  Pipe through 'more'
-alias llr='ll -R'           #  Recursive ls.
-alias la='ll -A'           #  Show hidden files.
-#alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
-
+# ---------------
+# handy functions
+# ---------------
 # Creates an archive (*.tar.gz) from given directory
 function mktar() { tar cvzf "${1%%/}.tar.gz" "${1%%/}"; }
 
