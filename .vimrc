@@ -178,8 +178,8 @@ let mapleader=","		                        " leader set to be the comma
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 " shotcut to edit ~/_vimrc in new tab
-nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
-nnoremap <leader>vb :sp $MYVIMRC<cr>
+nnoremap <space>v :tabnew <bar> :e $MYVIMRC<cr>
+nnoremap <leader>v :sp $MYVIMRC<cr>
 
 " common rule were: splitright & splitbelow
 " but sometimes need to split on leftabove or above
@@ -213,8 +213,8 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader><space> :nohlsearch<cr>
 
 " windows/panes resize
-nnoremap <C-w> :vertical resize +3<cr>
-nnoremap <S-w> :resize +5<cr>
+nnoremap <space>w :vertical resize +5<cr>
+nnoremap <space><space>w :resize +5<cr>
 
 " close quickfix/local window
 nnoremap <space>q :cclose<cr>
@@ -230,7 +230,8 @@ nnoremap <Space>h :vert help<cr>
 inoremap jj <ESC>
 
 " AsyncRun python current buffer
-noremap <F6> :AsyncRun -raw python % <cr>
+" noremap <F6> :AsyncRun -raw python % <cr>
+noremap <F6> :AsyncRun python % <cr>
 
 " groups of iab | Short Cut
 " -----------------------------------
@@ -267,8 +268,8 @@ let g:tmuxline_preset = {
 " until one is found.
 set tags=./tags;/
 " set tags=./tags;$HOME
-" NOTE: already setup goto with YcmCompleter, seems this is overlap Wed 01 Jan
-" 2020 18:45:52
+" NOTE: already setup goto with YcmCompleter, seems this is overlap
+" Wed 01 Jan 2020 18:45:52
 " generate tag file, so we can Ctrl-] to goto definitions
 " nnoremap <F9> :!ctags -R<cr>
 

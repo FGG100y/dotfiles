@@ -2,6 +2,13 @@
 #-------------------
 # Personal Aliases
 #-------------------
+# dotfiles management by git bare repos technique
+# now that the command 'config' is as the 'git' command, e.g.,
+# config add .vimrc or config commit -m 'bababa' etc.
+alias dcfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dcfgs='dcfg status'
+alias dcfgcm='dcfg commit -m'
+
 # personal directory
 alias fits='cd /home/fgg/fggit/'
 alias book='cd /home/fgg/fggbooks/textbook_csds/'
