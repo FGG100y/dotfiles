@@ -44,4 +44,20 @@ config commit -m 'add vimrc'
 ...
 config push
 ```
-NOTE that the alias 'config' may seem confusing sometime, change it at will
+NOTE that the alias 'config' may seem confusing sometime, change it at will.
+
+I myself used 'dcfg', i.e., dotfiles config.
+
+***
+
+## set local existing branch tracked upstream/branch
+
+1. create the branch, said 'py202'
+```sh
+git branch py202
+```
+2. set py202 tracking upstream/branch, said origin/wh608
+```sh
+git branch -u origin/wh608 py202
+```
+3. Done.
