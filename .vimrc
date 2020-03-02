@@ -1,7 +1,7 @@
 " ===================================
 " fanmh's vimrc (Ubuntu Evns)
 " built: 2018-07-16
-" update: Wed 01 Jan 2020 22:33:58
+" update: Mon 02 Mar 2020 23:10:52
 " ===================================
 
 set nocompatible                                " be iMproved
@@ -232,6 +232,10 @@ inoremap jj <ESC>
 " AsyncRun python current buffer
 " noremap <F6> :AsyncRun -raw python % <cr>
 noremap <F6> :AsyncRun python % <cr>
+
+" groups of user define commands
+" CDC = change to directory of Current file
+command CDC cd %:p:h
 
 " groups of iab | Short Cut
 " -----------------------------------
