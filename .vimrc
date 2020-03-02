@@ -89,14 +89,13 @@ syntax enable
 set background=dark
 " set background=light
 if has('gui_running')
-    " GUI setting, no toolbar
+    " no toolbar
     set guioptions-=T
     set guioptions-=m
     set guioptions-=L
     set guioptions-=r
     set guioptions-=b
     " set guifont=Lucida_Console:h9           " some other fonts
-    " au GUIEnter * simalt ~x                 " full screen when initiate gvim
     " colorscheme solarized
     " call togglebg#map("<F5>")
     colorscheme zenburn                       " backup colorscheme
@@ -119,7 +118,6 @@ set backspace=indent,eol,start
 " Split windows manners
 set splitbelow
 set splitright
-" or split windows at will, detail at Part-3
 " " Searching
 set incsearch
 set hlsearch
@@ -226,16 +224,20 @@ nnoremap <Space>f :FZF<cr>
 " vertical split help
 nnoremap <Space>h :vert help<cr>
 
-" alternative way to back to normal mode
-inoremap jj <ESC>
-
 " AsyncRun python current buffer
 " noremap <F6> :AsyncRun -raw python % <cr>
 noremap <F6> :AsyncRun python % <cr>
 
+" alternative way to back to normal mode
+inoremap jj <ESC>
+
 " groups of user define commands
+" -----------------------------------
 " CDC = change to directory of Current file
 command CDC cd %:p:h
+
+" SVI = saveas % to someother dir
+command SVI sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
 
 " groups of iab | Short Cut
 " -----------------------------------
@@ -683,7 +685,7 @@ nmap <silent> <C-n> <Plug>(ale_next_wrap)
 nmap <F8> <Plug>(ale_fix)
 
 " ----------------------------
-" autocmd groups
+" Part-6 autocmd groups
 " ----------------------------
 " highlight 'long' lines (>= 79 symbols) in files
 augroup vimrc_autocmds
