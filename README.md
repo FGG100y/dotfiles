@@ -2,6 +2,7 @@
 TODO:
   - try dotfiles management tool like dotbot etc
   - update the comments/annotations
+  - change dir to a git repository in vim, but vim did not recognize it. Fixit.
 
 ## set up git bare repo for dotfiles: step by step [(original from here)](https://www.atlassian.com/git/tutorials/dotfiles)
 1. prior to 'install' the dotfiles, commits the alias to .bashrc first:
@@ -61,3 +62,14 @@ git branch py202
 git branch -u origin/wh608 py202
 ```
 3. Done.
+
+***
+
+## vim :sav! to update the dotfiles in the local branch
+
+When I got some ideas or found some excellent vim tips, I updated my vimrc
+immediately. With :sav command, I could udpate the vimrc in my dotfiles of
+local git repository without leaving vim, and when all changes done, :CDC to
+change dir to the current file's path (i.e., my local git repo), then fugitive
+would handle the rest.
+Sweet!
