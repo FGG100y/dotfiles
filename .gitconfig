@@ -1,0 +1,16 @@
+[user]
+	name = fgg100y
+    email = 1522009317@qq.com
+[core]
+	editor = vim
+[alias]
+    co = checkout
+    cm = commit -m
+    st = status
+    br = branch
+    last = log -1 HEAD
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    unstage = reset HEAD --
+    visual = !gitk
