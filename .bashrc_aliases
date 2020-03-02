@@ -75,22 +75,23 @@ alias dcfglgw='dcfg log --pretty=format:"%h -%an, %ar : %s" --since=1.weeks'
 
 # --------------------------
 # git command lines shotcuts
+# set git alias in the ~/.gitconfig [alias] section
 # --------------------------
-alias gits='git status'
-alias gitbr='git branch'
-alias gitadd='git add'
-alias gitcm='git commit -m'
-alias gitcam='git commit -am'
-alias gitmv='git mv'
-# remove the staged file from repos but still stay in local file system
-alias gitrmc='git rm --cached'
-# check history commits
-alias gitlg='git log'
-alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
-alias gitlgg='git log --pretty=format:"%h %s" --graph'
-alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
-# quick search, git log -Sfunction_name: commits with function_name
-alias gitlgs='git log -S'
+# alias gits='git status'
+# alias gitbr='git branch'
+# alias gitadd='git add'
+# alias gitcm='git commit -m'
+# alias gitcam='git commit -am'
+# alias gitmv='git mv'
+# # remove the staged file from repos but still stay in local file system
+# alias gitrmc='git rm --cached'
+# # check history commits
+# alias gitlg='git log'
+# alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
+# alias gitlgg='git log --pretty=format:"%h %s" --graph'
+# alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
+# # quick search, git log -Sfunction_name: commits with function_name
+# alias gitlgs='git log -S'
 
 # -------------
 # tmux commands
@@ -219,15 +220,6 @@ Gignore () {
         echo "No such file/dir"
     fi
 }
-
-# # cp the $HOME/dotfiles into my dotfiles git repos
-# # NOTE this will also cp the .swp file if there is one
-# Ghomedots () {
-#     # export dotfiles to env
-#     dotfiles="$(ls -d ~/.[bv]*rc*) $(ls -d ~/.tmux.conf)"
-#     echo "$dotfiles"
-#     # cp "$dotfiles" .
-# }
 
 # ---------
 # fzf grops
