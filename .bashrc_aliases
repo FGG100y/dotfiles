@@ -11,22 +11,6 @@
 alias ..='cd ..'
 # back to the last dir
 alias _='cd -'
-# personal directory
-alias fits='cd /home/fgg/fggit/'
-alias Upan='cd /media/fgg/fmhU/'
-alias book='cd /home/fgg/fggbooks/textbook_csds/'
-alias ds='cd /home/fgg/fggit/csds/Practical_DS/'
-alias db='cd /home/fgg/fggit/csds/Practical_db/'
-alias ss='cd /home/fgg/fggit/csds/Practical_ss/'
-alias cv='cd /home/fgg/fggit/csds/Practical_DS/CV/'
-alias pypy='cd /home/fgg/fggit/csds/Practical_Py3/'
-alias ccpp='cd /home/fgg/fggit/csds/Practical_Cpp/'
-alias envs='cd /home/fgg/fggit/csds/PyVenvs/'
-alias Gitr='cd /home/fgg/fggit/GitHub_repos/'
-alias Leco='cd /home/fgg/fggit/GitHub_repos/LeetCode/'
-alias Dpro='cd /home/fgg/Downloads/programs/'
-alias data='cd /home/fgg/fggit/csds/ml_datasets/'
-alias moon='cd /home/fgg/fggit/moon/'
 
 # -----------------------
 # common use sys commands
@@ -59,6 +43,7 @@ alias vlcbgm='vlc ~/Music/bg_music.mp4 &'
 # --------------
 # edit dotfiles
 alias vimbz='vim ~/.bashrc_aliases'
+alias vimbl='vim ~/.bashrc_cd_aliases'
 alias vimrc='vim ~/.vimrc'
 alias vimtx='vim ~/.tmux.conf'
 # dotfiles management by git bare repos technique
