@@ -36,7 +36,7 @@ alias which='type -a'
 alias du='du -mh'
 alias df='df -kTh'
 # some music
-alias vlcbgm='vlc ~/Music/bg_music.mp4 &'
+alias vlcbgm='vlc ~/Music/bg_music.mp3 &'
 
 # --------------
 # dotfiles group
