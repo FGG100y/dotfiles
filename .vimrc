@@ -283,10 +283,10 @@ set tags=./tags;/
 " fzf as vim-plugin
 " ----------------------------
 " NOTE: deal with the rtp of fzf difference from other machine's
-if hostname() == 'wuhan606'
-    set rtp+=~/fggit/GitHub_repo/fzf
+if hostname() == 'wuhan608'
+    set rtp+=~/.fzf
 elseif hostname() == 'panyu202' 
-    set rtp+=~/fggit/csds/GitHub_repos/fzf
+    set rtp+=~/fggit/GitHub_repos/fzf
 endif
 let g:fzf_layout = {'down': '~40%'}
 " An action can be a reference to a function that processes selected lines
