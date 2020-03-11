@@ -1,7 +1,7 @@
 " ===================================
 " fanmh's vimrc (Ubuntu Evns)
 " built: 2018-07-16
-" update: Mon 02 Mar 2020 23:10:52
+" update: Thu 12 Mar 2020 00:18:03
 " ===================================
 
 set nocompatible                                " be iMproved
@@ -282,7 +282,12 @@ set tags=./tags;/
 " ----------------------------
 " fzf as vim-plugin
 " ----------------------------
-set rtp+=~/fggit/GitHub_repos/fzf
+" NOTE: deal with the rtp of fzf difference from other machine's
+if hostname() == 'wuhan606'
+    set rtp+=~/fggit/GitHub_repo/fzf
+elseif hostname() == 'panyu202' 
+    set rtp+=~/fggit/csds/GitHub_repos/fzf
+endif
 let g:fzf_layout = {'down': '~40%'}
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
