@@ -226,7 +226,7 @@ nnoremap <Space>h :vert help<cr>
 
 " AsyncRun python current buffer
 " noremap <F6> :AsyncRun -raw python % <cr>
-noremap <F6> :AsyncRun python % <cr>
+noremap <F6> :AsyncRun python3 % <cr>
 
 " alternative way to back to normal mode
 inoremap jj <ESC>
