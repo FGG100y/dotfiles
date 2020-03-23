@@ -232,12 +232,17 @@ noremap <F6> :AsyncRun python3 % <cr>
 inoremap jj <ESC>
 
 " groups of user define commands
-" -----------------------------------
-" CDC = change to directory of Current file
-command CDC cd %:p:h
-
+" to help recording the change to rc files quickly
+" ------------------------------------------------
+" TODO: when I cd the current file path in a git repos,
+"       fugitive did not recognize it's a git repos
+"       Mon 23 Mar 2020 23:38:14
+" Cur = change to directory of Current file
+command Cur cd %:p:h
 " Svrc = saveas % to someother dir
 command Svrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
+command Strc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.tmux.conf
+command Sbrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.bashrc_aliases
 
 " groups of iab | Short Cut
 " -----------------------------------
