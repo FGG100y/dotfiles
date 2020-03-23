@@ -174,6 +174,8 @@ let mapleader=","		                        " leader set to be the comma
 " -----------------------------------
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
+nnoremap <space>w :Gwrite<cr>
+nnoremap <space>c :Gcommit<cr>
 nnoremap <leader>q :q<cr>
 " shotcut to edit ~/_vimrc in new tab
 nnoremap <space>v :tabnew <bar> :e $MYVIMRC<cr>
@@ -191,10 +193,8 @@ nmap <Space>p "+gp
 vnoremap <Space>y "+y
 
 " shotcuts to new tabs and moving around
-nnoremap <leader>tn :tabn<cr>
-nnoremap <leader>tp :tabp<cr>
-" nnoremap <leader>te :tabnew<cr>
-" nnoremap <leader>to :tabonly<cr>
+nnoremap <space>] :tabn<cr>
+nnoremap <space>[ :tabp<cr>
 " tmuxline snapshot file-saved
 nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-snapshot saved***"<cr>
 " The "e" flag tells ":substitute" that not finding a match is not an error.
@@ -208,11 +208,11 @@ nnoremap <leader>bp :bprevious<cr>
 " nnoremap <leader>bd :bd<cr>
 
 " turn off highlights
-nnoremap <leader><space> :nohlsearch<cr>
+nnoremap <space>n :nohlsearch<cr>
 
 " windows/panes resize
-nnoremap <space>w :vertical resize +5<cr>
-nnoremap <space><space>w :resize +5<cr>
+nnoremap <space>k :vertical resize +5<cr>
+nnoremap <space>l :resize +5<cr>
 
 " close quickfix/local window
 nnoremap <space>q :cclose<cr>
@@ -236,8 +236,8 @@ inoremap jj <ESC>
 " CDC = change to directory of Current file
 command CDC cd %:p:h
 
-" SVI = saveas % to someother dir
-command SVI sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
+" Svrc = saveas % to someother dir
+command Svrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
 
 " groups of iab | Short Cut
 " -----------------------------------
@@ -332,8 +332,8 @@ let g:gitgutter_sign_modified = '~~'
 let g:gitgutter_sign_removed = '--'
 " let g:gitgutter_sign_removed_first_line = '^^'
 " let g:gitgutter_sign_modified_removed = 'ww'
-nmap [h <Plug>GitGutterPrevHunk
-nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ]h <Plug>(GitGutterNextHunk)
 
 " ----------------------------
 " vim-instant_markdown
