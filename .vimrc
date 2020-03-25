@@ -53,7 +53,7 @@ call vundle#begin()
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'tpope/vim-repeat'                   " enhance . repeat
-    Plugin 'Valloric/YouCompleteMe'             " Autocomplete plugin
+    Plugin 'rust-lang/rust.vim'                 " for rust
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
@@ -63,7 +63,7 @@ call vundle#begin()
     Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
     Plugin 'plasticboy/vim-markdown'
     Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
-    " Plugin 'tpope/vim-commentary'                 " Comment stuff out
+    Plugin 'Valloric/YouCompleteMe'             " all for completion
 
     "-------------------=== Code lint= ==-----------------------------
     Plugin 'w0rp/ale'                           " support all major programming language
@@ -178,8 +178,8 @@ nnoremap <space>w :Gwrite<cr>
 nnoremap <space>c :Gcommit<cr>
 nnoremap <leader>q :q<cr>
 " shotcut to edit ~/_vimrc in new tab
-nnoremap <space>v :tabnew <bar> :e $MYVIMRC<cr>
-nnoremap <leader>v :sp $MYVIMRC<cr>
+nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
+nnoremap <space>v :sp $MYVIMRC<cr>
 
 " common rule were: splitright & splitbelow
 " but sometimes need to split on leftabove or above
@@ -211,8 +211,8 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <space>n :nohlsearch<cr>
 
 " windows/panes resize
-nnoremap <space>k :vertical resize +5<cr>
-nnoremap <space>l :resize +5<cr>
+nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
 " close quickfix/local window
 nnoremap <space>q :cclose<cr>
@@ -232,17 +232,12 @@ noremap <F6> :AsyncRun python3 % <cr>
 inoremap jj <ESC>
 
 " groups of user define commands
-" to help recording the change to rc files quickly
-" ------------------------------------------------
-" TODO: when I cd the current file path in a git repos,
-"       fugitive did not recognize it's a git repos
-"       Mon 23 Mar 2020 23:38:14
-" Cur = change to directory of Current file
-command Cur cd %:p:h
+" -----------------------------------
+" CDCF = change to directory of Current file
+command CDCF cd %:p:h
+
 " Svrc = saveas % to someother dir
 command Svrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
-command Strc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.tmux.conf
-command Sbrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.bashrc_aliases
 
 " groups of iab | Short Cut
 " -----------------------------------
@@ -255,6 +250,12 @@ iab stdlib #include "../std_lib_facilities.h"
 " #############################
 " Part-5: plugin setting groups
 " #############################
+" ----------------------------
+" rust.vim
+" ----------------------------
+let g:rustfmt_autosave = 1
+" let g:rust_cargo_check_all_targets = 1
+let g:ale_rust_cargo_use_check = 1
 
 " ----------------------------
 " tmuxline
@@ -545,7 +546,7 @@ let g:ycm_seed_indentifiers_with_syntax=1
 " 从下往上选择补全选项
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 " 显示详细诊断信息
-let g:ycm_key_detailed_diagnostics = '<leader>d'
+let g:ycm_key_detailed_diagnostics = '<space>k'
 
 " 引入 C++ 标准库tags
 " set tags+=/data/misc/software/misc./vim/stdcpp.tags
@@ -590,8 +591,6 @@ let g:tagbar_show_linenumbers = 2     " show relative nu
 let g:tagbar_expand = 1
 " remap keys
 nnoremap <c-b> :TagbarToggle<CR>
-" autocmd BufEnter *.py :call tagbar#autoopen(0)
-" autocmd BufWinLeave *.py :TagbarClose
 
 " ----------------------------
 " vim-indent-guides settings
@@ -655,9 +654,10 @@ let g:ale_lint_on_text_changed = 'never'
 
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
-            \   'cpp': ['libclang', 'gcc', 'clangcheck', 'clangd'],
+            \   'cpp': ['libclang', 'gcc', 'clangd'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shellcheck'],
+            \   'rust': ['cargo', 'rustc'],
             \   'python': ['flake8']
             \}
 " let g:ale_python_flake8_executable = 1
