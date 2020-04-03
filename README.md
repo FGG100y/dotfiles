@@ -67,9 +67,11 @@ git branch -u origin/wh608 py202
 
 ## vim :sav! to update the dotfiles in the local branch
 
+1. set command Svrc as sav!, save the current edited file to (local repo) dir
+
+2. set command Curf as cd %:p:h, change dir to (local repo)
+
 When I got some ideas or found some excellent vim tips, I updated my vimrc
 immediately. With :sav command, I could udpate the vimrc in my dotfiles of
-local git repository without leaving vim, and when all changes done, :CDC to
-change dir to the current file's path (i.e., my local git repo), then fugitive
-would handle the rest.
-Sweet!
+local git repository without leaving vim, and then :Curf to change dir to the
+current file's path (i.e., my local git repo), and then fugitive. Sweet!
