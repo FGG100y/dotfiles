@@ -1,8 +1,7 @@
-# Dotfiles on my Ubuntu
+# Dotfiles on my Ubuntu machine
 TODO:
   - try dotfiles management tool like dotbot etc
   - update the comments/annotations
-  - change dir to a git repository in vim, but vim did not recognize it. Fixit.
 
 ## set up git bare repo for dotfiles: step by step [(original from here)](https://www.atlassian.com/git/tutorials/dotfiles)
 1. prior to 'install' the dotfiles, commits the alias to .bashrc first:
@@ -51,27 +50,21 @@ I myself used 'dcfg', i.e., dotfiles config.
 
 ***
 
-## set local existing branch tracked upstream/branch
+## Or you don't want to use the git bare repo technique
+Well, there's the old saying: where there is will, there is a way. How true. 
 
-1. create the branch, said 'py202'
-```sh
-git branch py202
-```
-2. set py202 tracking upstream/branch, said origin/wh608
-```sh
-git branch -u origin/wh608 py202
-```
-3. Done.
+### combines :sav! and an other vim command
 
-***
+1. set vim command "Svrc" as "sav! ~/your-git-repo-dir/.vimrc", then use :Svrc
+   to save the current edited file to your-git-repo-dir. Note that the "sav!"
+   command will open the the saved file in current buffer.
 
-## vim :sav! to update the dotfiles in the local branch
-
-1. set command Svrc as sav!, save the current edited file to (local repo) dir
-
-2. set command Curf as cd %:p:h, change dir to (local repo)
+2. set vim command "Curf" as "cd %:p:h \<bar\> :e %", then use :Curf to change
+   to your-repo-dir and the most important, open the current edited file again
+   so that fugitvie can recognize itself now is in a git repo and make the
+   appropriate responds.
 
 When I got some ideas or found some excellent vim tips, I updated my vimrc
-immediately. With :sav command, I could udpate the vimrc in my dotfiles of
-local git repository without leaving vim, and then :Curf to change dir to the
-current file's path (i.e., my local git repo), and then fugitive. Sweet!
+immediately. With :Svrc command, I could udpate the .vimrc file to my local git
+repository without leaving vim, and then :Curf and then fugitive takes over.
+Sweet!

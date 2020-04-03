@@ -63,6 +63,7 @@ call vundle#begin()
     Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
     Plugin 'plasticboy/vim-markdown'
     Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    " Plugin 'Valloric/YouCompleteMe'
     Plugin 'Valloric/YouCompleteMe'             " all for completion
 
     "-------------------=== Code lint= ==-----------------------------
@@ -87,20 +88,19 @@ filetype plugin indent on    " required
 syntax on
 syntax enable
 set background=dark
+colorscheme zenburn
 " set background=light
 if has('gui_running')
     " no toolbar
-    set guioptions-=T
-    set guioptions-=m
-    set guioptions-=L
-    set guioptions-=r
-    set guioptions-=b
+    set guioptions=
+    " set guioptions-=T
+    " set guioptions-=m
+    " set guioptions-=L
+    " set guioptions-=r
+    " set guioptions-=b
     " set guifont=Lucida_Console:h9           " some other fonts
     " colorscheme solarized
     " call togglebg#map("<F5>")
-    colorscheme zenburn                       " backup colorscheme
-else
-    colorscheme zenburn
 endif
 
 " #############################
@@ -233,8 +233,8 @@ inoremap jj <ESC>
 
 " groups of user define commands
 " -----------------------------------
-" CDCF = change to directory of Current file
-command CDCF cd %:p:h
+" Curf = change to directory of Current file
+command Curf cd %:p:h <bar> :e %
 
 " Svrc = saveas % to someother dir
 command Svrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
@@ -245,7 +245,7 @@ command Svrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 
 " only for PPPCpp practicing
-iab stdlib #include "../std_lib_facilities.h"
+" iab stdlib #include "../std_lib_facilities.h"
 
 " #############################
 " Part-5: plugin setting groups
@@ -255,7 +255,7 @@ iab stdlib #include "../std_lib_facilities.h"
 " ----------------------------
 let g:rustfmt_autosave = 1
 " let g:rust_cargo_check_all_targets = 1
-let g:ale_rust_cargo_use_check = 1
+" let g:ale_rust_cargo_use_check = 1
 
 " ----------------------------
 " tmuxline
@@ -664,8 +664,10 @@ let g:ale_linters = {
 let g:ale_python_flake8_use_global = 1
 
 let g:ale_fixers = {
-            \   'python': ['autopep8', 'yapf']
+            \   'python': ['yapf', 'autopep8']
             \}
+" Bind F8 to fixing problems with ALE
+nmap <F8> <Plug>(ale_fix)
 
 " shell scripts static syntax linter
 let g:ale_sh_shellcheck_executable = 'shellcheck'
@@ -691,8 +693,6 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " ale movements
 nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
-" Bind F8 to fixing problems with ALE
-nmap <F8> <Plug>(ale_fix)
 
 " ----------------------------
 " Part-6 autocmd groups
@@ -700,14 +700,14 @@ nmap <F8> <Plug>(ale_fix)
 " highlight 'long' lines (>= 79 symbols) in files
 augroup vimrc_autocmds
     autocmd!
-    autocmd FileType python,sh,markdown,md,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,sh,markdown,md,c,cpp match Excess /\%80v.*/
-    autocmd FileType python,sh,markdown,md,c,cpp set nowrap
-    autocmd FileType python,sh,markdown,md,c,cpp set colorcolumn=79
-    " auto begin in newline when exceed 79 chars when edit these filetypes
-    autocmd FileType python,sh,markdown,md,c,cpp setlocal textwidth=79 formatoptions+=t
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs match Excess /\%80v.*/
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs set nowrap
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs set colorcolumn=79
+    " auto begin in newline when exceed 79 charust,rs when edit these filetypes
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs setlocal textwidth=79 formatoptions+=t
     " Don't add the comment prefix when I hit enter or o/O on a comment line
-    autocmd FileType python,sh,markdown,md,c,cpp,vim setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,vim setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     " make change in vimrc working immediately
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
