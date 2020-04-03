@@ -6,6 +6,7 @@
 [alias]
     co = checkout
     cm = commit -m
+    ca = commit --amend
     st = status
     br = branch
     last = log -1 HEAD
