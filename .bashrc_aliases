@@ -18,7 +18,7 @@ alias _='cd -'
 # source ***
 alias srcsh='source ~/.bashrc'
 # poweroff
-alias pof='poweroff'
+alias sd='shutdown'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
