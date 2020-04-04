@@ -49,14 +49,7 @@ alias vimtx='vim ~/.tmux.conf'
 # dotfiles management by git bare repos technique
 # now that the command 'config' is as the 'git' command, e.g.,
 # config add .vimrc or config commit -m 'bababa' etc.
-alias dcfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias dcfgs='dcfg status'
-alias dcfgbr='dcfg branch'
-alias dcfgcm='dcfg commit -m'
-alias dcfgcam='dcfg commit -am'
-alias dcfglgp='dcfg log --pretty=format:"%h -%an, %ar : %s"'
-alias dcfglgg='dcfg log --pretty=format:"%h %s" --graph'
-alias dcfglgw='dcfg log --pretty=format:"%h -%an, %ar : %s" --since=1.weeks'
+alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # --------------------------
 # git command lines shotcuts
