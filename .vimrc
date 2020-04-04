@@ -63,7 +63,6 @@ call vundle#begin()
     Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
     Plugin 'plasticboy/vim-markdown'
     Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
-    " Plugin 'Valloric/YouCompleteMe'
     Plugin 'Valloric/YouCompleteMe'             " all for completion
 
     "-------------------=== Code lint= ==-----------------------------
@@ -255,7 +254,7 @@ iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 " ----------------------------
 let g:rustfmt_autosave = 1
 " let g:rust_cargo_check_all_targets = 1
-" let g:ale_rust_cargo_use_check = 1
+let g:ale_rust_cargo_use_check = 1
 
 " ----------------------------
 " tmuxline
@@ -691,8 +690,8 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " ale movements
-nmap <silent> <C-p> <Plug>(ale_previous_wrap)
-nmap <silent> <C-n> <Plug>(ale_next_wrap)
+nmap <silent> <C-p> <Plug>(ale_previous)
+nmap <silent> <C-n> <Plug>(ale_next)
 
 " ----------------------------
 " Part-6 autocmd groups
