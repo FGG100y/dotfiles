@@ -34,7 +34,7 @@ alias his='history'
 alias which='type -a'
 # Makes a more readable output
 alias du='du -mh'
-alias duss='du -mh -d 1 | sort -h'
+alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
 # some music
 alias vlcbgm='vlc ~/Music/bg_music.mp3 &'
