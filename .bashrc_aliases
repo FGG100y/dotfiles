@@ -101,7 +101,14 @@ alias la='ll -A'           #  Show hidden files.
 # --------------
 # language group
 # --------------
+
+# golang quickshots
+# -----------------
+# export the go project root to ENV path, then build the binary may process
+alias gopath='export GOPATH=$(pwd)'
+
 # complier for C++
+# -----------------
 # alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
 alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
 # alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
@@ -113,6 +120,7 @@ alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno
 #       -Wno-old-style-cast 
 
 # python -m activate envs
+# -----------------------
 alias Qenv='deactivate'
 # watch Nvidia gpu utilization --tensorflow
 alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'

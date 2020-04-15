@@ -64,7 +64,7 @@ call vundle#begin()
     Plugin 'plasticboy/vim-markdown'
     Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
     Plugin 'Valloric/YouCompleteMe'             " all for completion
-
+    Plugin 'fatih/vim-go'
     "-------------------=== Code lint= ==-----------------------------
     Plugin 'w0rp/ale'                           " support all major programming language
     " Plugin 'python-mode/python-mode'
@@ -249,6 +249,24 @@ iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 " #############################
 " Part-5: plugin setting groups
 " #############################
+" ----------------------------
+" vim-go
+" ----------------------------
+let g:go_list_type = "locationlist"
+let g:go_list_type_commands = {"GoBuild": "quickfix"}
+let g:go_list_autoclose = 1
+" using terminal feature
+let g:go_term_enabled = 1
+" let g:go_term_mode = "vsplit"
+let g:go_term_mode = "split"
+let g:go_term_height = 20
+" let g:go_term_width = 30
+" auto:GoFmt
+let g:go_fmt_autosave = 1
+
+" stuck with gopls initializing problem
+let g:go_gopls_enabled = 1
+
 " ----------------------------
 " rust.vim
 " ----------------------------
@@ -654,6 +672,7 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
             \   'cpp': ['libclang', 'gcc', 'clangd'],
+            \   'go': ['gobuild', 'govet', 'gofmt'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shellcheck'],
             \   'rust': ['cargo', 'rustc'],
@@ -697,16 +716,16 @@ nmap <silent> <C-n> <Plug>(ale_next)
 " Part-6 autocmd groups
 " ----------------------------
 " highlight 'long' lines (>= 79 symbols) in files
-augroup vimrc_autocmds
+augroup filefmt_autocmds
     autocmd!
-    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs match Excess /\%80v.*/
-    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs set nowrap
-    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs set colorcolumn=79
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set nowrap
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set colorcolumn=79
     " auto begin in newline when exceed 79 charust,rs when edit these filetypes
-    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs setlocal textwidth=79 formatoptions+=t
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang setlocal textwidth=79 formatoptions+=t
     " Don't add the comment prefix when I hit enter or o/O on a comment line
-    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,vim setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType python,sh,markdown,md,c,cpp,rust,rs,vim,go setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     " make change in vimrc working immediately
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
@@ -736,4 +755,11 @@ augroup encrypted
     autocmd BufWritePost,FileWritePost *.gpg
         \ silent u |
         \ setlocal nobin
+augroup END
+
+augroup golang
+    au!
+    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <leader>g <Plug>(go-def)
+
 augroup END
