@@ -176,6 +176,7 @@ nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
 nnoremap <space>c :Gcommit<cr>
 nnoremap <leader>q :q<cr>
+nnoremap <leader>Q :q!<cr>
 " shotcut to edit ~/_vimrc in new tab
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
 nnoremap <space>v :sp $MYVIMRC<cr>
@@ -230,13 +231,14 @@ noremap <F6> :AsyncRun python3 % <cr>
 " alternative way to back to normal mode
 inoremap jj <ESC>
 
-" groups of user define commands
+" groups of specific commands on specific machine
 " -----------------------------------
-" Curf = change to directory of Current file
-command Curf cd %:p:h <bar> :e %
-
-" Svrc = saveas % to someother dir
-command Svrc sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
+if hostname() == 'panyu202'
+    " CC = change to directory of Current file
+    command CC cd %:p:h <bar> :e %
+    " Sgit = saveas % to someother dir
+    command Vgit sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
+endif
 
 " groups of iab | Short Cut
 " -----------------------------------
@@ -260,12 +262,23 @@ let g:go_term_enabled = 1
 " let g:go_term_mode = "vsplit"
 let g:go_term_mode = "split"
 let g:go_term_height = 20
-" let g:go_term_width = 30
-" auto:GoFmt
 let g:go_fmt_autosave = 1
-
-" stuck with gopls initializing problem
+" let g:go_metalinter_autosave = 1
+" let g:go_metalinter_deadline = "5s"
 let g:go_gopls_enabled = 1
+let g:go_rename_command = 'gopls'
+let g:go_def_reuse_buffer = 1
+let g:go_fmt_command = "goimports"
+" let g:go_fmt_fail_silently = 1
+" let g:go_addtags_transform = "camelcase"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+
+let g:go_auto_type_info = 1
+
+" let g:go_auto_sameids = 1
 
 " ----------------------------
 " rust.vim
@@ -453,7 +466,6 @@ let g:UltiSnipsJumpBackwardTrigger="<leader><S-tab>"
 " include self-define Snippets
 let g:UltiSnipsSnippetDir="$HOME/.vim/bundle/ultisnips"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "fggsnippets"]
-" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 " UltiSinpsUsePythonVersion
 let g:UltiSinpsUsePythonVersion = 3
@@ -759,7 +771,15 @@ augroup END
 
 augroup golang
     au!
-    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nmap <space>r <Plug>(go-run)
+    au FileType go nmap <space>t <Plug>(go-test)
+    au FileType go nmap <space>b  <Plug>(go-build)
+    au FileType go nmap <Leader>i <Plug>(go-info)
     au FileType go nmap <leader>g <Plug>(go-def)
+    au FileType go nmap <leader>r <Plug>(go-rename)
+    au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+    au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+    au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+    au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 augroup END
