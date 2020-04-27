@@ -171,7 +171,11 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # golang's go
 export PATH=$PATH:/usr/local/go/bin
-go env -w GO111MODULE=auto
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+# go env -w GO111MODULE=auto
+
 # go env -w  GOPROXY=https://goproxy.io
-# go env -w  GOPROXY=https://goproxy.cn
-go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
+# 七牛云,国内镜像,给力!
+go env -w  GOPROXY=https://goproxy.cn,direct
+# go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
