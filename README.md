@@ -46,7 +46,10 @@ config push
 ```
 NOTE that the alias 'config' may seem confusing sometime, change it at will.
 
-I myself used 'dcfg', i.e., dotfiles config.
+I myself used 'dgit', 'd' for dotfiles, i.e.: 
+```sh
+alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+```
 
 ***
 
