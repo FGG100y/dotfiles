@@ -43,6 +43,7 @@ alias vlcbgm='vlc ~/Music/bg_music.mp3 &'
 # dotfiles group
 # --------------
 # edit dotfiles
+alias vimsh='vim ~/.bashrc'
 alias vimbz='vim ~/.bashrc_aliases'
 alias vimbl='vim ~/.bashrc_cd_aliases'
 alias vimrc='vim ~/.vimrc'
@@ -102,17 +103,12 @@ alias la='ll -A'           #  Show hidden files.
 # language group
 # --------------
 
-# golang quickshots
-# -----------------
-# export the go project root to ENV path, then build the binary may process
-alias gopath='export GOPATH=$(pwd)'
-
 # complier for C++
 # -----------------
 # alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
 alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
 # alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
-alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
+# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
 
 # NOTE: more paras/flags for clang:
 # clang -Wno-disabled-macro-expansion -Wno-float-equal -Wno-c++98-compat-pedantic'
