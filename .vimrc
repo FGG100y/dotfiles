@@ -211,7 +211,7 @@ if hostname() == 'panyu202'
     " CC = change to directory of Current file
     command CC cd %:p:h <bar> :e %
     " Vgit = saveas % to someother dir
-    command Vgit sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
+    command Vgit sav! ~/fggit/gitrepos/fmhGRs/dotfiles/.vimrc
 endif
 
 " groups of abbreviate
