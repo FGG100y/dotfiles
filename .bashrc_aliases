@@ -9,8 +9,7 @@
 # ----------------
 # step back to parent dir
 alias ..='cd ..'
-# back to the last dir
-alias _='cd -'
+alias ...='cd ../..'
 
 # -----------------------
 # common use sys commands
@@ -18,12 +17,12 @@ alias _='cd -'
 # source ***
 alias srcsh='source ~/.bashrc'
 # poweroff
-alias sd='shutdown'
+alias sd0='shutdown 0'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
-alias treed2='tree -dL 2'
-alias treed3='tree -dL 3'
+alias tree2='tree -dL 2'
+alias tree3='tree -dL 3'
 # In case of careless rm
 alias rm='rm -i'
 alias mv='mv -i'
@@ -37,7 +36,7 @@ alias du='du -mh'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
 # some music
-alias vlcbgm='vlc ~/Music/bg_music.mp3 &'
+alias vlcbgm='xdg-open ~/Music/bg_music.mp3 &'
 
 # --------------
 # dotfiles group
