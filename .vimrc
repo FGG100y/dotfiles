@@ -34,7 +34,7 @@ call vundle#begin()
     Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
     Plugin 'jnurmine/Zenburn'                   " For good mood
-    Plugin 'altercation/vim-colors-solarized'   " For good mood
+    Plugin 'altercation/vim-colors-solarized'   " For good mood too
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
     Plugin 'edkolev/tmuxline.vim'
