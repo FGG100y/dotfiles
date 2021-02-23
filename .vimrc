@@ -1,8 +1,11 @@
-" ===================================
+" ======================================
 " fanmh's vimrc (Ubuntu Evns)
 " built: 2018-07-16
-" update: Thu 12 Mar 2020 00:18:03
-" ===================================
+" update: 星期二 2021年02月23日 14:31:20
+" ======================================
+" TODO:
+" fine tune the TODO/NOTE etc colors,
+" colorscheme switch may make it disappear
 
 set nocompatible                                " be iMproved
 
@@ -21,12 +24,10 @@ call vundle#begin()
 
     "-------------------=== Vundle itself ===-------------
     Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
-
     "-------------------=== Code/Project navigation ===-------------
-    Plugin 'majutsushi/tagbar'                  " Class/module browser
+    Plugin 'majutsushi/tagbar'                  " Class/module browser and more
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
-
     "-------------------=== vim outfit ===-------------------------------
     Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
     Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
@@ -34,42 +35,40 @@ call vundle#begin()
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
     Plugin 'jnurmine/Zenburn'                   " For good mood
     Plugin 'altercation/vim-colors-solarized'   " For good mood
-
-    "-------------------=== asyncrun ===-------------------------------
-    Plugin 'skywind3000/asyncrun.vim'           " run cml within vim, and output with quickfix
-
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
     Plugin 'edkolev/tmuxline.vim'
     "-------------------=== Snippets support ===--------------------
     Plugin 'SirVer/ultisnips'                   " snippets management/engine
     Plugin 'honza/vim-snippets'                 " snippets repo
-
     "-------------------=== Languages support ===-------------------
+    Plugin 'dense-analysis/ale'
     Plugin 'tpope/vim-fugitive'                 " awsome git wrapper!
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'tpope/vim-repeat'                   " enhance . repeat
-    Plugin 'rust-lang/rust.vim'                 " for rust
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
-    Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'hdima/Python-Syntax'                " highlights for python
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
-    Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
-    Plugin 'plasticboy/vim-markdown'
-    Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
     Plugin 'Valloric/YouCompleteMe'             " all for completion
-    Plugin 'fatih/vim-go'
-    "-------------------=== Code lint= ==-----------------------------
-    Plugin 'w0rp/ale'                           " support all major programming language
-    " Plugin 'python-mode/python-mode'
-
-    "-------------------=== other plugins ===-----------------------------
+    Plugin 'mileszs/ack.vim'                    " cherrypick your strings
+    " Plugin 'fatih/vim-go'
+    " Plugin 'rust-lang/rust.vim'                 " for rust
+    " Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
-
-    " local installation using the ['file://'+'absolute path'] protocol
+    " Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
+    " Plugin 'plasticboy/vim-markdown'
+    " Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    "-------------------=== other plugins ===-----------------------------
+    " local installation:
+    " The 'pinned' option
+    " -------------------
+    " A flag that, when set to a value of 1, tells Vundle not to perform any
+    " git operations on the plugin, while still adding the existing plugin
+    " under the `bundles` directories to the |runtimepath|.
+    Plugin 'xterm-color-table.vim', {'pinned': 1}
 
 call vundle#end()            " required
 filetype on
@@ -83,7 +82,7 @@ filetype plugin indent on    " required
 " Note: syntax enable is needed
 syntax enable
 set background=dark
-colorscheme zenburn
+colorscheme Tomorrow-Night
 if has('gui_running')
     " no toolbar
     set guioptions=
@@ -100,6 +99,15 @@ endif
 syntax enable
 " allow variable syntax highlight approches instead of the default
 syntax on
+" Highlight TODO, FIXME, NOTE, etc.
+if has("autocmd")
+    if v:version > 701
+    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
+    endif
+endif
+hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
+hi Debug guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
 " Do not use a mouse, otherwise :set mouse=n/v/i/a
 set mouse=
 " backspace for del
@@ -200,23 +208,13 @@ nnoremap <space><space>q :lclose<cr>
 nnoremap <Space>f :FZF<cr>
 " vertical split help
 nnoremap <Space>h :vert help
-" AsyncRun python current buffer | consider pymode
-" noremap <F6> :AsyncRun -raw python % <cr>
-noremap <F6> :AsyncRun python3 % <cr>
 " alternative way to back to normal mode
 inoremap jk <ESC>
 
-" groups of specific commands on specific machine
-if hostname() == 'panyu202'
-    " CC = change to directory of Current file
-    command CC cd %:p:h <bar> :e %
-    " Vgit = saveas % to someother dir
-    command Vgit sav! ~/fggit/GitHub_repos/fmhGRs/dotfiles/.vimrc
-endif
-
 " groups of abbreviate
-" insert the datetime
-iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+" insert the datetime, more datetime format see: man date
+iab dts <c-r>=strftime("%A %x %T")<cr>
+" 星期一 2021年02月22日 2021 10:27:55
 
 " only for PPPCpp practicing
 " iab stdlib #include "../std_lib_facilities.h"
@@ -225,6 +223,14 @@ iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 " #############################
 " Part-5: plugin setting groups
 " #############################
+" ack and ag: find the match
+" do not auto-jump (ack!) to the first result
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+nnoremap <Leader>a :Ack!<Space>
+command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
+command Debug Ack! 'NOTE|INFO|IDEA'
 " vim-go ---------------------- {{{
 let g:go_list_type = "locationlist"
 let g:go_list_type_commands = {"GoBuild": "quickfix"}
@@ -259,7 +265,7 @@ let g:ale_rust_cargo_use_check = 1
 " }}}
 
 " tmuxline -------------------- {{{
-let g:tmuxline_theme = 'zenburn'
+" let g:tmuxline_theme = 'dark'
 let g:airline#extensions#tmuxline#enabled = 1
 let g:tmuxline_powerline_separators = 0
 " let g:tmuxline_preset = '' "see autoload/tmuxline/preset/*
@@ -269,7 +275,7 @@ let g:tmuxline_preset = {
       \'c'    : '',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
-      \'y'    : ['%R','%a', '%F' ],
+      \'y'    : ['%R','%A', '%F' ],
       \'z'    : '#H'}
 " }}}
 
@@ -286,11 +292,12 @@ set tags=./tags;/
 
 " fzf as vim-plugin ----------- {{{
 " NOTE: deal with the rtp of fzf difference from other machine's
-if hostname() == 'wuhan608'
-    set rtp+=~/.fzf
-elseif hostname() == 'panyu202' 
-    set rtp+=~/fggit/GitHub_repos/fzf
-endif
+set rtp+=~/.fzf
+" if hostname() == 'wuhan608'
+"     set rtp+=~/.fzf
+" elseif hostname() == 'panyu202'
+"     set rtp+=~/fggit/GitHub_repos/fzf
+" endif
 let g:fzf_layout = {'down': '~40%'}
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
@@ -567,20 +574,32 @@ nmap <silent> <leader>> <Plug>IndentGuidesToggle
 
 " airline settings ----------- {{{
 let g:airline#extensions#tabline = 1
-let g:airline_theme='zenburn'
 let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline' ]
 let g:airline_powerline_fonts=1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 " airline symbols, install the fonts-powerline first
+" sudo apt install fonts-powerline
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+" let g:airline_symbols.linenr = ''
+
+" unicode symbols
+let g:airline_symbols.crypt = '🔒'
+" let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '¶'
+" let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = 'Ɇ'
+let g:airline_symbols.whitespace = 'Ξ'
+
 " display the tail of the filename
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 " configure symbol used to represent close button >
@@ -600,9 +619,9 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
-" let g:airline_section_z = airline#section#create([
-"                     \   '%{ObsessionStatus(''$'','''')}',
-"                     \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
+let g:airline_section_z = airline#section#create([
+                    \   '%{ObsessionStatus(''$'','''')}',
+                    \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
 " }}}
 
 " ale settings --------------- {{{
@@ -714,6 +733,14 @@ augroup filetype_vim
     au FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
+
+" augroup vimrc_todo
+"     au!
+"     au Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|XXX):/
+"           \ containedin=.*Comment,vimCommentTitle
+" augroup END
+" hi def link MyTodo Todo
+" hi def link MyTodo pythonTodo
 
 " make change in vimrc working immediately
 augroup autosrc

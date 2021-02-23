@@ -8,9 +8,9 @@ case $- in
       *) return;;
 esac
 
-# shell startup tmux to session called 'shell' | Thu 13 Feb 2020 22:37:11
+# shell startup tmux to session called 'vms' | Thu 13 Feb 2020 22:37:11
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux new-session -A -s shell
+  exec tmux new-session -A -s vms
 fi
 
 # don't put duplicate lines or lines starting with space in the history.

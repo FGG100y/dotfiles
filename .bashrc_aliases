@@ -17,8 +17,6 @@ alias _='cd -'
 # -----------------------
 # source ***
 alias srcsh='source ~/.bashrc'
-# poweroff
-alias sd='shutdown'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
@@ -36,8 +34,6 @@ alias which='type -a'
 alias du='du -mh'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
-# some music
-alias vlcbgm='vlc ~/Music/bg_music.mp3 &'
 
 # --------------
 # dotfiles group
@@ -51,32 +47,11 @@ alias vimtx='vim ~/.tmux.conf'
 # dotfiles management by git bare repos technique
 # now that the command 'config' is as the 'git' command, e.g.,
 # config add .vimrc or config commit -m 'bababa' etc.
-alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
-# --------------------------
-# git command lines shotcuts
-# set git alias in the ~/.gitconfig [alias] section
-# --------------------------
-# alias gits='git status'
-# alias gitbr='git branch'
-# alias gitadd='git add'
-# alias gitcm='git commit -m'
-# alias gitcam='git commit -am'
-# alias gitmv='git mv'
-# # remove the staged file from repos but still stay in local file system
-# alias gitrmc='git rm --cached'
-# # check history commits
-# alias gitlg='git log'
-# alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
-# alias gitlgg='git log --pretty=format:"%h %s" --graph'
-# alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
-# # quick search, git log -Sfunction_name: commits with function_name
-# alias gitlgs='git log -S'
+# alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # -------------
 # tmux commands
 # -------------
-alias tmux='tmux -2'
 alias txls='tmux ls'
 alias txat='tmux attach -t'
 alias txks='tmux kill-session -t'
@@ -185,11 +160,11 @@ count_files () {
 # }
 
 # cat *file's contents about some 'key'
-Balias () {
+Bashalias () {
     cat ~/.bashrc_aliases | grep "$1"
 }
 # quick check vimrc key-combinations
-Valias () {
+Vimalias () {
     cat ~/.vimrc | grep "$1"
 }
 
