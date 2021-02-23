@@ -1,8 +1,8 @@
-" ===================================
-" fanmh's vimrc (Ubuntu Evns)
+" ================================
+" fgg's vimrc (home machine)
 " built: 2018-07-16
-" update: Thu 12 Mar 2020 00:18:03
-" ===================================
+" update: Tue 23 Feb 2021 22:24:45
+" ================================
 
 set nocompatible                                " be iMproved
 
@@ -21,12 +21,10 @@ call vundle#begin()
 
     "-------------------=== Vundle itself ===-------------
     Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
-
     "-------------------=== Code/Project navigation ===-------------
     Plugin 'majutsushi/tagbar'                  " Class/module browser
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
-
     "-------------------=== vim outfit ===-------------------------------
     Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
     Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
@@ -34,42 +32,44 @@ call vundle#begin()
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
     Plugin 'jnurmine/Zenburn'                   " For good mood
     Plugin 'altercation/vim-colors-solarized'   " For good mood
-
-    "-------------------=== asyncrun ===-------------------------------
-    Plugin 'skywind3000/asyncrun.vim'           " run cml within vim, and output with quickfix
-
+    " Plugin 'junegunn/vim-emoji'                 " Also for good mood, while conflict to YCM
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
     Plugin 'edkolev/tmuxline.vim'
     "-------------------=== Snippets support ===--------------------
     Plugin 'SirVer/ultisnips'                   " snippets management/engine
     Plugin 'honza/vim-snippets'                 " snippets repo
-
     "-------------------=== Languages support ===-------------------
     Plugin 'tpope/vim-fugitive'                 " awsome git wrapper!
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'tpope/vim-repeat'                   " enhance . repeat
-    Plugin 'rust-lang/rust.vim'                 " for rust
+    Plugin 'mileszs/ack.vim'                    " cherrypick your strings
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
-    Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'hdima/Python-Syntax'                " highlights for python
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
     Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
     Plugin 'plasticboy/vim-markdown'
     Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'Valloric/YouCompleteMe'             " all for completion
+    Plugin 'rust-lang/rust.vim'                 " for rust
     Plugin 'fatih/vim-go'
     "-------------------=== Code lint= ==-----------------------------
     Plugin 'w0rp/ale'                           " support all major programming language
-    " Plugin 'python-mode/python-mode'
-
+    " Plugin 'python-mode/python-mode'          " still in alpha phase?
     "-------------------=== other plugins ===-----------------------------
     " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
 
-    " local installation using the ['file://'+'absolute path'] protocol
+    " local installation:
+    " The 'pinned' option
+    " -------------------
+    " A flag that, when set to a value of 1, tells Vundle not to perform any
+    " git operations on the plugin, while still adding the existing plugin
+    " under the `bundles` directories to the |runtimepath|.
+    Plugin 'xterm-color-table.vim', {'pinned': 1}
 
 call vundle#end()            " required
 filetype on
@@ -100,6 +100,15 @@ endif
 syntax enable
 " allow variable syntax highlight approches instead of the default
 syntax on
+" Highlight TODO, FIXME, NOTE, etc.
+if has("autocmd")
+    if v:version > 701
+    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
+    endif
+endif
+hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
+hi Debug guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
 " Do not use a mouse, otherwise :set mouse=n/v/i/a
 set mouse=
 " backspace for del
@@ -220,11 +229,62 @@ iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 
 " only for PPPCpp practicing
 " iab stdlib #include "../std_lib_facilities.h"
+" Emoji shortcuts
+ab :check: ✅
+ab :warning: ⚠️
+ab :bulb: 💡
+ab :pushpin: 📌
+ab :bomb: 💣
+ab :pill: 💊
+ab :construction: 🚧
+ab :pencil: 📝
+ab :point_right: 👉
+ab :book: 📖
+ab :link: 🔗
+ab :wrench: 🔧
+ab :callme: 🤙📞
+ab :email: 📧
+ab :computer: 💻
+ab :redheart: ❤️
+ab :wtf: 😱
+ab :thanks: 😜
+ab :kiding: 🙄
+ab :weary: 😩
+ab :robot: 🤖
+ab :panda: 🐼
+ab :penguin: 🐧
+ab :globe: 🌏
+ab :cherry: 🍒
+ab :cheers: 🍻
+ab :football: ⚽
+ab :China: 🇨🇳
+ab :usa: 🇺🇸
+ab :notry: Do. Or do not. There is no try 😏
 " }}}
 
 " #############################
 " Part-5: plugin setting groups
 " #############################
+" vim-ack & ag----------------- {{{
+" do not auto-jump (ack!) to the first result
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+nnoremap <Leader>a :Ack!<Space>
+command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
+command Debug Ack! 'NOTE|INFO|IDEA'
+" }}}
+" vim-emoji-------------------- {{{
+" " only one completefunc working at a time, have to make way for YCM
+" set completefunc=emoji#complete
+" " replace :emoji_name: into Emojis
+" %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+" " emoji for gitgutter signs
+" let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+" let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+" let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+" let g:gitgutter_sign_modified_removed = emoji#for('collision')
+" }}}
 " vim-go ---------------------- {{{
 let g:go_list_type = "locationlist"
 let g:go_list_type_commands = {"GoBuild": "quickfix"}
