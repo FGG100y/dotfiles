@@ -56,7 +56,9 @@ call vundle#begin()
     Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'Valloric/YouCompleteMe'             " all for completion
     Plugin 'rust-lang/rust.vim'                 " for rust
-    Plugin 'fatih/vim-go'
+    Plugin 'fatih/vim-go'                       " go go go
+    Plugin 'junegunn/fzf.vim'                   " fuzzy finder
+    Plugin 'fisadev/vim-isort'                  " python import sorted
     "-------------------=== Code lint= ==-----------------------------
     Plugin 'w0rp/ale'                           " support all major programming language
     " Plugin 'python-mode/python-mode'          " still in alpha phase?
@@ -206,7 +208,12 @@ nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 nnoremap <space>q :cclose<cr>
 nnoremap <space><space>q :lclose<cr>
 " fzf shotcut
-nnoremap <Space>f :FZF<cr>
+nnoremap <space>f :FZF<cr>
+imap <c-x><c-o> <plug>(fzf-complete-line)
+map <space>b :Buffers<cr>
+map <space>f :Files<cr>
+map <space>g :GFiles<cr>
+map <space>t :Tags<cr>
 " vertical split help
 nnoremap <Space>h :vert help
 " AsyncRun python current buffer | consider pymode
@@ -214,7 +221,11 @@ nnoremap <Space>h :vert help
 noremap <F6> :AsyncRun python3 % <cr>
 " alternative way to back to normal mode
 inoremap jk <ESC>
-
+" record & play the series of commands
+" Start recording keystrokes by typing qq.
+" End recording with q (first press Escape if you are in insert mode).
+" Play the recorded keystrokes by hitting space-q.
+nnoremap <space>q @q
 " groups of specific commands on specific machine
 if hostname() == 'panyu202'
     " CC = change to directory of Current file
@@ -226,7 +237,7 @@ endif
 " groups of abbreviate
 " insert the datetime
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
-
+" Thu 25 Feb 2021 21:25:42
 " only for PPPCpp practicing
 " iab stdlib #include "../std_lib_facilities.h"
 " Emoji shortcuts
@@ -265,25 +276,25 @@ ab :notry: Do. Or do not. There is no try 😏
 " #############################
 " Part-5: plugin setting groups
 " #############################
+
+" Isort key-bind----------------- {{{
+let g:vim_isort_map = '<C-i>'
+" " Or disable the mapping with this:
+" " let g:vim_isort_map = ''
+" You can configure overrides for isort's config parameters:
+" let g:vim_isort_config_overrides = {
+"   \ 'include_trailing_comma': 1, 'multi_line_output': 3}
+" so if isort is installed under Python 3:
+let g:vim_isort_python_version = 'python3'
+" }}}
 " vim-ack & ag----------------- {{{
 " do not auto-jump (ack!) to the first result
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-nnoremap <Leader>a :Ack!<Space>
+nnoremap <leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
 command Debug Ack! 'NOTE|INFO|IDEA'
-" }}}
-" vim-emoji-------------------- {{{
-" " only one completefunc working at a time, have to make way for YCM
-" set completefunc=emoji#complete
-" " replace :emoji_name: into Emojis
-" %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
-" " emoji for gitgutter signs
-" let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
-" let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
-" let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
-" let g:gitgutter_sign_modified_removed = emoji#for('collision')
 " }}}
 " vim-go ---------------------- {{{
 let g:go_list_type = "locationlist"
@@ -584,14 +595,14 @@ let g:ycm_key_detailed_diagnostics = '<space>k'
 " ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " This command tries to perform the "most sensible" GoTo operation it can.
 nnoremap <leader>g :YcmCompleter GoTo<CR>
+" Looks up the identifier under the cursor and populates with the quickfix list
+nnoremap <leader>r :YcmCompleter GoToReferences<CR>
 " Looks up the symbol under the cursor and jumps to its declaration.
-nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+" nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
 " Looks up the symbol under the cursor and jumps to its definition.
-nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>j :YcmCompleter GoToDefinition<CR>
 " Displays the preview window populated with quick info about the identifier under the cursor.
 nnoremap <leader>k :YcmCompleter GetDoc<CR>
-" Echos the type of the variable or method under the cursor, and where it differs, the derived type.
-nnoremap <leader>kt :YcmCompleter GetType<CR>
 " }}}
 
 " EasyMotion ----------------- {{{
@@ -768,6 +779,22 @@ augroup golang
 augroup END
 " }}}
 
+" vim-emoji mappings ---------------------------- {{{
+" " only one completefunc working at a time, have to make way for YCM
+" set completefunc=emoji#complete
+" " replace :emoji_name: into Emojis
+" %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+" " emoji for gitgutter signs
+" let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+" let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+" let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+" let g:gitgutter_sign_modified_removed = emoji#for('collision')
+" }}}
+" augroup vimemoji
+"     au!
+"     au FileType md,markdown set completefunc=emoji#complete
+" augroup END
+" }}}
 " vimscript file settings -------------- {{{
 augroup filetype_vim
     au!

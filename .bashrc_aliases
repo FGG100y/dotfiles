@@ -17,7 +17,7 @@ alias ...='cd ../..'
 # source ***
 alias srcsh='source ~/.bashrc'
 # poweroff
-alias sd0='shutdown 0'
+alias sd='shutdown 0'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
@@ -48,9 +48,8 @@ alias vimbl='vim ~/.bashrc_cd_aliases'
 alias vimrc='vim ~/.vimrc'
 alias vimtx='vim ~/.tmux.conf'
 # dotfiles management by git bare repos technique
-# now that the command 'config' is as the 'git' command, e.g.,
-# config add .vimrc or config commit -m 'bababa' etc.
-alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# now that the command 'bgit' is as the 'git' command, e.g.,
+alias bgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # --------------------------
 # git command lines shotcuts
@@ -116,6 +115,7 @@ alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
 
 # python -m activate envs
 # -----------------------
+alias py='python3'
 alias Qenv='deactivate'
 # watch Nvidia gpu utilization --tensorflow
 alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'
