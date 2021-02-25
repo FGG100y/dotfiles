@@ -54,6 +54,8 @@ call vundle#begin()
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
     Plugin 'Valloric/YouCompleteMe'             " all for completion
     Plugin 'mileszs/ack.vim'                    " cherrypick your strings
+    Plugin 'junegunn/fzf.vim'                   " fuzzy-finder and more
+    Plugin 'fisadev/vim-isort'                  " python import sorted
     " Plugin 'fatih/vim-go'
     " Plugin 'rust-lang/rust.vim'                 " for rust
     " Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
@@ -180,9 +182,9 @@ nnoremap <space>v :sp $MYVIMRC<cr>
 nnoremap <leader>up :above split
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
-nmap <Space>p "+gp
+nnoremap <space>p "+gp
 " yank to sys clipboard only in Visual Mode
-vnoremap <Space>y "+y
+vnoremap <space>y "+y
 " shotcuts to new tabs and moving around
 nnoremap <space>] :tabn<cr>
 nnoremap <space>[ :tabp<cr>
@@ -202,15 +204,27 @@ nnoremap <space>n :nohlsearch<cr>
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " close quickfix/local window
-nnoremap <space>q :cclose<cr>
-nnoremap <space><space>q :lclose<cr>
+nnoremap <space>c :cclose<cr>
+nnoremap <space>lc :lclose<cr>
 " fzf shotcut
-nnoremap <Space>f :FZF<cr>
+imap <c-x><c-o> <plug>(fzf-complete-line)
+map <space>b :Buffers<cr>
+map <space>f :Files<cr>
+map <space>g :GFiles<cr>
+map <space>t :Tags<cr>
 " vertical split help
-nnoremap <Space>h :vert help
+nnoremap <space>h :vert help
 " alternative way to back to normal mode
 inoremap jk <ESC>
-
+nnoremap <space>q @q
+" Start recording keystrokes by typing qq.
+" End recording with q (first press Escape if you are in insert mode).
+" Play the recorded keystrokes by hitting space.
+" Suppose you have a macro which operates on the text in a single line.
+" You can run the macro on each line in a visual selection in a single operation:
+" Visually select some lines (for example, type vip to select the current paragraph).
+" Type :normal @q to run the macro from register q on each line.
+"
 " groups of abbreviate
 " insert the datetime, more datetime format see: man date
 iab dts <c-r>=strftime("%A %x %T")<cr>
@@ -223,12 +237,22 @@ iab dts <c-r>=strftime("%A %x %T")<cr>
 " #############################
 " Part-5: plugin setting groups
 " #############################
+" Isort key-bind
+let g:vim_isort_map = '<C-i>'
+" " Or disable the mapping with this:
+" " let g:vim_isort_map = ''
+" You can configure overrides for isort's config parameters:
+" let g:vim_isort_config_overrides = {
+"   \ 'include_trailing_comma': 1, 'multi_line_output': 3}
+" so if isort is installed under Python 3:
+let g:vim_isort_python_version = 'python3'
+
 " ack and ag: find the match
 " do not auto-jump (ack!) to the first result
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-nnoremap <Leader>a :Ack!<Space>
+nnoremap <leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
 command Debug Ack! 'NOTE|INFO|IDEA'
 " vim-go ---------------------- {{{
@@ -291,13 +315,14 @@ set tags=./tags;/
 " }}}
 
 " fzf as vim-plugin ----------- {{{
+" NOTE: both 'junegunn/fzf.vim'(the plugin) AND 'junegunn/fzf'(the program) are needed!
 " NOTE: deal with the rtp of fzf difference from other machine's
+" " if hostname() == 'wuhan608'
+" "     set rtp+=~/.fzf
+" " elseif hostname() == 'panyu202'
+" "     set rtp+=~/fggit/GitHub_repos/fzf
+" " endif
 set rtp+=~/.fzf
-" if hostname() == 'wuhan608'
-"     set rtp+=~/.fzf
-" elseif hostname() == 'panyu202'
-"     set rtp+=~/fggit/GitHub_repos/fzf
-" endif
 let g:fzf_layout = {'down': '~40%'}
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
@@ -531,8 +556,8 @@ let g:ycm_key_detailed_diagnostics = '<space>k'
 " ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " This command tries to perform the "most sensible" GoTo operation it can.
 nnoremap <leader>g :YcmCompleter GoTo<CR>
-" Looks up the symbol under the cursor and jumps to its declaration.
-nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+" Looks up the identifier under the cursor and populates with the quickfix list
+nnoremap <leader>r :YcmCompleter GoToReferences<CR>
 " Looks up the symbol under the cursor and jumps to its definition.
 nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
 " Displays the preview window populated with quick info about the identifier under the cursor.
@@ -551,18 +576,19 @@ map <leader>f <Plug>(easymotion-f)
 map <leader>F <Plug>(easymotion-F)
 " }}}
 
-" tagbar settings ------------ {{{
-let g:airline#extensions#tagbar#enabled = 1
-let g:tagbar_autofocus=1
-let g:tagbar_width=28
-let g:tagbar_left=1
-let g:tagbar_sort=0
-let g:tagbar_show_linenumbers = 2     " show relative nu
-let g:tagbar_expand = 1
-" remap keys | toggle tagbar | Jump directly to tagbar
-nnoremap <space><space>b :TagbarToggle<CR>
-nnoremap <space>j :TagbarOpen fj<CR>
-" }}}
+" tagbar needs Ctags/universe-ctags, and much more useful in larger project
+" " tagbar settings ------------ {{{
+" let g:airline#extensions#tagbar#enabled = 1
+" let g:tagbar_autofocus=1
+" let g:tagbar_width=28
+" let g:tagbar_left=1
+" let g:tagbar_sort=0
+" let g:tagbar_show_linenumbers = 2     " show relative nu
+" let g:tagbar_expand = 1
+" " remap keys | toggle tagbar | Jump directly to tagbar
+" nnoremap <space><space>b :TagbarToggle<CR>
+" nnoremap <space>j :TagbarOpen fj<CR>
+" " }}}
 
 " vim-indent-guides ---------- {{{
 let g:indent_guides_enable_on_vim_startup=0

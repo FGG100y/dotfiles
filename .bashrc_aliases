@@ -2,7 +2,10 @@
 # Ubuntu18.04-LTS ^^
 # Personal Aliases
 #-------------------
-# last modified: Sun 01 Mar 2020 13:36:02
+# last modified:
+
+# virturalenv activate | capital the env name 
+alias srcML='source ~/pyenvs/pyml/bin/activate'
 
 # ----------------
 # change dir group
@@ -47,7 +50,7 @@ alias vimtx='vim ~/.tmux.conf'
 # dotfiles management by git bare repos technique
 # now that the command 'config' is as the 'git' command, e.g.,
 # config add .vimrc or config commit -m 'bababa' etc.
-# alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # -------------
 # tmux commands
@@ -201,5 +204,4 @@ bind -x '"\C-p": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
 #   |_| |_| |_|\___|_|  \___/|_|  |_|\_\____/ \___/|_| |_| |_|_.__/
 #
 #                           :(){ :|:& }:
-
 # This is atually a valid function BUT nasty one. DO NOT RUN IT. Yall had been warned.
