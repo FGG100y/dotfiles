@@ -1,16 +1,33 @@
-#-------------------
-# Ubuntu18.04-LTS ^^
+#------------------
+# Ubuntu 20.04-LTS ^^
 # Personal Aliases
-#-------------------
-# last modified: Sun 01 Mar 2020 13:36:02
+#------------------
+# last update: Sat 06 Feb 2021 08:49:23
 
+# check mongodb status, stop and restart
+alias qstmongo='ps -e | grep "mongod"'
+alias stmongo='sudo systemctl status mongod'
+alias stopmongo='sudo systemctl stop mongod'
+alias startmongo='sudo systemctl restart mongod'
+# and Uninstallation-wise STOP 
+alias rmstopmongo='sudo service mongod stop'
+
+# conda envs
+alias con='conda activate'
+alias coff='conda deactivate'
+
+# py an jupy
+alias jlab='jupyter-lab'
+alias ipy='ipython'
+alias py='python3'
+alias py2='python2'
 # ----------------
 # change dir group
 # ----------------
 # step back to parent dir
 alias ..='cd ..'
 # back to the last dir
-alias _='cd -'
+alias ...='cd ../..'
 
 # -----------------------
 # common use sys commands
@@ -18,12 +35,12 @@ alias _='cd -'
 # source ***
 alias srcsh='source ~/.bashrc'
 # poweroff
-alias sd='shutdown'
+alias sd='shutdown 0'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
-alias treed2='tree -dL 2'
-alias treed3='tree -dL 3'
+alias tree2='tree -dL 2'
+alias tree3='tree -dL 3'
 # In case of careless rm
 alias rm='rm -i'
 alias mv='mv -i'
@@ -37,12 +54,15 @@ alias du='du -mh'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
 # some music
-alias vlcbgm='vlc ~/Music/bg_music.mp3 &'
+alias bgm='xdg-open ~/Music/bg_music.mp3 &'
+# check the cd-alias
+alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 
 # --------------
 # dotfiles group
 # --------------
 # edit dotfiles
+alias vim='vi'
 alias vimsh='vim ~/.bashrc'
 alias vimbz='vim ~/.bashrc_aliases'
 alias vimbl='vim ~/.bashrc_cd_aliases'
@@ -57,21 +77,6 @@ alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # git command lines shotcuts
 # set git alias in the ~/.gitconfig [alias] section
 # --------------------------
-# alias gits='git status'
-# alias gitbr='git branch'
-# alias gitadd='git add'
-# alias gitcm='git commit -m'
-# alias gitcam='git commit -am'
-# alias gitmv='git mv'
-# # remove the staged file from repos but still stay in local file system
-# alias gitrmc='git rm --cached'
-# # check history commits
-# alias gitlg='git log'
-# alias gitlgp='git log --pretty=format:"%h -%an, %ar : %s"'
-# alias gitlgg='git log --pretty=format:"%h %s" --graph'
-# alias gitlgm='git log --pretty=format:"%h -%an, %ar : %s" --since=4.weeks'
-# # quick search, git log -Sfunction_name: commits with function_name
-# alias gitlgs='git log -S'
 
 # -------------
 # tmux commands
@@ -89,20 +94,22 @@ alias txks='tmux kill-session -t'
 # ------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -h --color'
+# The ubiquitous 'll': directories first, with alphanumeric sorting:
+alias ll="ls -lv --group-directories-first"
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
 alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
-# The ubiquitous 'll': directories first, with alphanumeric sorting:
-alias ll="ls -lv --group-directories-first"
-alias llm='ll | more'        #  Pipe through 'more'
-alias llr='ll -R'           #  Recursive ls.
+alias llm='ll | more'      #  Pipe through 'more'
+alias llr='ll -R'          #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
+alias hidden='ls -d .*'    # show dot files only
+alias hf="ls -d .* | grep '^\.'"    # exclude directories
+alias hd="ls -d .* | grep -v '^\.'" # keep directories only
 
 # --------------
 # language group
 # --------------
-
 # complier for C++
 # -----------------
 # alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
@@ -185,12 +192,12 @@ count_files () {
 # }
 
 # cat *file's contents about some 'key'
-Balias () {
-    cat ~/.bashrc_aliases | grep "$1"
+Bashalias () {
+    cat < ~/.bashrc_aliases | grep "$1"
 }
 # quick check vimrc key-combinations
-Valias () {
-    cat ~/.vimrc | grep "$1"
+Vimalias () {
+    cat < ~/.vimrc | grep "$1"
 }
 
 
@@ -211,13 +218,13 @@ Gignore () {
 cdf() {
    local file
    local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
 # more generally: using Ctrl-o to open file with which fzf selected
-bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
-    ebook-viewer "$files"'
-bind -x '"\C-p": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
-    xdg-open "$files"'
+# bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
+#     ebook-viewer "$files"'
+# bind -x '"\C-o": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
+#     xdg-open "$files"'
 
 #  _____ _          _____          _    ____                  _
 # |_   _| |__   ___|  ___|__  _ __| | _| __ )  ___  _ __ ___ | |__
