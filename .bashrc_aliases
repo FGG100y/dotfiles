@@ -9,8 +9,7 @@
 # ----------------
 # step back to parent dir
 alias ..='cd ..'
-# back to the last dir
-alias _='cd -'
+alias ...='cd ../..'
 
 # -----------------------
 # common use sys commands
@@ -20,8 +19,8 @@ alias srcsh='source ~/.bashrc'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
-alias treed2='tree -dL 2'
-alias treed3='tree -dL 3'
+alias tree2='tree -dL 2'
+alias tree3='tree -dL 3'
 # In case of careless rm
 alias rm='rm -i'
 alias mv='mv -i'
@@ -92,6 +91,7 @@ alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
 
 # python -m activate envs
 # -----------------------
+alias py='python3'
 alias Qenv='deactivate'
 # watch Nvidia gpu utilization --tensorflow
 alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'

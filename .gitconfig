@@ -5,14 +5,24 @@
 	editor = vim
 [alias]
     co = checkout
+    sw = switch
+    ci = commit
     cm = commit -m
     ca = commit --amend
     st = status
     br = branch
+    ba = branch --all
+    brmv = branch --move
     last = log -1 HEAD
     hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
     logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
     type = cat-file -t
     dump = cat-file -p
-    unstage = reset HEAD --
+    discard = restore
+    unstage = restore --staged
+    track = checkout --track
+    pushup = push --set-upstream
+    changeup = push --set-upstream-to
+    dremote = push origin --delete
+    cachepwd = config --global credential.helper cache
     visual = !gitk

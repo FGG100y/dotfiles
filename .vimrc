@@ -1,11 +1,9 @@
+<<<<<<< HEAD
 " ======================================
 " fanmh's vimrc (Ubuntu Evns)
 " built: 2018-07-16
-" update: 星期二 2021年02月23日 14:31:20
-" ======================================
-" TODO:
-" fine tune the TODO/NOTE etc colors,
-" colorscheme switch may make it disappear
+" update: Tue 23 Feb 2021 22:24:45
+" ================================
 
 set nocompatible                                " be iMproved
 
@@ -34,7 +32,8 @@ call vundle#begin()
     Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
     Plugin 'jnurmine/Zenburn'                   " For good mood
-    Plugin 'altercation/vim-colors-solarized'   " For good mood too
+    Plugin 'altercation/vim-colors-solarized'   " For good mood
+    " Plugin 'junegunn/vim-emoji'                 " Also for good mood, while conflict to YCM
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
     Plugin 'edkolev/tmuxline.vim'
@@ -47,11 +46,13 @@ call vundle#begin()
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'tpope/vim-repeat'                   " enhance . repeat
+    Plugin 'mileszs/ack.vim'                    " cherrypick your strings
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
     Plugin 'hdima/Python-Syntax'                " highlights for python
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
+<<<<<<< HEAD
     Plugin 'Valloric/YouCompleteMe'             " all for completion
     Plugin 'mileszs/ack.vim'                    " cherrypick your strings
     " Plugin 'fatih/vim-go'
@@ -62,6 +63,8 @@ call vundle#begin()
     " Plugin 'plasticboy/vim-markdown'
     " Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
     "-------------------=== other plugins ===-----------------------------
+    " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
+
     " local installation:
     " The 'pinned' option
     " -------------------
@@ -205,32 +208,80 @@ nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 nnoremap <space>q :cclose<cr>
 nnoremap <space><space>q :lclose<cr>
 " fzf shotcut
-nnoremap <Space>f :FZF<cr>
+nnoremap <space>f :FZF<cr>
+imap <c-x><c-o> <plug>(fzf-complete-line)
+map <space>b :Buffers<cr>
+map <space>f :Files<cr>
+map <space>g :GFiles<cr>
+map <space>t :Tags<cr>
 " vertical split help
 nnoremap <Space>h :vert help
 " alternative way to back to normal mode
 inoremap jk <ESC>
+<<<<<<< HEAD
 
 " groups of abbreviate
-" insert the datetime, more datetime format see: man date
-iab dts <c-r>=strftime("%A %x %T")<cr>
-" 星期一 2021年02月22日 2021 10:27:55
-
+" insert the datetime
+iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+" Thu 25 Feb 2021 21:25:42
 " only for PPPCpp practicing
 " iab stdlib #include "../std_lib_facilities.h"
+" Emoji shortcuts
+ab :check: ✅
+ab :warning: ⚠️
+ab :bulb: 💡
+ab :pushpin: 📌
+ab :bomb: 💣
+ab :pill: 💊
+ab :construction: 🚧
+ab :pencil: 📝
+ab :point_right: 👉
+ab :book: 📖
+ab :link: 🔗
+ab :wrench: 🔧
+ab :callme: 🤙📞
+ab :email: 📧
+ab :computer: 💻
+ab :redheart: ❤️
+ab :wtf: 😱
+ab :thanks: 😜
+ab :kiding: 🙄
+ab :weary: 😩
+ab :robot: 🤖
+ab :panda: 🐼
+ab :penguin: 🐧
+ab :globe: 🌏
+ab :cherry: 🍒
+ab :cheers: 🍻
+ab :football: ⚽
+ab :China: 🇨🇳
+ab :usa: 🇺🇸
+ab :notry: Do. Or do not. There is no try 😏
 " }}}
 
 " #############################
 " Part-5: plugin setting groups
 " #############################
-" ack and ag: find the match
+
+" Isort key-bind----------------- {{{
+let g:vim_isort_map = '<C-i>'
+" " Or disable the mapping with this:
+" " let g:vim_isort_map = ''
+" You can configure overrides for isort's config parameters:
+" let g:vim_isort_config_overrides = {
+"   \ 'include_trailing_comma': 1, 'multi_line_output': 3}
+" so if isort is installed under Python 3:
+let g:vim_isort_python_version = 'python3'
+" }}}
+" vim-ack & ag----------------- {{{
 " do not auto-jump (ack!) to the first result
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-nnoremap <Leader>a :Ack!<Space>
+nnoremap <leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
 command Debug Ack! 'NOTE|INFO|IDEA'
+" }}}
 " vim-go ---------------------- {{{
 let g:go_list_type = "locationlist"
 let g:go_list_type_commands = {"GoBuild": "quickfix"}
@@ -531,14 +582,14 @@ let g:ycm_key_detailed_diagnostics = '<space>k'
 " ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " This command tries to perform the "most sensible" GoTo operation it can.
 nnoremap <leader>g :YcmCompleter GoTo<CR>
+" Looks up the identifier under the cursor and populates with the quickfix list
+nnoremap <leader>r :YcmCompleter GoToReferences<CR>
 " Looks up the symbol under the cursor and jumps to its declaration.
-nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+" nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
 " Looks up the symbol under the cursor and jumps to its definition.
-nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>j :YcmCompleter GoToDefinition<CR>
 " Displays the preview window populated with quick info about the identifier under the cursor.
 nnoremap <leader>k :YcmCompleter GetDoc<CR>
-" Echos the type of the variable or method under the cursor, and where it differs, the derived type.
-nnoremap <leader>kt :YcmCompleter GetType<CR>
 " }}}
 
 " EasyMotion ----------------- {{{
@@ -727,6 +778,22 @@ augroup golang
 augroup END
 " }}}
 
+" vim-emoji mappings ---------------------------- {{{
+" " only one completefunc working at a time, have to make way for YCM
+" set completefunc=emoji#complete
+" " replace :emoji_name: into Emojis
+" %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+" " emoji for gitgutter signs
+" let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+" let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+" let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+" let g:gitgutter_sign_modified_removed = emoji#for('collision')
+" }}}
+" augroup vimemoji
+"     au!
+"     au FileType md,markdown set completefunc=emoji#complete
+" augroup END
+" }}}
 " vimscript file settings -------------- {{{
 augroup filetype_vim
     au!

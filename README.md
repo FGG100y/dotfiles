@@ -22,12 +22,12 @@ Well, let's do it in vim and only in vim.
    to save the current edited file to your-git-repo-dir. Note that the "sav!"
    command will open the the saved file in current buffer.
 
-2. set vim command "Curf" as "cd %:p:h \<bar\> :e %", then use :Curf to change
+2. set vim command "CC" as "cd %:p:h \<bar\> :e %", then use :Curf to change
    to your-repo-dir and the most important, open the current edited file again
    so that fugitvie can recognize itself now is in a git repo and make the
    appropriate responds.
 
 When I got some ideas or found some excellent vim tips, I updated my vimrc
-immediately. With :Svrc command, I could udpate the .vimrc file to my local git
+immediately. With :Vgit command, I could udpate the .vimrc file to my local git
 repository without leaving vim, and then :Curf and then fugitive takes over.
 Sweet!
