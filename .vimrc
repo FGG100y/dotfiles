@@ -1,9 +1,9 @@
-<<<<<<< HEAD
-" ======================================
-" fanmh's vimrc (Ubuntu Evns)
+" ================================
+" fgg's vimrc (home machine)
 " built: 2018-07-16
 " update: Tue 23 Feb 2021 22:24:45
 " ================================
+" TODO: try soft link to sync the dotfiles to fmhrepos
 
 set nocompatible                                " be iMproved
 
@@ -23,7 +23,7 @@ call vundle#begin()
     "-------------------=== Vundle itself ===-------------
     Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
     "-------------------=== Code/Project navigation ===-------------
-    Plugin 'majutsushi/tagbar'                  " Class/module browser and more
+    Plugin 'majutsushi/tagbar'                  " Class/module browser
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
     "-------------------=== vim outfit ===-------------------------------
@@ -41,7 +41,6 @@ call vundle#begin()
     Plugin 'SirVer/ultisnips'                   " snippets management/engine
     Plugin 'honza/vim-snippets'                 " snippets repo
     "-------------------=== Languages support ===-------------------
-    Plugin 'dense-analysis/ale'
     Plugin 'tpope/vim-fugitive'                 " awsome git wrapper!
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
@@ -52,16 +51,18 @@ call vundle#begin()
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
     Plugin 'hdima/Python-Syntax'                " highlights for python
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
-<<<<<<< HEAD
+    Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
+    Plugin 'plasticboy/vim-markdown'
+    Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     Plugin 'Valloric/YouCompleteMe'             " all for completion
-    Plugin 'mileszs/ack.vim'                    " cherrypick your strings
-    " Plugin 'fatih/vim-go'
-    " Plugin 'rust-lang/rust.vim'                 " for rust
-    " Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
-    " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
-    " Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
-    " Plugin 'plasticboy/vim-markdown'
-    " Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    Plugin 'rust-lang/rust.vim'                 " for rust
+    Plugin 'fatih/vim-go'                       " go go go
+    Plugin 'junegunn/fzf.vim'                   " fuzzy finder
+    Plugin 'fisadev/vim-isort'                  " python import sorted
+    "-------------------=== Code lint= ==-----------------------------
+    Plugin 'w0rp/ale'                           " support all major programming language
+    " Plugin 'python-mode/python-mode'          " still in alpha phase?
     "-------------------=== other plugins ===-----------------------------
     " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
 
@@ -85,6 +86,7 @@ filetype plugin indent on    " required
 " Note: syntax enable is needed
 syntax enable
 set background=dark
+" colorscheme zenburn
 colorscheme Tomorrow-Night
 if has('gui_running')
     " no toolbar
@@ -203,22 +205,49 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <space>n :nohlsearch<cr>
 " windows/panes resize
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
-nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " close quickfix/local window
 nnoremap <space>q :cclose<cr>
 nnoremap <space><space>q :lclose<cr>
 " fzf shotcut
-nnoremap <space>f :FZF<cr>
-imap <c-x><c-o> <plug>(fzf-complete-line)
+" imap <c-x><c-o> <plug>(fzf-complete-line)
 map <space>b :Buffers<cr>
 map <space>f :Files<cr>
 map <space>g :GFiles<cr>
 map <space>t :Tags<cr>
+" Allows fzf to ignore patterns in .gitignore
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+" Advanced customization using autoload functions
+" (expand word completing window)
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '20%'})
+"""
 " vertical split help
 nnoremap <Space>h :vert help
+" AsyncRun python current buffer | consider pymode
+" noremap <F6> :AsyncRun -raw python % <cr>
+noremap <F6> :AsyncRun python3 % <cr>
 " alternative way to back to normal mode
 inoremap jk <ESC>
-<<<<<<< HEAD
+" record & play the series of commands
+" Start recording keystrokes by typing qq.
+" End recording with q (first press Escape if you are in insert mode).
+" Play the recorded keystrokes by hitting space-q.
+nnoremap <space>q @q
+" groups of specific commands on specific machine
+if hostname() == 'panyu202'
+    " CC = change to directory of Current file
+    command CC cd %:p:h <bar> :e %
+    " Vgit = saveas % to someother dir
+    command Vgit sav! ~/fggit/gitrepos/fmhGRs/dotfiles/.vimrc
+endif
 
 " groups of abbreviate
 " insert the datetime
@@ -316,7 +345,7 @@ let g:ale_rust_cargo_use_check = 1
 " }}}
 
 " tmuxline -------------------- {{{
-" let g:tmuxline_theme = 'dark'
+let g:tmuxline_theme = 'zenburn'
 let g:airline#extensions#tmuxline#enabled = 1
 let g:tmuxline_powerline_separators = 0
 " let g:tmuxline_preset = '' "see autoload/tmuxline/preset/*
@@ -326,7 +355,7 @@ let g:tmuxline_preset = {
       \'c'    : '',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
-      \'y'    : ['%R','%A', '%F' ],
+      \'y'    : ['%R','%a', '%F' ],
       \'z'    : '#H'}
 " }}}
 
@@ -343,12 +372,12 @@ set tags=./tags;/
 
 " fzf as vim-plugin ----------- {{{
 " NOTE: deal with the rtp of fzf difference from other machine's
-set rtp+=~/.fzf
-" if hostname() == 'wuhan608'
-"     set rtp+=~/.fzf
-" elseif hostname() == 'panyu202'
-"     set rtp+=~/fggit/GitHub_repos/fzf
-" endif
+if hostname() == 'wuhan608'
+    set rtp+=~/.fzf
+elseif hostname() == 'panyu202' 
+    set rtp+=~/fggit/GitHub_repos/fzf
+endif
+" let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 let g:fzf_layout = {'down': '~40%'}
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
@@ -625,32 +654,20 @@ nmap <silent> <leader>> <Plug>IndentGuidesToggle
 
 " airline settings ----------- {{{
 let g:airline#extensions#tabline = 1
+let g:airline_theme='zenburn'
 let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline' ]
 let g:airline_powerline_fonts=1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 " airline symbols, install the fonts-powerline first
-" sudo apt install fonts-powerline
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = ''
-
-" unicode symbols
-let g:airline_symbols.crypt = '🔒'
-" let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.linenr = '¶'
-" let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = 'Ɇ'
-let g:airline_symbols.whitespace = 'Ξ'
-
+let g:airline_symbols.linenr = ''
 " display the tail of the filename
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 " configure symbol used to represent close button >
@@ -670,9 +687,9 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
-let g:airline_section_z = airline#section#create([
-                    \   '%{ObsessionStatus(''$'','''')}',
-                    \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
+" let g:airline_section_z = airline#section#create([
+"                     \   '%{ObsessionStatus(''$'','''')}',
+"                     \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
 " }}}
 
 " ale settings --------------- {{{
@@ -800,14 +817,6 @@ augroup filetype_vim
     au FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
-
-" augroup vimrc_todo
-"     au!
-"     au Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|XXX):/
-"           \ containedin=.*Comment,vimCommentTitle
-" augroup END
-" hi def link MyTodo Todo
-" hi def link MyTodo pythonTodo
 
 " make change in vimrc working immediately
 augroup autosrc
