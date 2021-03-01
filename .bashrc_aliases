@@ -1,5 +1,5 @@
-#-------------------
-# Ubuntu18.04-LTS ^^
+#------------------
+# Ubuntu 20.04-LTS ^^
 # Personal Aliases
 #-------------------
 # last modified:
@@ -13,7 +13,7 @@ alias srcML='source ~/pyenvs/pyml/bin/activate'
 # step back to parent dir
 alias ..='cd ..'
 # back to the last dir
-alias _='cd -'
+alias ...='cd ../..'
 
 # -----------------------
 # common use sys commands
@@ -23,8 +23,8 @@ alias srcsh='source ~/.bashrc'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
-alias treed2='tree -dL 2'
-alias treed3='tree -dL 3'
+alias tree2='tree -dL 2'
+alias tree3='tree -dL 3'
 # In case of careless rm
 alias rm='rm -i'
 alias mv='mv -i'
@@ -37,11 +37,16 @@ alias which='type -a'
 alias du='du -mh'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
+# some music
+alias bgm='xdg-open ~/Music/bg_music.mp3 &'
+# check the cd-alias
+alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 
 # --------------
 # dotfiles group
 # --------------
 # edit dotfiles
+alias vim='vi'
 alias vimsh='vim ~/.bashrc'
 alias vimbz='vim ~/.bashrc_aliases'
 alias vimbl='vim ~/.bashrc_cd_aliases'
@@ -67,20 +72,22 @@ alias txks='tmux kill-session -t'
 # ------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -h --color'
+# The ubiquitous 'll': directories first, with alphanumeric sorting:
+alias ll="ls -lv --group-directories-first"
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
 alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
-# The ubiquitous 'll': directories first, with alphanumeric sorting:
-alias ll="ls -lv --group-directories-first"
-alias llm='ll | more'        #  Pipe through 'more'
-alias llr='ll -R'           #  Recursive ls.
+alias llm='ll | more'      #  Pipe through 'more'
+alias llr='ll -R'          #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
+alias hidden='ls -d .*'    # show dot files only
+alias hf="ls -d .* | grep '^\.'"    # exclude directories
+alias hd="ls -d .* | grep -v '^\.'" # keep directories only
 
 # --------------
 # language group
 # --------------
-
 # complier for C++
 # -----------------
 # alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
@@ -164,11 +171,11 @@ count_files () {
 
 # cat *file's contents about some 'key'
 Bashalias () {
-    cat ~/.bashrc_aliases | grep "$1"
+    cat < ~/.bashrc_aliases | grep "$1"
 }
 # quick check vimrc key-combinations
 Vimalias () {
-    cat ~/.vimrc | grep "$1"
+    cat < ~/.vimrc | grep "$1"
 }
 
 
@@ -189,13 +196,13 @@ Gignore () {
 cdf() {
    local file
    local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
 # more generally: using Ctrl-o to open file with which fzf selected
-bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
-    ebook-viewer "$files"'
-bind -x '"\C-p": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
-    xdg-open "$files"'
+# bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
+#     ebook-viewer "$files"'
+# bind -x '"\C-o": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
+#     xdg-open "$files"'
 
 #  _____ _          _____          _    ____                  _
 # |_   _| |__   ___|  ___|__  _ __| | _| __ )  ___  _ __ ___ | |__

@@ -1,56 +1,20 @@
 # Dotfiles on my Ubuntu machine
 TODO:
-  - try dotfiles management tool like dotbot etc
-  - update the comments/annotations
+  - dotfiles management | what is the best practice?
 
-## set up git bare repo for dotfiles: step by step [(original from here)](https://www.atlassian.com/git/tutorials/dotfiles)
-1. prior to 'install' the dotfiles, commits the alias to .bashrc first:
- ```sh
-echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
-```
-2. source repository ignores the folder where will be cloned into, to avoid
-   weird recursiion problems:
-```sh
-git clone --bare [git-repo-url] $HOME/.cfg
-```
-4. define the alias in the current shell scope:
-```sh
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-```
-5. if there were dotfiles already in the \$HOME dir, move to backup file first
+## set up git bare repo for dotfiles (step by step guide is [here](https://www.atlassian.com/git/tutorials/dotfiles))
 
-6. then run the command:
-```sh
-config checkout
-```
-7. set the flag 'showUntrackedFiles' to 'no' on this specific repository:
-```sh
-config config status.showUntrackedFiles no
-```
-8. create a branch to develop the dotfiles ahead the master version if needed:
-```sh
-config checkout -b repo-branch-name
-config push -u origin repo-branch-name
-```
-9. Done. From now on, type config commands to add and update dotfiles:
-```sh
-config status
-config add .vimrc
-config commit -m 'add vimrc'
-...
-config push
-```
-NOTE that the alias 'config' may seem confusing sometime, change it at will.
+This is trying to set up .git in a subdir say,  /home/user/baregit/, while all
+the git-operation can be carried out in dir where dotfiles live (i.e., the ~).
+It needs some fine-tune work with `git clone --bare` and some bash aliases.
+Good idea that worth trying.
 
-I myself used 'dgit', 'd' for dotfiles, i.e.: 
-```sh
-alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-```
+Do not try `git add .`, it will not save your time 🙄
 
 ***
 
 ## Or you don't want to use the git bare repo technique
-Well, there's the old saying: where there is will, there is a way. How true. 
+Well, let's do it in vim and only in vim.
 
 ### combines :sav! and an other vim command
 
