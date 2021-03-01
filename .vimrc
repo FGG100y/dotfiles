@@ -15,9 +15,7 @@ set nocompatible                                " be iMproved
 "  Part-1:  Plugins ---------- {{{
 " #############################
 filetype off                                    " required
-
-set rtp+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
-
+set runtimepath+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
 call vundle#begin()
 " NOTE: all the Plugins which is managed by Vundle must lie between
 " vundle#begin() and vundle#end
@@ -50,7 +48,9 @@ call vundle#begin()
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
-    Plugin 'hdima/Python-Syntax'                " highlights for python
+    Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
+    " Plugin 'hdima/Python-Syntax'                " highlights for python
+    Plugin 'python-mode/python-mode'
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
     Plugin 'Valloric/YouCompleteMe'             " all for completion
     Plugin 'mileszs/ack.vim'                    " cherrypick your strings
@@ -148,6 +148,7 @@ set history=1024
 set viminfo+=h  " do no store searches
 " utf8 encoding
 set encoding=utf-8
+scriptencoding utf-8
 " tab and space
 set expandtab
 set tabstop=4
@@ -160,11 +161,16 @@ set updatetime=1000
 set conceallevel=2
 " }}}
 
+" VimL example: vmpc.vim
+set runtimepath+=$HOME/fggit/Practical_vim/square_motion/vmpc
+
 " #############################
 "  Part-4: <Leader> relative   {{{
 " #############################
 " leader set to be the comma
-let mapleader=","
+let mapleader=','
+" quick source current vimscript
+nnoremap <leader>s :source %<cr>
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
@@ -199,17 +205,25 @@ nnoremap <leader>bp :bprevious<cr>
 " turn off highlights
 nnoremap <space>n :nohlsearch<cr>
 " windows/panes resize
+nnoremap <silent> <Space>- :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
-nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " close quickfix/local window
-nnoremap <space>q :cclose<cr>
-nnoremap <space><space>q :lclose<cr>
+nnoremap <space>q :lclose<cr>
+nnoremap <space><space>q :cclose<cr>
 " fzf shotcut
 nnoremap <Space>f :FZF<cr>
 " vertical split help
-nnoremap <Space>h :vert help
+nnoremap <Space>h :vert help 
 " alternative way to back to normal mode
 inoremap jk <ESC>
+
+" groups of specific commands on specific machine, case insensitive compared
+if hostname() ==? 'panyu202'
+    " CC = change to directory of Current file
+    command CC cd %:p:h <bar> :e %
+    " Vgit = saveas % to someother dir
+    command Vgit sav! ~/fggit/gitrepos/fmhGRs/dotfiles/.vimrc
+endif
 
 " groups of abbreviate
 " insert the datetime, more datetime format see: man date
@@ -232,13 +246,13 @@ nnoremap <Leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
 command Debug Ack! 'NOTE|INFO|IDEA'
 " vim-go ---------------------- {{{
-let g:go_list_type = "locationlist"
-let g:go_list_type_commands = {"GoBuild": "quickfix"}
+let g:go_list_type = 'locationlist'
+let g:go_list_type_commands = {'GoBuild': "quickfix"}
 " let g:go_list_autoclose = 1
 " using terminal feature
 let g:go_term_enabled = 1
 " let g:go_term_mode = "vsplit"
-let g:go_term_mode = "split"
+let g:go_term_mode = 'split'
 let g:go_term_height = 20
 let g:go_fmt_autosave = 1
 " let g:go_metalinter_autosave = 1
@@ -247,7 +261,7 @@ let g:go_def_mapping_enabled = 1
 let g:go_def_reuse_buffer = 1
 let g:go_gopls_enabled = 1
 let g:go_rename_command = 'gopls'
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'goimports'
 " let g:go_fmt_fail_silently = 1
 " let g:go_addtags_transform = "camelcase"
 let g:go_highlight_types = 1
@@ -272,12 +286,12 @@ let g:tmuxline_powerline_separators = 0
 let g:tmuxline_preset = {
       \'a'    : '#S',
       \'b'    : '\u2206t#(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
-      \'c'    : '',
+      \'c'    : '#(tmux display-message -p "#{pane_current_path}" | sed "s#$HOME#~#g")',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
       \'y'    : ['%R','%A', '%F' ],
       \'z'    : '#H'}
-" }}}
+" }}}'#H' | '#(tmux display-message -p "#{pane_current_path}" | sed "s#$HOME#~#g")'
 
 " ctags ----------------------- {{{
 " look in the current directory for "tags",
@@ -418,12 +432,12 @@ let g:python_pep8_indent_hang_closing = 1
 
 " UltiSnips settings --------- {{{
 " handle the conflit with YCM
-let g:UltiSnipsExpandTrigger="<leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
-let g:UltiSnipsJumpBackwardTrigger="<leader><S-tab>"
+let g:UltiSnipsExpandTrigger='<leader><tab>'
+let g:UltiSnipsJumpForwardTrigger='<leader><tab>'
+let g:UltiSnipsJumpBackwardTrigger='<leader><S-tab>'
 " include self-define Snippets
-let g:UltiSnipsSnippetDir="$HOME/.vim/bundle/ultisnips"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "fggsnippets"]
+let g:UltiSnipsSnippetDir='$HOME/.vim/bundle/ultisnips'
+let g:UltiSnipsSnippetDirectories=['UltiSnips', "fggsnippets"]
 " UltiSinpsUsePythonVersion
 let g:UltiSinpsUsePythonVersion = 3
 let g:UltiSnipsNoPythonWarning = 1
@@ -494,18 +508,7 @@ let g:SignatureMap = {
 " }}}
 
 " YCM settings --------------- {{{
-" *youcompleteme-configuring-through-vim-options*
-" Fri 05 Apr 2019 15:23:53 didn't understand following lines' meaning
-let g:ycm_python_interpreter_path = ''
-let g:ycm_python_sys_path = []
-let g:ycm_extra_conf_vim_data = [
-  \  'g:ycm_python_interpreter_path',
-  \  'g:ycm_python_sys_path'
-  \]
-let g:ycm_global_ycm_extra_conf = '~/ycm_extra_conf/global_extra_conf.py'
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
-" 允许vim加载.ycm_confirm_extra_conf.py文件，不再提示
-let g:ycm_confirm_extra_conf = 0
 " 补全功能在注释中有效
 let g:ycm_complete_in_comments = 1
 " 在注释和字符串中获取标识符
@@ -521,14 +524,6 @@ let g:ycm_seed_indentifiers_with_syntax=1
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 " 显示详细诊断信息
 let g:ycm_key_detailed_diagnostics = '<space>k'
-
-" 引入 C++ 标准库tags
-" set tags+=/data/misc/software/misc./vim/stdcpp.tags
-" let g:ycm_collect_identifiers_from_tags_files = 0
-" 补全内容不以分割子窗口出现，只显示补全列表
-" set completeopt-=preview
-
-" ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " This command tries to perform the "most sensible" GoTo operation it can.
 nnoremap <leader>g :YcmCompleter GoTo<CR>
 " Looks up the symbol under the cursor and jumps to its declaration.
@@ -628,17 +623,19 @@ let g:airline_section_z = airline#section#create([
 let g:ale_enabled = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = '0'
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
             \   'cpp': ['libclang', 'gcc', 'clangd'],
             \   'go': ['gobuild', 'govet', 'gofmt'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shellcheck'],
+            \   'vim': ['vint'],
             \   'rust': ['cargo', 'rustc'],
             \   'python': ['flake8']
             \}
-let g:ale_python_flake8_use_global = 1
+" let g:ale_python_flake8_use_global = 1
+let g:ale_python_flake8_auto_pipenv = 1
 let g:ale_fixers = {
             \   'python': ['yapf', 'autopep8']
             \}
@@ -672,14 +669,14 @@ nmap <silent> <C-n> <Plug>(ale_next)
 " highlight 'long' lines(>= 79 symbols) ------- {{{
 augroup filefmt_autocmds
     au!
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set nowrap
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set colorcolumn=79
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim highlight Excess ctermbg=DarkGrey guibg=Black
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim match Excess /\%80v.*/
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim set nowrap
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim set colorcolumn=79
     " auto begin in newline when exceed 79 charust,rs when edit these filetypes
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang setlocal textwidth=79 formatoptions+=t
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim setlocal textwidth=79 formatoptions+=t
     " Don't add the comment prefix when I hit enter or o/O on a comment line
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,vim,go setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END
 " }}}
 
@@ -714,12 +711,12 @@ augroup END
 " golang mappings ---------------------------- {{{
 augroup golang
     au!
-    au FileType go nnoremap <space>r <Plug>(go-run)
-    au FileType go nnoremap <space>t <Plug>(go-test)
-    au FileType go nnoremap <space>b  <Plug>(go-build)
-    au FileType go nnoremap <Leader>i <Plug>(go-info)
-    au FileType go nnoremap <leader>g <Plug>(go-def-vertical)
-    au FileType go nnoremap <leader>r <Plug>(go-rename)
+    au FileType go nmap <space>r <Plug>(go-run)
+    au FileType go nmap <space>t <Plug>(go-test)
+    au FileType go nmap <space>b  <Plug>(go-build)
+    au FileType go nmap <leader>i <Plug>(go-info)
+    au FileType go nmap <leader>g <Plug>(go-def-vertical)
+    au FileType go nmap <leader>r <Plug>(go-rename)
     au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
     au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
     au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
