@@ -60,6 +60,8 @@
 	lg = log --pretty=oneline -n 20 --graph --abbrev-commit
     # show the last commit
     last = log -1 HEAD
+    # show the last commit's statistic
+    stat = log -n 1 --stat
     # more informative log message but not so grace
     logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
     hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
