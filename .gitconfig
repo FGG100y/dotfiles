@@ -1,28 +1,116 @@
+# ========================================
+# mostly came From  mathiasbynens/dotfiles
+# last update: Tue 02 Mar 2021 21:24:45
+# ========================================
 [user]
 	name = fgg100y
     email = 1522009317@qq.com
+
 [core]
 	editor = vim
+    mergetool = vimdiff
+	# Use custom `.gitignore` and `.gitattributes`.
+    # excludesfile = ~/.gitignore
+    # attributesfile = ~/.gitattributes
+
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error.
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
+
+[apply]
+	# Detect whitespace errors when applying a patch.
+	whitespace = fix
+
+[branch]
+	# Show most recently changed branches first.
+	sort = -committerdate
+
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+
+[push]
+	# https://git-scm.com/docs/git-config#git-config-pushdefault
+	default = simple
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
+
 [alias]
-    co = checkout
-    sw = switch
-    ci = commit
-    cm = commit -m
-    ca = commit --amend
-    st = status
     br = branch
     ba = branch --all
     brmv = branch --move
-    last = log -1 HEAD
-    hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
-    logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
     type = cat-file -t
     dump = cat-file -p
     discard = restore
     unstage = restore --staged
+    # set the local branch to track the remote/branch
     track = checkout --track
+    # push the local branch to specifice remote (origin)
     pushup = push --set-upstream
-    changeup = push --set-upstream-to
+    # delete remote branch
     dremote = push origin --delete
-    cachepwd = config --global credential.helper cache
+    # good to know, not gonna use it though
     visual = !gitk
+	# View abbreviated SHA, description, and history graph of the latest 20 commits.
+	lg = log --pretty=oneline -n 20 --graph --abbrev-commit
+    # show the last commit
+    last = log -1 HEAD
+    # more informative log message but not so grace
+    logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
+    hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
+	# View the current working tree status, -s: using the short format.
+	s = status
+    st = status -s
+	# Show the diff between the latest commit and the current state.
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	# `git di $number` shows the diff between the state `$number` revisions ago and the current state.
+	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+	# Pull in remote changes for the current repository and all its submodules.
+	p = pull --recurse-submodules
+	# Clone a repository including all submodules.
+	c = clone --recursive
+	#  Commit or commit all changes.
+    ci = commit
+    cm = commit -m
+    ca = !git add -A && git commit -av
+	# Switch to a branch, creating it if necessary.
+    co = checkout
+    sw = switch
+	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+	# Show verbose output about tags, remotes
+	tags = tag -l
+	remotes = remote --verbose
+	# Amend the currently staged files to the latest commit.
+	amend = commit --amend --reuse-message=HEAD
+	# Credit an author on the latest commit.
+	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+	# Interactive rebase with the given number of latest commits.
+	reb = "!r() { git rebase -i HEAD~$1; }; r"
+	# Remove the old tag with this name and tag the latest commit with it.
+    # l for local, r for remote
+	retagl = "!r() { git tag -d $1 && git tag $1; }; r"
+	retagr = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+	# Find branches containing commit, need to know the specifice commit first
+	fbr = "!f() { git branch -a --contains $1; }; f"
+	# Find tags containing commit
+	ftg = "!f() { git describe --always --contains $1; }; f"
+	# Find commits by source code
+	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+	# Find commits by commit message
+	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+	# Remove branches that have already been merged with main.
+	# a.k.a. ‘delete merged’
+	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+	# List contributors with number of commits.
+	contributors = shortlog --summary --numbered
+	# Show the user email for the current repository.
+	whoami = config user.email
+    # cache the passphrase/password
+    cachepwd = config --global credential.helper cache
+	# List aliases.
+	aliases = config --get-regexp alias

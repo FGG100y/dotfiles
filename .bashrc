@@ -8,8 +8,9 @@ case $- in
       *) return;;
 esac
 
-# shell startup tmux to session called 'vms' | Thu 13 Feb 2020 22:37:11
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+# shell startup tmux to session called 'hacker'
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] \
+    && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s hacker
 fi
 
@@ -160,16 +161,15 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 # exclude hidden files, use the following command:
 # export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
-# # pipx autocompletion  # Thu 11 Feb 2021 16:12:12
-# eval "$(register-python-argcomplete pipx)"
-
+# pipx autocompletion
+eval "$(register-python-argcomplete pipx)"
 # python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
 if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=$HOME/.virtualenvs
     export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
     export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
     export PROJECT_HOME=$HOME/fggit/PyVenvs
-    source /home/fgg/.local/bin/virtualenvwrapper.sh
+    source ~/.local/bin/virtualenvwrapper.sh
 fi
 
 # golang's go
@@ -182,26 +182,3 @@ export PATH=$PATH:$GOPATH/bin
 # 七牛云,国内镜像,给力!
 go env -w  GOPROXY=https://goproxy.cn,direct
 # go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
-
-# mpc environment variables
-export MPD_HOST='127.0.0.1'
-export MPD_PORT='6601'
-
-# poetry bin
-export PATH=$PATH:$HOME/.poetry/bin
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/fgg/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/fgg/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/fgg/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/fgg/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
