@@ -146,7 +146,7 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 # export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 # pipx autocompletion
-eval "$(register-python-argcomplete pipx)"
+# eval "$(register-python-argcomplete pipx)"
 # python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
 if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=$HOME/.virtualenvs
@@ -155,14 +155,3 @@ if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export PROJECT_HOME=$HOME/fggit/PyVenvs
     source ~/.local/bin/virtualenvwrapper.sh
 fi
-
-# golang's go
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-# go env -w GO111MODULE=auto
-
-# go env -w  GOPROXY=https://goproxy.io
-# 七牛云,国内镜像,给力!
-go env -w  GOPROXY=https://goproxy.cn,direct
-# go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
