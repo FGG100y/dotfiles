@@ -48,14 +48,22 @@
     dump = cat-file -p
     discard = restore
     unstage = restore --staged
+    # -------about remote branch---------------------
     # set the local branch to track the remote/branch
     track = checkout --track
-    # push the local branch to specifice remote (origin)
-    pushup = push --set-upstream
+    # To set up a local branch with a different name than the remote branch
+    # $ git checkout -b myfoo origin/remotefoo
+    trackas = checkout -b
+    # If you already have a local branch and want to set it to a remote branch
+    # (may be that you just pulled down), or want to change the upstream branch
+    # you’re tracking, use the equivalent:
+    # $ git branch -u remote/foo
+    # NOTE if the local branch 'foo' is not the current branch:
+    # $ git branch -u remote/foo foo
+    setupto = branch --set-upstream-to
     # delete remote branch
     dremote = push origin --delete
-    # good to know, not gonna use it though
-    visual = !gitk
+    # -----------------------------------------------
 	# View abbreviated SHA, description, and history graph of the latest 20 commits.
 	lg = log --pretty=oneline -n 20 --graph --abbrev-commit
     # show the last commit
@@ -88,6 +96,7 @@
 	tags = tag -l
 	remotes = remote --verbose
 	# Amend the currently staged files to the latest commit.
+    # NOTE do not amend the pushed commit.
 	amend = commit --amend --reuse-message=HEAD
 	# Credit an author on the latest commit.
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
