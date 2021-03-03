@@ -4,22 +4,14 @@
 #------------------
 # last update: Sat 06 Feb 2021 08:49:23
 
-# check mongodb status, stop and restart
-alias qstmongo='ps -e | grep "mongod"'
-alias stmongo='sudo systemctl status mongod'
-alias stopmongo='sudo systemctl stop mongod'
-alias startmongo='sudo systemctl restart mongod'
-# and Uninstallation-wise STOP 
-alias rmstopmongo='sudo service mongod stop'
-
 # conda envs
 alias con='conda activate'
 alias coff='conda deactivate'
-
-# py an jupy
+# python and jupyter
+alias py='python3'
+alias Qenv='deactivate'
 alias jlab='jupyter-lab'
 alias ipy='ipython'
-alias py='python3'
 alias py2='python2'
 # ----------------
 # change dir group
@@ -60,21 +52,14 @@ alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 # dotfiles group
 # --------------
 # edit dotfiles
-alias vim='vi'
-alias vimsh='vim ~/.bashrc'
-alias vimbz='vim ~/.bashrc_aliases'
-alias vimbl='vim ~/.bashrc_cd_aliases'
-alias vimrc='vim ~/.vimrc'
-alias vimtx='vim ~/.tmux.conf'
-# dotfiles management by git bare repos technique
-# now that the command 'config' is as the 'git' command, e.g.,
-# config add .vimrc or config commit -m 'bababa' etc.
-alias dgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
-# --------------------------
-# git command lines shotcuts
-# set git alias in the ~/.gitconfig [alias] section
-# --------------------------
+# alias vim='vi'
+export DOTPATH=$HOME/fggit/gitrepos/fmhrepos/dotfiles
+alias vimsh='vim $DOTPATH/.bashrc'
+alias vimbz='vim $DOTPATH/.bashrc_aliases'
+alias vimbl='vim $DOTPATH/.bashrc_cd_aliases'
+alias vimrc='vim $DOTPATH/.vimrc'
+alias vimtx='vim $DOTPATH/.tmux.conf'
+alias vimgc='vim $DOTPATH/.gitconfig'
 
 # -------------
 # tmux commands
@@ -119,11 +104,6 @@ alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
 #       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
 #       -Wno-old-style-cast 
 
-# python -m activate envs
-# -----------------------
-alias Qenv='deactivate'
-# watch Nvidia gpu utilization --tensorflow
-alias watchgpu='watch -n 5 nvidia-smi -a --display=utilization'
 
 # ---------------
 # handy functions
