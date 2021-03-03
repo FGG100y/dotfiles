@@ -673,9 +673,9 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
-" let g:airline_section_z = airline#section#create([
-"                     \   '%{ObsessionStatus(''$'','''')}',
-"                     \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
+let g:airline_section_z = airline#section#create([
+                    \   '%{ObsessionStatus(''$'','''')}',
+                    \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
 " }}}
 
 " ale settings --------------- {{{
