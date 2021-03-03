@@ -1,11 +1,9 @@
-" ======================================
-" fanmh's vimrc (Ubuntu Evns)
+" ================================
+" fgg's vimrc (home machine)
 " built: 2018-07-16
-" update: 星期二 2021年02月23日 14:31:20
-" ======================================
-" TODO:
-" fine tune the TODO/NOTE etc colors,
-" colorscheme switch may make it disappear
+" update: Tue 23 Feb 2021 22:24:45
+" ================================
+" TODO: try soft link to sync the dotfiles to fmhrepos
 
 set nocompatible                                " be iMproved
 
@@ -15,7 +13,9 @@ set nocompatible                                " be iMproved
 "  Part-1:  Plugins ---------- {{{
 " #############################
 filetype off                                    " required
-set runtimepath+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
+
+set rtp+=$HOME/.vim/bundle/Vundle.vim/          " set the runtime path to include Vundle and initialize
+
 call vundle#begin()
 " NOTE: all the Plugins which is managed by Vundle must lie between
 " vundle#begin() and vundle#end
@@ -23,7 +23,7 @@ call vundle#begin()
     "-------------------=== Vundle itself ===-------------
     Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
     "-------------------=== Code/Project navigation ===-------------
-    Plugin 'majutsushi/tagbar'                  " Class/module browser and more
+    Plugin 'majutsushi/tagbar'                  " Class/module browser
     Plugin 'kshenoy/vim-signature'              " bookmark etc
     " Plugin 'scrooloose/nerdtree'                " Project and file navigation
     "-------------------=== vim outfit ===-------------------------------
@@ -32,7 +32,8 @@ call vundle#begin()
     Plugin 'Lokaltog/powerline'                 " Powerline fonts plugin
     Plugin 'flazz/vim-colorschemes'             " Colorschemes
     Plugin 'jnurmine/Zenburn'                   " For good mood
-    Plugin 'altercation/vim-colors-solarized'   " For good mood too
+    Plugin 'altercation/vim-colors-solarized'   " For good mood
+    " Plugin 'junegunn/vim-emoji'                 " Also for good mood, while conflict to YCM
     "-------------------=== tmux ===-------------------------------
     Plugin 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
     Plugin 'edkolev/tmuxline.vim'
@@ -40,7 +41,6 @@ call vundle#begin()
     Plugin 'SirVer/ultisnips'                   " snippets management/engine
     Plugin 'honza/vim-snippets'                 " snippets repo
     "-------------------=== Languages support ===-------------------
-    Plugin 'dense-analysis/ale'
     Plugin 'tpope/vim-fugitive'                 " awsome git wrapper!
     Plugin 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
     Plugin 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
@@ -48,21 +48,20 @@ call vundle#begin()
     Plugin 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
     Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'           " code line/block commented
-    Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
-    " Plugin 'hdima/Python-Syntax'                " highlights for python
-    Plugin 'python-mode/python-mode'
+    Plugin 'hdima/Python-Syntax'                " highlights for python
     Plugin 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
+    Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
+    Plugin 'plasticboy/vim-markdown'            " for markdown files, couple with vim-instant-markdown
+    Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}            " whch instantly display the contents render in a browser
     Plugin 'Valloric/YouCompleteMe'             " all for completion
+    Plugin 'dense-analysis/ale'                 " Linter
     Plugin 'mileszs/ack.vim'                    " cherrypick your strings
     Plugin 'junegunn/fzf.vim'                   " fuzzy-finder and more
     Plugin 'fisadev/vim-isort'                  " python import sorted
-    " Plugin 'fatih/vim-go'
+    " Plugin 'fatih/vim-go'                       " for golang
     " Plugin 'rust-lang/rust.vim'                 " for rust
     " Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
-    " Plugin 'derekwyatt/vim-fswitch'           " switch between *.h and *.cpp
-    " Plugin 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
-    " Plugin 'plasticboy/vim-markdown'
-    " Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+    " Plugin 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp
     "-------------------=== other plugins ===-----------------------------
     " local installation:
     " The 'pinned' option
@@ -84,6 +83,7 @@ filetype plugin indent on    " required
 " Note: syntax enable is needed
 syntax enable
 set background=dark
+" colorscheme zenburn
 colorscheme Tomorrow-Night
 if has('gui_running')
     " no toolbar
@@ -150,7 +150,6 @@ set history=1024
 set viminfo+=h  " do no store searches
 " utf8 encoding
 set encoding=utf-8
-scriptencoding utf-8
 " tab and space
 set expandtab
 set tabstop=4
@@ -163,25 +162,27 @@ set updatetime=1000
 set conceallevel=2
 " }}}
 
-" VimL example: vmpc.vim
-set runtimepath+=$HOME/fggit/Practical_vim/square_motion/vmpc
-
 " #############################
 "  Part-4: <Leader> relative   {{{
 " #############################
 " leader set to be the comma
-let mapleader=','
-" quick source current vimscript
-nnoremap <leader>s :source %<cr>
+let mapleader=","
 " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
-nnoremap <space>c :Gcommit<cr>
+nnoremap <space>c :G commit<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>Q :q!<cr>
-" shotcut to edit ~/_vimrc in new tab
+" ---------------------------------------------------------
+" shotcut to edit ~/_vimrc, and update it to local git repo
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
 nnoremap <space>v :sp $MYVIMRC<cr>
+" groups of specific commands to update .vimrc to git repo
+" CC = change to directory of Current file
+command CC cd %:p:h <bar> :e %
+" Svrc means saveas current file to someother dir
+command Svrc sav! ~/dataGroup/gitrepos/dotfiles/.vimrc
+" ---------------------------------------------------------
 " common rule were: splitright & splitbelow
 " but sometimes need to split on leftabove or above
 " nnoremap <leader>lf :leftabove split
@@ -207,10 +208,10 @@ nnoremap <leader>bp :bprevious<cr>
 " turn off highlights
 nnoremap <space>n :nohlsearch<cr>
 " windows/panes resize
-nnoremap <silent> <Space>- :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " close quickfix/local window
-nnoremap <space>c :cclose<cr>
+nnoremap <space>lo :cclose<cr>
 nnoremap <space>lc :lclose<cr>
 " fzf shotcut
 imap <c-x><c-o> <plug>(fzf-complete-line)
@@ -219,7 +220,7 @@ map <space>f :Files<cr>
 map <space>g :GFiles<cr>
 map <space>t :Tags<cr>
 " vertical split help
-nnoremap <Space>h :vert help 
+nnoremap <Space>h :vert help
 " alternative way to back to normal mode
 inoremap jk <ESC>
 nnoremap <space>q @q
@@ -231,33 +232,54 @@ nnoremap <space>q @q
 " Visually select some lines (for example, type vip to select the current paragraph).
 " Type :normal @q to run the macro from register q on each line.
 "
-=======
 nnoremap <Space>h :vert help 
 " alternative way to back to normal mode
 inoremap jk <ESC>
 
-" groups of specific commands on specific machine, case insensitive compared
-if hostname() ==? 'panyu202'
-    " CC = change to directory of Current file
-    command CC cd %:p:h <bar> :e %
-    " Vgit = saveas % to someother dir
-    command Vgit sav! ~/fggit/gitrepos/fmhGRs/dotfiles/.vimrc
-endif
-
->>>>>>> master
 " groups of abbreviate
-" insert the datetime, more datetime format see: man date
-iab dts <c-r>=strftime("%A %x %T")<cr>
-" 星期一 2021年02月22日 2021 10:27:55
-
+" insert the datetime
+iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+" Thu 25 Feb 2021 21:25:42
 " only for PPPCpp practicing
 " iab stdlib #include "../std_lib_facilities.h"
+" Emoji shortcuts
+ab :check: ✅
+ab :warning: ⚠️
+ab :bulb: 💡
+ab :pushpin: 📌
+ab :bomb: 💣
+ab :pill: 💊
+ab :construction: 🚧
+ab :pencil: 📝
+ab :point_right: 👉
+ab :book: 📖
+ab :link: 🔗
+ab :wrench: 🔧
+ab :callme: 🤙📞
+ab :email: 📧
+ab :computer: 💻
+ab :redheart: ❤️
+ab :wtf: 😱
+ab :thanks: 😜
+ab :kiding: 🙄
+ab :weary: 😩
+ab :robot: 🤖
+ab :panda: 🐼
+ab :penguin: 🐧
+ab :globe: 🌏
+ab :cherry: 🍒
+ab :cheers: 🍻
+ab :football: ⚽
+ab :China: 🇨🇳
+ab :usa: 🇺🇸
+ab :notry: Do. Or do not. There is no try 😏
 " }}}
 
 " #############################
 " Part-5: plugin setting groups
 " #############################
-" Isort key-bind
+
+" Isort key-bind----------------- {{{
 let g:vim_isort_map = '<C-i>'
 " " Or disable the mapping with this:
 " " let g:vim_isort_map = ''
@@ -266,8 +288,7 @@ let g:vim_isort_map = '<C-i>'
 "   \ 'include_trailing_comma': 1, 'multi_line_output': 3}
 " so if isort is installed under Python 3:
 let g:vim_isort_python_version = 'python3'
-
-" ack and ag: find the match
+" }}}
 " do not auto-jump (ack!) to the first result
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -275,14 +296,15 @@ endif
 nnoremap <leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
 command Debug Ack! 'NOTE|INFO|IDEA'
+" }}}
 " vim-go ---------------------- {{{
-let g:go_list_type = 'locationlist'
-let g:go_list_type_commands = {'GoBuild': "quickfix"}
+let g:go_list_type = "locationlist"
+let g:go_list_type_commands = {"GoBuild": "quickfix"}
 " let g:go_list_autoclose = 1
 " using terminal feature
 let g:go_term_enabled = 1
 " let g:go_term_mode = "vsplit"
-let g:go_term_mode = 'split'
+let g:go_term_mode = "split"
 let g:go_term_height = 20
 let g:go_fmt_autosave = 1
 " let g:go_metalinter_autosave = 1
@@ -291,7 +313,7 @@ let g:go_def_mapping_enabled = 1
 let g:go_def_reuse_buffer = 1
 let g:go_gopls_enabled = 1
 let g:go_rename_command = 'gopls'
-let g:go_fmt_command = 'goimports'
+let g:go_fmt_command = "goimports"
 " let g:go_fmt_fail_silently = 1
 " let g:go_addtags_transform = "camelcase"
 let g:go_highlight_types = 1
@@ -309,19 +331,19 @@ let g:ale_rust_cargo_use_check = 1
 " }}}
 
 " tmuxline -------------------- {{{
-" let g:tmuxline_theme = 'dark'
+let g:tmuxline_theme = 'zenburn'
 let g:airline#extensions#tmuxline#enabled = 1
 let g:tmuxline_powerline_separators = 0
 " let g:tmuxline_preset = '' "see autoload/tmuxline/preset/*
 let g:tmuxline_preset = {
       \'a'    : '#S',
       \'b'    : '\u2206t#(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
-      \'c'    : '#(tmux display-message -p "#{pane_current_path}" | sed "s#$HOME#~#g")',
+      \'c'    : '',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
-      \'y'    : ['%R','%A', '%F' ],
+      \'y'    : ['%R','%a', '%F' ],
       \'z'    : '#H'}
-" }}}'#H' | '#(tmux display-message -p "#{pane_current_path}" | sed "s#$HOME#~#g")'
+" }}}
 
 " ctags ----------------------- {{{
 " look in the current directory for "tags",
@@ -463,12 +485,12 @@ let g:python_pep8_indent_hang_closing = 1
 
 " UltiSnips settings --------- {{{
 " handle the conflit with YCM
-let g:UltiSnipsExpandTrigger='<leader><tab>'
-let g:UltiSnipsJumpForwardTrigger='<leader><tab>'
-let g:UltiSnipsJumpBackwardTrigger='<leader><S-tab>'
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger="<leader><S-tab>"
 " include self-define Snippets
-let g:UltiSnipsSnippetDir='$HOME/.vim/bundle/ultisnips'
-let g:UltiSnipsSnippetDirectories=['UltiSnips', "fggsnippets"]
+let g:UltiSnipsSnippetDir="$HOME/.vim/bundle/ultisnips"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "fggsnippets"]
 " UltiSinpsUsePythonVersion
 let g:UltiSinpsUsePythonVersion = 3
 let g:UltiSnipsNoPythonWarning = 1
@@ -539,7 +561,18 @@ let g:SignatureMap = {
 " }}}
 
 " YCM settings --------------- {{{
+" *youcompleteme-configuring-through-vim-options*
+" Fri 05 Apr 2019 15:23:53 didn't understand following lines' meaning
+let g:ycm_python_interpreter_path = ''
+let g:ycm_python_sys_path = []
+let g:ycm_extra_conf_vim_data = [
+  \  'g:ycm_python_interpreter_path',
+  \  'g:ycm_python_sys_path'
+  \]
+let g:ycm_global_ycm_extra_conf = '~/ycm_extra_conf/global_extra_conf.py'
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
+" 允许vim加载.ycm_confirm_extra_conf.py文件，不再提示
+let g:ycm_confirm_extra_conf = 0
 " 补全功能在注释中有效
 let g:ycm_complete_in_comments = 1
 " 在注释和字符串中获取标识符
@@ -555,16 +588,22 @@ let g:ycm_seed_indentifiers_with_syntax=1
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 " 显示详细诊断信息
 let g:ycm_key_detailed_diagnostics = '<space>k'
+
+" 引入 C++ 标准库tags
+" set tags+=/data/misc/software/misc./vim/stdcpp.tags
+" let g:ycm_collect_identifiers_from_tags_files = 0
+" 补全内容不以分割子窗口出现，只显示补全列表
+" set completeopt-=preview
+
+" ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " This command tries to perform the "most sensible" GoTo operation it can.
 nnoremap <leader>g :YcmCompleter GoTo<CR>
 " Looks up the identifier under the cursor and populates with the quickfix list
 nnoremap <leader>r :YcmCompleter GoToReferences<CR>
 " Looks up the symbol under the cursor and jumps to its definition.
-nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>j :YcmCompleter GoToDefinition<CR>
 " Displays the preview window populated with quick info about the identifier under the cursor.
 nnoremap <leader>k :YcmCompleter GetDoc<CR>
-" Echos the type of the variable or method under the cursor, and where it differs, the derived type.
-nnoremap <leader>kt :YcmCompleter GetType<CR>
 " }}}
 
 " EasyMotion ----------------- {{{
@@ -601,32 +640,20 @@ nmap <silent> <leader>> <Plug>IndentGuidesToggle
 
 " airline settings ----------- {{{
 let g:airline#extensions#tabline = 1
+let g:airline_theme='zenburn'
 let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline' ]
 let g:airline_powerline_fonts=1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 " airline symbols, install the fonts-powerline first
-" sudo apt install fonts-powerline
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = ''
-
-" unicode symbols
-let g:airline_symbols.crypt = '🔒'
-" let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.linenr = '¶'
-" let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = 'Ɇ'
-let g:airline_symbols.whitespace = 'Ξ'
-
+let g:airline_symbols.linenr = ''
 " display the tail of the filename
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 " configure symbol used to represent close button >
@@ -646,28 +673,26 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
-let g:airline_section_z = airline#section#create([
-                    \   '%{ObsessionStatus(''$'','''')}',
-                    \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
+" let g:airline_section_z = airline#section#create([
+"                     \   '%{ObsessionStatus(''$'','''')}',
+"                     \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
 " }}}
 
 " ale settings --------------- {{{
 let g:ale_enabled = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = '0'
+let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
             \   'cpp': ['libclang', 'gcc', 'clangd'],
             \   'go': ['gobuild', 'govet', 'gofmt'],
             \   'c': ['clang', 'gcc'],
             \   'sh': ['shellcheck'],
-            \   'vim': ['vint'],
             \   'rust': ['cargo', 'rustc'],
             \   'python': ['flake8']
             \}
-" let g:ale_python_flake8_use_global = 1
-let g:ale_python_flake8_auto_pipenv = 1
+let g:ale_python_flake8_use_global = 1
 let g:ale_fixers = {
             \   'python': ['yapf', 'autopep8']
             \}
@@ -701,14 +726,14 @@ nmap <silent> <C-n> <Plug>(ale_next)
 " highlight 'long' lines(>= 79 symbols) ------- {{{
 augroup filefmt_autocmds
     au!
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim highlight Excess ctermbg=DarkGrey guibg=Black
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim match Excess /\%80v.*/
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim set nowrap
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim set colorcolumn=79
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set nowrap
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set colorcolumn=79
     " auto begin in newline when exceed 79 charust,rs when edit these filetypes
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim setlocal textwidth=79 formatoptions+=t
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang setlocal textwidth=79 formatoptions+=t
     " Don't add the comment prefix when I hit enter or o/O on a comment line
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,vim setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    au FileType python,sh,markdown,md,c,cpp,rust,rs,vim,go setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END
 " }}}
 
@@ -743,12 +768,12 @@ augroup END
 " golang mappings ---------------------------- {{{
 augroup golang
     au!
-    au FileType go nmap <space>r <Plug>(go-run)
-    au FileType go nmap <space>t <Plug>(go-test)
-    au FileType go nmap <space>b  <Plug>(go-build)
-    au FileType go nmap <leader>i <Plug>(go-info)
-    au FileType go nmap <leader>g <Plug>(go-def-vertical)
-    au FileType go nmap <leader>r <Plug>(go-rename)
+    au FileType go nnoremap <space>r <Plug>(go-run)
+    au FileType go nnoremap <space>t <Plug>(go-test)
+    au FileType go nnoremap <space>b  <Plug>(go-build)
+    au FileType go nnoremap <Leader>i <Plug>(go-info)
+    au FileType go nnoremap <leader>g <Plug>(go-def-vertical)
+    au FileType go nnoremap <leader>r <Plug>(go-rename)
     au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
     au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
     au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
@@ -756,20 +781,28 @@ augroup golang
 augroup END
 " }}}
 
+" vim-emoji mappings ---------------------------- {{{
+" " only one completefunc working at a time, have to make way for YCM
+" set completefunc=emoji#complete
+" " replace :emoji_name: into Emojis
+" %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+" " emoji for gitgutter signs
+" let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+" let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+" let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+" let g:gitgutter_sign_modified_removed = emoji#for('collision')
+" }}}
+" augroup vimemoji
+"     au!
+"     au FileType md,markdown set completefunc=emoji#complete
+" augroup END
+" }}}
 " vimscript file settings -------------- {{{
 augroup filetype_vim
     au!
     au FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
-
-" augroup vimrc_todo
-"     au!
-"     au Syntax * syn match MyTodo /\v<(FIXME|NOTE|TODO|OPTIMIZE|XXX):/
-"           \ containedin=.*Comment,vimCommentTitle
-" augroup END
-" hi def link MyTodo Todo
-" hi def link MyTodo pythonTodo
 
 " make change in vimrc working immediately
 augroup autosrc

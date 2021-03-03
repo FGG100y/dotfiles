@@ -8,8 +8,9 @@ case $- in
       *) return;;
 esac
 
-# shell startup tmux to session called 'vms' | Thu 13 Feb 2020 22:37:11
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+# shell startup tmux to session called 'hacker'
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] \
+    && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s hacker
 fi
 
@@ -134,3 +135,34 @@ fi
 export PATH="/home/gddst/.local/bin:$PATH"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --type f'
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+# NOTE: If you want the command to follow symbolic links, and don't want it to
+# exclude hidden files, use the following command:
+# export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
+# pipx autocompletion
+eval "$(register-python-argcomplete pipx)"
+# python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
+if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
+    export WORKON_HOME=$HOME/.virtualenvs
+    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
+    export PROJECT_HOME=$HOME/fggit/PyVenvs
+    source ~/.local/bin/virtualenvwrapper.sh
+fi
+
+# golang's go
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+# go env -w GO111MODULE=auto
+
+# go env -w  GOPROXY=https://goproxy.io
+# 七牛云,国内镜像,给力!
+go env -w  GOPROXY=https://goproxy.cn,direct
+# go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
