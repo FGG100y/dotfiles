@@ -6,6 +6,8 @@
 
 # virturalenv activate | capital the env name 
 alias srcML='source ~/pyenvs/pyml/bin/activate'
+alias py='python3'
+alias ipy='ipython'
 
 # ----------------
 # change dir group
