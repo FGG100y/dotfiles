@@ -181,7 +181,7 @@ nnoremap <space>v :sp $MYVIMRC<cr>
 " CC = change to directory of Current file
 command CC cd %:p:h <bar> :e %
 " Svrc means saveas current file to someother dir
-command Svrc sav! ~/dataGroup/gitrepos/dotfiles/.vimrc
+command Svrc sav! ~/fggit/gitrepos/fmhrepos/dotfiles/.vimrc
 " ---------------------------------------------------------
 " common rule were: splitright & splitbelow
 " but sometimes need to split on leftabove or above
@@ -410,17 +410,6 @@ let g:gitgutter_sign_removed = '--'
 " let g:gitgutter_sign_modified_removed = 'ww'
 nmap [h <Plug>(GitGutterPrevHunk)
 nmap ]h <Plug>(GitGutterNextHunk)
-" }}}
-
-" vim-asyncrun --------------- {{{
-" open quickfix by 10 lines height after commands starts
-let g:asyncrun_open = 10
-" save current(1) or all(2) modified buffer(s) before executing
-let g:asyncrun_save = 1
-" trim empty line in quickfix
-let g:asyncrun_trim = 1
-" if encoding problems with Chinese
-" let g:asyncrun_encs = 'gbk'
 " }}}
 
 " vim-instant_markdown ------- {{{
