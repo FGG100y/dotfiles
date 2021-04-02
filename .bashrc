@@ -11,7 +11,7 @@ esac
 # shell startup tmux to session called 'hacker'
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] \
     && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux new-session -A -s vms
+  exec tmux new-session -A -s svr
 fi
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -155,3 +155,7 @@ if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export PROJECT_HOME=$HOME/fggit/PyVenvs
     source ~/.local/bin/virtualenvwrapper.sh
 fi
+
+# spark home
+export SPARK_HOME=/home/fmh/pytools/spark311
+export PATH=$SPARK_HOME/bin:$PATH

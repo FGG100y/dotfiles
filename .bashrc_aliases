@@ -6,6 +6,8 @@
 
 # virturalenv activate | capital the env name 
 alias srcML='source ~/pyenvs/pyml/bin/activate'
+alias srcBD='source ~/pyenvs/pybd/bin/activate'
+alias envQ='deactivate'
 alias py='python3'
 alias ipy='ipython'
 
@@ -52,7 +54,7 @@ alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 export DOTPATH=$HOME/dataGroup/gitrepos/dotfiles
 alias vimsh='vim $DOTPATH/.bashrc'
 alias vimbz='vim $DOTPATH/.bashrc_aliases'
-alias vimbl='vim $DOTPATH/.bashrc_cd_aliases'
+alias vimbl='vim $HOME/.bashrc_cd_aliases'
 alias vimrc='vim $DOTPATH/.vimrc'
 alias vimtx='vim $DOTPATH/.tmux.conf'
 alias vimgc='vim $DOTPATH/.gitconfig'

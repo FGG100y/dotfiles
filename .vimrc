@@ -104,7 +104,7 @@ syntax on
 " Highlight TODO, FIXME, NOTE, etc.
 if has("autocmd")
     if v:version > 701
-    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|HACK\|OPT\)')
     autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
     endif
 endif
@@ -239,10 +239,14 @@ inoremap jk <ESC>
 " groups of abbreviate
 " insert the datetime
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+" insert autoreload setting in ipython
+iab ipyreload %load_ext autoreload<cr>%autoreload 2
 " Thu 25 Feb 2021 21:25:42
 " only for PPPCpp practicing
 " iab stdlib #include "../std_lib_facilities.h"
 " Emoji shortcuts
+ab :darrow: ↓
+ab :uarrow: ↑
 ab :check: ✅
 ab :warning: ⚠️
 ab :bulb: 💡
@@ -357,13 +361,8 @@ set tags=./tags;/
 " }}}
 
 " fzf as vim-plugin ----------- {{{
-" NOTE: both 'junegunn/fzf.vim'(the plugin) AND 'junegunn/fzf'(the program) are needed!
-" NOTE: deal with the rtp of fzf difference from other machine's
-" " if hostname() == 'wuhan608'
-" "     set rtp+=~/.fzf
-" " elseif hostname() == 'panyu202'
-" "     set rtp+=~/fggit/GitHub_repos/fzf
-" " endif
+" NOTE: both 'junegunn/fzf.vim'(the plugin)
+" AND 'junegunn/fzf'(the program) are needed!
 set rtp+=~/.fzf
 let g:fzf_layout = {'down': '~40%'}
 " An action can be a reference to a function that processes selected lines
@@ -595,6 +594,12 @@ let g:ycm_key_detailed_diagnostics = '<space>k'
 " 补全内容不以分割子窗口出现，只显示补全列表
 " set completeopt-=preview
 
+" 'same-buffer' means when open the goto file in this buffer only if it's ok
+" to switch to that file, else open it in a split window
+" 'split-or-existing-window' means open the goto file in split window if there
+" is no such file opened already
+" let g:ycm_goto_buffer_command = 'same-buffer'
+let g:ycm_goto_buffer_command = 'split-or-existing-window'
 " ycmcompleter subcommands, e.g., goto, fixit etc. | happy reading source code
 " This command tries to perform the "most sensible" GoTo operation it can.
 nnoremap <leader>g :YcmCompleter GoTo<CR>
