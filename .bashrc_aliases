@@ -6,6 +6,7 @@
 
 # virturalenv activate | capital the env name 
 alias srcML='source ~/pyenvs/pyml/bin/activate'
+alias envQ='deactivate'
 
 # ----------------
 # change dir group
@@ -41,6 +42,9 @@ alias df='df -kTh'
 alias bgm='xdg-open ~/Music/bg_music.mp3 &'
 # check the cd-alias
 alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
+# simple terminal
+alias st='st &'
+alias poff='shutdown 0'
 
 # --------------
 # dotfiles group
