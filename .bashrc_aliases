@@ -5,11 +5,15 @@
 # last modified:
 
 # virturalenv activate | capital the env name 
-alias srcML='source ~/pyenvs/pyml/bin/activate'
-alias srcBD='source ~/pyenvs/pybd/bin/activate'
+alias envML='source ~/pyenvs/pyml/bin/activate'
+alias envBD='source ~/pyenvs/pybd/bin/activate'
 alias envQ='deactivate'
 alias py='python3'
 alias ipy='ipython'
+
+# jupyter lab server
+# NOTE that the port number is better to keep put
+alias jlab='jupyter lab --no-browser --port=8899'
 
 # ----------------
 # change dir group
