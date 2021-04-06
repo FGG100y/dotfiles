@@ -45,6 +45,9 @@ alias df='df -kTh'
 alias bgm='xdg-open ~/Music/bg_music.mp3 &'
 # check the cd-alias
 alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
+# Now `cclip' copies and `clipp' pastes',not work yet | 二 06 4月 2021 16:09:32
+# alias cclip='xclip -selection clipboard'
+# alias clipp='xclip -selection clipboard -o'
 
 # --------------
 # dotfiles group
@@ -54,10 +57,10 @@ alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 export DOTPATH=$HOME/dataGroup/gitrepos/dotfiles
 alias vimsh='vim $DOTPATH/.bashrc'
 alias vimbz='vim $DOTPATH/.bashrc_aliases'
-alias vimbl='vim $HOME/.bashrc_cd_aliases'
 alias vimrc='vim $DOTPATH/.vimrc'
 alias vimtx='vim $DOTPATH/.tmux.conf'
 alias vimgc='vim $DOTPATH/.gitconfig'
+alias vimbl='vim $HOME/.bashrc_cd_aliases'
 
 # -------------
 # tmux commands

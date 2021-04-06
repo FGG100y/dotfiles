@@ -200,9 +200,9 @@ nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx
 " The "e" flag tells ":substitute" that not finding a match is not an error.
 " strip trailing whitespace (,,t)
 nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
-" quick select buffer and delete it
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
+" quick select buffer and delete it | deprecated, already has fzf
+" nnoremap <leader>bn :bnext<cr>
+" nnoremap <leader>bp :bprevious<cr>
 " nnoremap <leader>bf :ls<cr>
 " nnoremap <leader>bd :bd<cr>
 " turn off highlights
@@ -622,18 +622,19 @@ map <leader>F <Plug>(easymotion-F)
 " }}}
 
 " tagbar needs Ctags/universe-ctags, and much more useful in larger project
-" " tagbar settings ------------ {{{
-" let g:airline#extensions#tagbar#enabled = 1
-" let g:tagbar_autofocus=1
-" let g:tagbar_width=28
-" let g:tagbar_left=1
-" let g:tagbar_sort=0
-" let g:tagbar_show_linenumbers = 2     " show relative nu
-" let g:tagbar_expand = 1
-" " remap keys | toggle tagbar | Jump directly to tagbar
-" nnoremap <space><space>b :TagbarToggle<CR>
-" nnoremap <space>j :TagbarOpen fj<CR>
-" " }}}
+" tagbar settings ------------ {{{
+let g:airline#extensions#tagbar#enabled = 1
+let g:tagbar_autofocus=1
+let g:tagbar_width=28
+let g:tagbar_left=1
+let g:tagbar_sort=0
+let g:tagbar_show_linenumbers = 2     " show relative nu
+let g:tagbar_expand = 1
+" remap keys | toggle tagbar | Jump directly to tagbar
+" nnoremap <space>tb :TagbarToggle<CR>
+nnoremap <leader>b :TagbarToggle<CR>
+nnoremap <space>j :TagbarOpen fj<CR>
+" }}}
 
 " vim-indent-guides ---------- {{{
 let g:indent_guides_enable_on_vim_startup=0
