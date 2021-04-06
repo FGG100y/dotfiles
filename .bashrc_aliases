@@ -4,8 +4,12 @@
 #-------------------
 # last modified:
 
+alias py='python3'
+alias ipy='ipython'
 # virturalenv activate | capital the env name 
 alias srcML='source ~/pyenvs/pyml/bin/activate'
+alias srcBD='source ~/pyenvs/pybd/bin/activate'
+alias envQ='deactivate'
 
 # ----------------
 # change dir group
@@ -102,6 +106,20 @@ alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
 # ---------------
 # handy functions
 # ---------------
+
+# connect to jupyterlab on remote server
+function jlab2re() {
+    port=8899
+    remote_username=fmh
+    remote_hostname=172.16.0.181
+    url="http://localhost:$port"
+    echo "Opening $url"
+    xdg-open "$url"
+    cmd="ssh -CNL localhost:$port:localhost:$port $remote_username@$remote_hostname"
+    echo "Running '$cmd'"
+    eval "$cmd"
+}
+
 # Creates an archive (*.tar.gz) from given directory
 function mktar() { tar cvzf "${1%%/}.tar.gz" "${1%%/}"; }
 
