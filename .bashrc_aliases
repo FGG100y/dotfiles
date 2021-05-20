@@ -5,6 +5,7 @@
 # last modified:
 
 # virturalenv activate | capital the env name 
+alias envDS='source ~/pyenvs/ds/bin/activate'
 alias envML='source ~/pyenvs/pyml/bin/activate'
 alias envBD='source ~/pyenvs/pybd/bin/activate'
 alias envQ='deactivate'
