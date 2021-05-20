@@ -159,3 +159,6 @@ fi
 # spark home
 export SPARK_HOME=/home/fmh/pytools/spark311
 export PATH=$SPARK_HOME/bin:$PATH
+
+# julia bin
+export PATH="$PATH:/home/fmh/dataGroup/downloads/apps/julia-1.6.1/bin"
