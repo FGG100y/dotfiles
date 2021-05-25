@@ -162,3 +162,8 @@ export PATH=$SPARK_HOME/bin:$PATH
 
 # julia bin
 export PATH="$PATH:/home/fmh/dataGroup/downloads/apps/julia-1.6.1/bin"
+
+# Nodejs
+NODEVER=v16.2.0
+DISTRO=linux-x64
+export PATH=/usr/local/lib/nodejs/node-$NODEVER-$DISTRO/bin:$PATH
