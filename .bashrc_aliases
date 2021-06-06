@@ -6,6 +6,7 @@
 
 alias py='python3'
 alias ipy='ipython'
+alias jlab='jupyter-lab'
 # virturalenv activate | capital the env name 
 alias envML='source ~/pyenvs/pyml/bin/activate'
 alias envBD='source ~/pyenvs/pybd/bin/activate'
@@ -47,7 +48,7 @@ alias bgm='xdg-open ~/Music/bg_music.mp3 &'
 alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 # simple terminal
 alias st='st &'
-alias poff='shutdown 0'
+alias sdnow='shutdown 0'
 
 # --------------
 # dotfiles group
@@ -162,30 +163,6 @@ mkgo () {
     cd "$1" || exit
 }
 
-# Usage: counts_files dir
-count_files () {
-    num_dir=0
-    num_f=0
-    if [ -d "$1" ]; then
-        for f in "$1"/*; do
-            if [ -d "$f" ]; then
-                num_dir=$(( num_dir + 1 ))
-            elif [ -f "$f" ]; then
-                num_f=$(( num_f + 1 ))
-            fi
-        done
-    else
-        echo "Bad argument. Must be a directory."
-    fi
-    echo "Total files: $(( num_dir + num_f ))"
-    echo "$num_dir directories, $num_f files"
-}
-
-# fzf find file in given path, then pile to software
-# viewbook () {
-     # fzf | xargs xdg-open &
-# }
-
 # cat *file's contents about some 'key'
 Bashalias () {
     cat < ~/.bashrc_aliases | grep "$1"
@@ -193,17 +170,6 @@ Bashalias () {
 # quick check vimrc key-combinations
 Vimalias () {
     cat < ~/.vimrc | grep "$1"
-}
-
-
-# copy .gitignore file to .
-Gignore () {
-    myfile="$HOME"/fggit/GitHub_repos/gitignore/"$1".gitignore
-    if [ -f "$myfile" ]; then
-        cp "$myfile" ./.gitignore
-    else
-        echo "No such file/dir"
-    fi
 }
 
 # ---------
@@ -215,11 +181,6 @@ cdf() {
    local dir
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
-# more generally: using Ctrl-o to open file with which fzf selected
-# bind -x '"\C-e": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
-#     ebook-viewer "$files"'
-# bind -x '"\C-o": files="$(fzf --height 40% --reverse)" && [[ -f "$files" ]] &&
-#     xdg-open "$files"'
 
 #  _____ _          _____          _    ____                  _
 # |_   _| |__   ___|  ___|__  _ __| | _| __ )  ___  _ __ ___ | |__
@@ -228,4 +189,4 @@ cdf() {
 #   |_| |_| |_|\___|_|  \___/|_|  |_|\_\____/ \___/|_| |_| |_|_.__/
 #
 #                           :(){ :|:& }:
-# This is atually a valid function BUT nasty one. DO NOT RUN IT. Yall had been warned.
+# This is atually a valid function BUT nasty one. DO NOT RUN IT.

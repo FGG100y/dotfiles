@@ -58,7 +58,7 @@ call vundle#begin()
     Plugin 'mileszs/ack.vim'                    " cherrypick your strings
     Plugin 'junegunn/fzf.vim'                   " fuzzy-finder and more
     Plugin 'fisadev/vim-isort'                  " python import sorted
-    " Plugin 'fatih/vim-go'                       " for golang
+    Plugin 'fatih/vim-go'                       " for golang
     " Plugin 'rust-lang/rust.vim'                 " for rust
     " Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     " Plugin 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp

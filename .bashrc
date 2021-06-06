@@ -155,3 +155,8 @@ if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     export PROJECT_HOME=$HOME/fggit/PyVenvs
     source ~/.local/bin/virtualenvwrapper.sh
 fi
+# nodejs
+# VERSION=v14.17.0
+# DISTRO=linux-x64
+# export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
+export PATH=/usr/local/lib/nodejs/node-v16.2.0-linux-x64/bin:$PATH
