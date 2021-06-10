@@ -16,6 +16,9 @@ alias ipy='ipython'
 # NOTE that the port number is better to keep put
 alias jlab='jupyter lab --no-browser --port=8899'
 
+# convert ipynb notebook to restructured format
+alias nb2rst='jupyter nbconvert --to rst'
+
 # ----------------
 # change dir group
 # ----------------
@@ -83,6 +86,7 @@ alias txks='tmux kill-session -t'
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -h --color'
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
+alias l="ls -lF --group-directories-first"
 alias ll="ls -lv --group-directories-first"
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
