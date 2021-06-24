@@ -147,14 +147,22 @@ export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
 
 # pipx autocompletion
 # eval "$(register-python-argcomplete pipx)"
+
 # python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
 if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME=$HOME/.virtualenvs
-    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-    export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
-    export PROJECT_HOME=$HOME/fggit/PyVenvs
-    source ~/.local/bin/virtualenvwrapper.sh
+    # # version with rootuser permission
+    # export WORKON_HOME=$HOME/.virtualenvs
+    # export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    # export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
+    # export PROJECT_HOME=$HOME/fggit/PyVenvs
+    # source ~/.local/bin/virtualenvwrapper.sh
+    # # ----------------------------------------
+    # # the version without rootuser permission:
+    export WORKON_HOME=/home/fmh/.virtualenvs
+    export PROJECT_HOME=/home/fmh/pyenvs
+    source /usr/local/bin/virtualenvwrapper.sh
 fi
+
 
 # spark home
 export SPARK_HOME=/home/fmh/pytools/spark311

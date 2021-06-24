@@ -25,7 +25,7 @@ call vundle#begin()
     "-------------------=== Code/Project navigation ===-------------
     Plugin 'majutsushi/tagbar'                  " Class/module browser
     Plugin 'kshenoy/vim-signature'              " bookmark etc
-    " Plugin 'scrooloose/nerdtree'                " Project and file navigation
+    Plugin 'preservim/nerdtree'                 " Project and file navigation
     "-------------------=== vim outfit ===-------------------------------
     Plugin 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
     Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
@@ -206,7 +206,7 @@ nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
 " nnoremap <leader>bf :ls<cr>
 " nnoremap <leader>bd :bd<cr>
 " turn off highlights
-nnoremap <space>n :nohlsearch<cr>
+nnoremap <space><space> :nohlsearch<cr>
 " windows/panes resize
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
@@ -282,6 +282,19 @@ ab :notry: Do. Or do not. There is no try 😏
 " #############################
 " Part-5: plugin setting groups
 " #############################
+
+" NERDTree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+" nnoremap <C-n> :NERDTree<CR>
+" nnoremap <C-f> :NERDTreeFind<CR>
+let NERDTreeIgnore=[
+    \ '\.sw[po]$', '\.vim$', '\~$',
+    \ '__init__.py',
+    \ '^t[e]mp$[[dir]]',
+    \ '^__pycache__$[[dir]]',
+    \ '.egg-info$[[dir]]',
+    \ ]
 
 " Isort key-bind----------------- {{{
 let g:vim_isort_map = '<C-i>'
