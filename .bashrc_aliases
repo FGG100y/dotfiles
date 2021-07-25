@@ -20,7 +20,7 @@ alias jlab='jupyter lab --no-browser --port=8899'
 alias nb2rst='jupyter nbconvert --to rst'
 
 # cookiecutter alias
-mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
+alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
 
 # ----------------
 # change dir group
@@ -215,13 +215,13 @@ count_files () {
     echo "$num_dir directories, $num_f files"
 }
 
-# get pyproject pkgs from my-huge-py-venv-such-as-'DS'
-pyrequirements () {
-    pypkgs()
-    # list pkg names as pattern used by grep
-    paste -s -d"|" requirements.temp > requirements_patterns 
-    pip freeze | grep -E -f requirements_patterns > requirements.txt
-}
+# # get pyproject pkgs from my-huge-py-venv-such-as-'DS'
+# pyrequirements () {
+#     pypkgs()
+#     # list pkg names as pattern used by grep
+#     paste -s -d"|" requirements.temp > $1
+#     pip freeze | grep -E -f $1 > $2
+# }
 
 pypkgs() {
     # get pkgs names
