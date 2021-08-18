@@ -2,30 +2,13 @@
 TODO:
   - dotfiles management | what is the best practice?
 
-## using rsync and change the workflow
+## using rsync to udpate dotfile repo as needed
+When it comes to dotfiles, one would like to make a change and get the effects
+ASAP. Make some aliases to quickly open and record new tricks, source it and
+enjoy it. And regularly update the repo's then push it to remote repo so that
+it can be shared to all other machines.
 
-Write a shell script (e.g., syncdot.sh) to rsync the dotfiles in the git repo,
-say, `$HOME/myrepos/dotfiles`, to the `$HOME/` directory.
-I decided to put the syncdot.sh file in the same directory as dotfiles, but
-it's not necessary.
-
-Change the bash aliases (if any) of openning&editting dotfiles which are the
-ones in the git repo
-
-Once udpated the dotfiles, remember to run the `syncdot.sh` to use the new
-tricks introduced.
-
-**Downside**:
-when you are in vim, working and working, and need to figure out some trick to
-solve some tricky problem and add them to .vimrc for next time happy hacking
-while not in dotfiles git repo, and you update the .vimrc directly (usually
-this .vimrc is the one at `$HOME`). If you forget to manually udpate these
-changes to to git repo, when the next time you run the `syncdot.sh`, all the
-new tricks may dissappear as if they were never exist 😱
-
-***
-
-## Or you just want to stay in vim ...
+## Or you just want to update vimrc ...
 
 Well, let's do it in vim and only in vim.
 
