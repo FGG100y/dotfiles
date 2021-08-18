@@ -110,8 +110,8 @@ if [ -f ~/.bashrc_aliases ]; then
     . ~/.bashrc_aliases
 fi
 # tailor this cd aliases to specified local mechine
-if [ -f ~/.bashrc_cd_aliases ]; then
-    . ~/.bashrc_cd_aliases
+if [ -f ~/.bashrc_aliases_local_only ]; then
+    . ~/.bashrc_aliases_local_only
 fi
 
 # enable programmable completion features (you don't need to enable

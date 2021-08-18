@@ -9,7 +9,7 @@ alias con='conda activate'
 alias coff='conda deactivate'
 # python and jupyter
 alias py='python3'
-alias Qenv='deactivate'
+alias envQ='deactivate'
 alias jlab='jupyter-lab'
 alias ipy='ipython'
 alias py2='python2'
@@ -46,7 +46,7 @@ alias df='df -kTh'
 # some music
 alias bgm='xdg-open ~/Music/bg_music.mp3 &'
 # check the cd-alias
-alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
+alias mycds='cat ~/.bashrc_aliases_local_only | grep cd'
 
 # --------------
 # dotfiles group
@@ -56,7 +56,7 @@ alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
 export DOTPATH=$HOME/fggit/gitrepos/fmhrepos/dotfiles
 alias vimsh='vim $DOTPATH/.bashrc'
 alias vimbz='vim $DOTPATH/.bashrc_aliases'
-alias vimbl='vim $DOTPATH/.bashrc_cd_aliases'
+alias vimbl='vim $HOME/.bashrc_aliases_local_only'
 alias vimrc='vim $DOTPATH/.vimrc'
 alias vimtx='vim $DOTPATH/.tmux.conf'
 alias vimgc='vim $DOTPATH/.gitconfig'

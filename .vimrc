@@ -63,6 +63,7 @@ call vundle#begin()
     " Plugin 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
     " Plugin 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp
     "-------------------=== other plugins ===-----------------------------
+    Plugin 'gnupg.vim'                          " for transparent editting .gpg files
     " local installation:
     " The 'pinned' option
     " -------------------
@@ -700,6 +701,7 @@ let g:ale_fixers = {
             \}
 " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
+let g:ale_fix_on_save = 1
 " shell scripts static syntax linter
 let g:ale_sh_shellcheck_executable = 'shellcheck'
 let g:ale_sh_shellcheck_dialect = 'auto'
