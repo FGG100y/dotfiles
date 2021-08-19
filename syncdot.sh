@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# syncdot: rsync the dotfiles from git-local-repos/dotfiles/ to $HOME
+# syncdot: rsync the dotfiles from $HOME to fmhrepos/dotfiles/
 #           -f / --force will overwrite the files silently.
 
 PROGNAME=$(basename "$0")
@@ -10,24 +10,28 @@ usage () {
     return
 }
 
-dooot () {
-    rsync --exclude ".git/" \
-        --exclude "TODO/" \
-        --exclude "README.md" \
-        --exclude "syncdot.sh" \
-        --exclude ".gitignore" \
-        -avh --no-perms . ~;
-    source ~/.bashrc;
+# rsync the dotfiles to $HOME
+# dooot () {
+#     rsync --exclude ".git/" \
+#         --exclude "README.md" \
+#         --exclude "syncdot.sh" \
+#         --exclude ".gitignore" \
+#         -avh --no-perms . ~;
+#     source ~/.bashrc;
+#     echo ""
+# }
+
+udpate_dotfiles () {
+    rsync -avh "$HOME"/.bashrc "$HOME"/.bashrc_aliases \
+        "$HOME"/.gitconfig "$HOME"/.tmux.conf "$HOME"/.vimrc .;
 }
 
 if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-	dooot;
+	udpate_dotfiles;
 else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+	read -rp "This may overwrite existing files in current repo. Are you sure? (y/n) " -n 1;
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-        dooot;
-    else
-        usage;
+        udpate_dotfiles;
 	fi;
 fi;
-unset dooot;
+unset udpate_dotfiles;

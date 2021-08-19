@@ -111,8 +111,8 @@ if [ -f ~/.bashrc_aliases ]; then
     source ~/.bashrc_aliases
 fi
 
-if [ -f ~/.bashrc_cd_aliases ]; then
-    source ~/.bashrc_cd_aliases
+if [ -f ~/.bashrc_aliases_local_only ]; then
+    source ~/.bashrc_aliases_local_only
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -175,3 +175,6 @@ export PATH="$PATH:/home/fmh/dataGroup/downloads/apps/julia-1.6.1/bin"
 NODEVER=v16.2.0
 DISTRO=linux-x64
 export PATH=/usr/local/lib/nodejs/node-$NODEVER-$DISTRO/bin:$PATH
+
+# display date in en_US.UTF-8
+export LC_TIME=en_US.UTF-8

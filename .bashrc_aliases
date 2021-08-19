@@ -2,13 +2,8 @@
 # Ubuntu 20.04-LTS ^^
 # Personal Aliases
 #-------------------
-# last modified:
+# last modified: 四 19 8月 2021 09:57:38
 
-# virturalenv activate | capital the env name 
-alias envDS='source ~/pyenvs/ds/bin/activate'
-alias envML='source ~/pyenvs/pyml/bin/activate'
-alias envBD='source ~/pyenvs/pybd/bin/activate'
-alias envQ='deactivate'
 alias py='python3'
 alias ipy='ipython'
 
@@ -52,26 +47,20 @@ alias which='type -a'
 alias du='du -mh'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
-# some music
-alias bgm='xdg-open ~/Music/bg_music.mp3 &'
 # check the cd-alias
-alias mycds='cat ~/.bashrc_cd_aliases | grep cd'
-# Now `cclip' copies and `clipp' pastes',not work yet | 二 06 4月 2021 16:09:32
-# alias cclip='xclip -selection clipboard'
-# alias clipp='xclip -selection clipboard -o'
+alias mycds='cat ~/.bashrc_aliases_local_only | grep cd'
 
 # --------------
 # dotfiles group
 # --------------
 # edit dotfiles
-# NOTE this DOTPATH is for vms only, use "diffg LO" when merge remote conflict
-export DOTPATH=$HOME/dataGroup/gitrepos/dotfiles
-alias vimsh='vim $DOTPATH/.bashrc'
-alias vimbz='vim $DOTPATH/.bashrc_aliases'
-alias vimrc='vim $DOTPATH/.vimrc'
-alias vimtx='vim $DOTPATH/.tmux.conf'
-alias vimgc='vim $DOTPATH/.gitconfig'
-alias vimbl='vim $HOME/.bashrc_cd_aliases'
+# NOTE this HOME is for vms only, use "diffg LO" when merge remote conflict
+alias vimsh='vim $HOME/.bashrc'
+alias vimbz='vim $HOME/.bashrc_aliases'
+alias vimrc='vim $HOME/.vimrc'
+alias vimtx='vim $HOME/.tmux.conf'
+alias vimgc='vim $HOME/.gitconfig'
+alias vimbl='vim $HOME/.bashrc_aliases_local_only'
 
 # -------------
 # tmux commands
@@ -90,7 +79,7 @@ alias txks='tmux kill-session -t'
 alias ls='ls -h --color'
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
 alias l="ls -lF --group-directories-first"
-alias ll="ls -lv --group-directories-first"
+alias ll="ls -lhv --group-directories-first"
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
@@ -149,12 +138,6 @@ function extract()      # Handy Extract Program
         echo "'$1' is not a valid file!"
     fi
 }
-
-
-# fzf find file in given path, then pile to software
-# viewbook () {
-     # fzf | xargs xdg-open &
-# }
 
 # ---------
 # fzf grops

@@ -187,6 +187,10 @@ command Svrc sav! ~/dataGroup/gitrepos/dotfiles/.vimrc
 " but sometimes need to split on leftabove or above
 " nnoremap <leader>lf :leftabove split
 nnoremap <leader>up :above split
+" when the "+gp is not working, toggle the paste mode:
+" then change to insert mode to paste the code,
+" after pasting is done, toggle it back (to support 'auto-indent' again)
+set pastetoggle=<F2>
 " yanking/pasting with system clipboard
 " pasting from sys clipboard to vim
 nnoremap <space>p "+gp
@@ -658,9 +662,9 @@ nmap <silent> <leader>> <Plug>IndentGuidesToggle
 " }}}
 
 " airline settings ----------- {{{
-let g:airline#extensions#tabline = 1
 let g:airline_theme='zenburn'
-let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline' ]
+let g:airline#extensions#tabline = 1
+let g:airline_extensions=['hunks', 'branch', 'tagbar', 'ale', 'tabline', 'obsession' ]
 let g:airline_powerline_fonts=1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -672,7 +676,7 @@ let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+let g:airline_symbols.linenr = '☰'
 " display the tail of the filename
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 " configure symbol used to represent close button >
@@ -684,17 +688,11 @@ let g:airline#extensions#quickfix#location_text = 'Location'
 
 " vim-fugitive
 let g:airline#extensions#branch#enabled = 1
-" let g:airline#extensions#branch#empty_message = ''
-" let g:airline#extensions#branch#vcs_priority = "git"
 let g:airline#extensions#branch#displayed_head_limit = 10
-" let g:airline#extensions#branch#format = 0
 
 " vim-Obsession
 let g:airline#extensions#obsession#enabled = 1
 let g:airline#extensions#obsession#indicator_text = '$'
-let g:airline_section_z = airline#section#create([
-                    \   '%{ObsessionStatus(''$'','''')}',
-                    \   'windowswap', '%3p%% ', 'linenr', ':%3v '])
 " }}}
 
 " ale settings --------------- {{{
