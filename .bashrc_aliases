@@ -2,7 +2,7 @@
 # Ubuntu 20.04-LTS ^^
 # Personal Aliases
 #-------------------
-# last modified: 四 19 8月 2021 09:57:38
+# last modified: Thu 19 Aug 2021 10:34:28
 
 alias py='python3'
 alias ipy='ipython'
