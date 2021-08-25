@@ -1,14 +1,14 @@
 # Dotfiles on my Ubuntu machine
-TODO:
   - dotfiles management | what is the best practice?
 
 ## using rsync to udpate dotfile repo as needed
+
 When it comes to dotfiles, one would like to make a change and get the effects
 ASAP. Make some aliases to quickly open and record new tricks, source it and
 enjoy it. And regularly update the repo's then push it to remote repo so that
 it can be shared to all other machines.
 
-## Or you just want to update vimrc ...
+## Or you just want to update repo/vimrc immediately
 
 Well, let's do it in vim and only in vim.
 
@@ -18,12 +18,12 @@ Combines `:sav!` and an user define vim command
 ```
 command Svrc sav! ~/your-git-repo-dir/.vimrc
 
-" then in vim, type :Svrc to save the updated .vimrc to the git repo
+" then in vim, type :Svrc to save the updated .vimrc to the repo dir
 ```
-Note that the `sav!` command will open the .vimrc, the one that was in the repo
-you had just saved, in the current buffer, while your working space may not in
-that repo, so you need to change to that working directory. And here is the
-other command.
+Note that the `sav!` command will open the repo/.vimrc which you just saved,
+in the current buffer, while your working space (pwd would tell) may not in
+that repo, so you need to change the working directory to repo dir so that
+fugitive can recognize. And here is the other command.
 
 2. set vim command in .vimrc:
 ```
