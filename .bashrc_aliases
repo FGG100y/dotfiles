@@ -2,7 +2,9 @@
 # Ubuntu 20.04-LTS ^^
 # Personal Aliases
 #------------------
-# last update: Sat 06 Feb 2021 08:49:23
+# last update: Wed 18 Aug 2021 23:27:02
+
+alias sdnow='shutdown now'
 
 # conda envs
 alias con='conda activate'
@@ -10,7 +12,7 @@ alias coff='conda deactivate'
 # python and jupyter
 alias py='python3'
 alias py2='python2'
-alias envQ='deactivate'
+alias venvQ='deactivate'
 alias jlab='jupyter-lab'
 alias ipy='ipython'
 
@@ -57,6 +59,7 @@ alias vimbl='vim $HOME/.bashrc_aliases_local_only'
 alias vimrc='vim $HOME/.vimrc'
 alias vimtx='vim $HOME/.tmux.conf'
 alias vimgc='vim $HOME/.gitconfig'
+alias vimmt='vim $HOME/.muttrc'
 
 # -------------
 # tmux commands
