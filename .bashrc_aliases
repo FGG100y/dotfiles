@@ -197,3 +197,21 @@ cdf() {
    local dir
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
+
+# --------------
+# ssh connection
+# --------------
+SVRPORT=8899
+# connect to jupyterlab on remote server
+function jlab2re() {
+    svrport="${1:-$SVRPORT}"
+    remote_username=UserName
+    remote_hostname=Your.Host.net
+    remote_hostport=10086
+    url="http://localhost:$svrport"
+    echo "Opening $url"
+    xdg-open "$url"
+    cmd="ssh -CNL localhost:$svrport:localhost:$svrport $remote_username@$remote_hostname -p$remote_hostport"
+    echo "Running '$cmd'"
+    eval "$cmd"
+}
