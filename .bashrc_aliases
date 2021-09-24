@@ -44,8 +44,6 @@ alias which='type -a'
 alias du='du -mh'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
-# some music
-alias bgm='xdg-open ~/Music/bg_music.mp3 &'
 # check the cd-alias
 alias mycds='cat ~/.bashrc_aliases_local_only | grep cd'
 
