@@ -1,53 +1,63 @@
 " ================================
 " fgg's vimrc (Linux machine)
 " built: 2018-07-16
-" update: Sat 28 Aug 2021 09:29:04
+" update: Tue 05 Oct 2021 15:53:59
 " ================================
 
 set nocompatible                                " be iMproved
 
 " " ALWAYS PUT PLUGINS FIRST PLACE
 " " TO ADVOID SOME SILLY MISTAKES.
-" " ================================Part-1: Plugins=========== {{{
-call plug#begin('~/.vim/bundle')                " reuse the plugins dir
+" " ================================Part-1: Plugins============ {{{
+call plug#begin('~/.vim/bundle')            " reuse the plugins dir
 " "-------------------=== Code/Project navigation ===-------------
-Plug 'majutsushi/tagbar'                  " Class/module browser
-Plug 'kshenoy/vim-signature'              " bookmark etc
-Plug 'easymotion/vim-easymotion'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }                " Project and file navigation
+Plug 'majutsushi/tagbar'                    " Class/module browser
+Plug 'kshenoy/vim-signature'                " bookmark etc
+Plug 'easymotion/vim-easymotion'            " quick move
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 " "-------------------=== vim outfit ===-------------------------------
-Plug 'vim-airline/vim-airline'            " Lean & mean status/tabline for vim
-Plug 'vim-airline/vim-airline-themes'     " Themes for airline
-Plug 'Lokaltog/powerline'                 " Powerline fonts plugin
-Plug 'flazz/vim-colorschemes'             " Colorschemes
-Plug 'jnurmine/Zenburn'                   " For good mood
-Plug 'altercation/vim-colors-solarized'   " For good mood
+Plug 'vim-airline/vim-airline'              " Lean & mean status/tabline for vim
+Plug 'vim-airline/vim-airline-themes'       " Themes for airline
+Plug 'Lokaltog/powerline'                   " Powerline fonts plugin
+Plug 'flazz/vim-colorschemes'               " Colorschemes
+Plug 'jnurmine/Zenburn'                     " For good mood
+Plug 'altercation/vim-colors-solarized'     " For good mood
 " Plug 'junegunn/vim-emoji'                 " Also for good mood, while conflict to YCM
 " "-------------------=== tmux ===-------------------------------
-Plug 'christoomey/vim-tmux-navigator'     " move to vim in tmux, it will take over and vice verse
-Plug 'edkolev/tmuxline.vim'
+Plug 'christoomey/vim-tmux-navigator'       " move to vim in tmux, it will take over and vice verse
+Plug 'edkolev/tmuxline.vim'                 " status line
 " "-------------------=== Coding enhancement ===-------------------
-Plug 'tpope/vim-fugitive'                 " awsome git wrapper!
-Plug 'tpope/vim-obsession'                " :mksession --> :Obsess || :source or vim -S back to session.vim
-Plug 'tpope/vim-surround'                 " Parentheses, brackets, quotes, XML tags, and more
-Plug 'tpope/vim-repeat'                   " enhance . repeat
-Plug 'airblade/vim-gitgutter'             " shows a git diff in the sign column (i.e., gutter)
-Plug 'scrooloose/nerdcommenter'           " code line/block commented
-Plug 'Valloric/YouCompleteMe'             " all for completion
-Plug 'dense-analysis/ale'                 " Linter
-Plug 'mileszs/ack.vim'                    " cherrypick your strings
+Plug 'tpope/vim-fugitive'                   " awsome git wrapper!
+Plug 'tpope/vim-obsession'                  " :mksession --> :Obsess || :source or vim -S back to session.vim
+Plug 'tpope/vim-surround'                   " Parentheses, brackets, quotes, XML tags, and more
+Plug 'tpope/vim-repeat'                     " enhance . repeat
+Plug 'tpope/vim-surround'                   " T-Pope / Change surrounding tags, characters, quotes
+Plug 'tpope/vim-eunuch'                     " Vim sugar for the UNIX shell commands
+Plug 'airblade/vim-gitgutter'               " shows a git diff in the sign column (i.e., gutter)
+Plug 'scrooloose/nerdcommenter'             " code line/block commented
+Plug 'Valloric/YouCompleteMe'               " all for completion
+Plug 'dense-analysis/ale'                   " Linter
+Plug 'mileszs/ack.vim'                      " cherrypick your strings
 Plug 'junegunn/fzf', { 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 " "-------------------=== Python enhancement ===-------------------
 Plug 'SirVer/ultisnips', { 'on': [] } | Plug 'honza/vim-snippets'
-Plug 'fisadev/vim-isort'                  " python import sorted
-Plug 'hdima/Python-Syntax'                " highlights for python
-Plug 'Vimjas/vim-python-pep8-indent'      " nicer indent for multiple lines
-" "-------------------=== markdown enhancement ===-------------------
-Plug 'godlygeek/tabular'                  " for markdown files, couple with vim-markdown
-Plug 'plasticboy/vim-markdown'            " for markdown files, couple with vim-instant-markdown
-Plug 'suan/vim-instant-markdown', {'rtp': 'after'}            " whch instantly display the contents render in a browser
-" "-------------------=== go enhancement ===-------------------
-Plug 'fatih/vim-go'                       " for golang
+Plug 'fisadev/vim-isort'                    " python import sorted
+Plug 'hdima/Python-Syntax'                  " highlights for python
+Plug 'Vimjas/vim-python-pep8-indent'        " nicer indent for multiple lines
+" "-------------------=== Wiki/markdown enhancement ===-------------------
+Plug 'vimwiki/vimwiki'                      " for personal wiki
+Plug 'mzlogin/vim-markdown-toc'
+Plug 'junegunn/goyo.vim'                    " distraction-free writing
+Plug 'junegunn/limelight.vim'               " distraction-free writing couple
+Plug 'godlygeek/tabular'                    " for markdown files, couple with vim-markdown
+Plug 'plasticboy/vim-markdown'              " for markdown files, couple with vim-instant-markdown
+Plug 'instant-markdown/vim-instant-markdown', {'for': ['markdown', 'markdown.pandoc']}
+" Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown'}
+Plug 'vim-pandoc/vim-rmarkdown'             " RMarkdown Docs in Vim
+Plug 'vim-pandoc/vim-pandoc'                " RMarkdown Docs in Vim
+Plug 'vim-pandoc/vim-pandoc-syntax'         " RMarkdown Docs in Vim
+" "-------------------=== C family enhancement ===-------------------
+Plug 'fatih/vim-go'                         " for golang
 " Plug 'rust-lang/rust.vim'                 " for rust
 " Plug 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
 " Plug 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp
@@ -57,7 +67,6 @@ Plug 'fatih/vim-go'                       " for golang
 Plug '~/.vim/bundle/xterm-color-table.vim'
 call plug#end()            " required
 
-" filetype plugin on
 " " }}}
 " " ================================Part-2: colorscheme && GUI=========== {{{
 " " NOTE: syntax enable is needed
@@ -75,9 +84,8 @@ if has('gui_running')
 endif
 " " }}}
 " " ================================Part-3: Settings=========== {{{
-" " enable syntax highlight
-syntax enable
 " " allow variable syntax highlight approches instead of the default
+filetype plugin on
 syntax on
 " " Highlight TODO, FIXME, NOTE, etc.
 if has("autocmd")
@@ -118,11 +126,12 @@ set nowrap
 " " code fold
 " " press Space to toggle the current fold open/close;
 " " with fmd=manual, create a fold by visually selecting lines
-set foldmethod=manual
+" set foldmethod=manual
+set foldmethod=marker
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 " " do not fold when first startup vim
-set nofoldenable
+" set nofoldenable
 " " History
 set history=1024
 set viminfo+=h  " do no store searches
@@ -166,7 +175,7 @@ nnoremap <leader>up :above split
 " " pasting from sys clipboard to vim
 nnoremap <space>p "+gp
 " " yank to sys clipboard only in Visual Mode
-" vnoremap <space>y "+y
+vnoremap <space>y "+y
 " " " when the "+gp is not working, toggle the paste mode:
 " " then change to insert mode to paste the code,
 " " after pasting is done, toggle it back (to support 'auto-indent' again)
@@ -247,12 +256,43 @@ ab :China: 🇨🇳
 ab :usa: 🇺🇸
 ab :notry: Do. Or do not. There is no try 😏
 " " }}}
-
 " " ================================Part-5: Plugins Settings=========== {{{
-" " vim-plug update itself using PlugUpgrade command
+" " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
+" " }}}
+" " pandoc, pandoc_syntax --- {{{
+let g:pandoc#spell#enabled = 0
+" " }}}
 
-" " NERDTree
+" " vimwiki ----------- {{{
+" " already set above
+filetype plugin on
+syntax on
+" " vimwiki with markdwon support
+let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}
+" " my wiki path
+let g:vimwiki_list = [
+    \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'},
+    \ {'path': '~/VimWiki/LinuxTools', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/LinuxTools/Vim8', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/LinuxTools/CLIs', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/MachineLearning', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/MachineLearning/LinearAlgebra', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/MachineLearning/Statistics', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/MachineLearning/NeuralNetwork', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/Programing', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/Programing/Latex', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/Programing/Python', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/Programing/ShellScripts', 'syntax': 'markdown', 'ext': '.md'},
+    \ ]
+" " }}}
+" " goyo and limelight ------ {{{
+nnoremap <C-g> :Goyo<CR>
+let g:goyo_linenr = 1
+let g:goyo_width = 80
+" let g:goyo_height = 85%
+" " }}}
+" " NERDTree ------- {{{
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 " nnoremap <C-n> :NERDTree<CR>
@@ -264,7 +304,30 @@ let NERDTreeIgnore=[
     \ '^__pycache__$[[dir]]',
     \ '.egg-info$[[dir]]',
     \ ]
-
+augroup ProjectDrawer
+    " " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
+    " autocmd StdinReadPre * let s:std_in=1
+    " autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
+    " " Start NERDTree when Vim starts with a directory argument.
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+        \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+    " " Exit Vim if NERDTree is the only window remaining in the only tab.
+    autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+augroup END
+" " }}}
+" " Nerdtree like using netrw --- {{{
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+let g:netrw_winsize = 18
+" let g:netrw_list_hide = &wildignore
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
+" " }}}
 " " Isort key-bind----------------- {{{
 let g:vim_isort_map = '<C-i>'
 " " Or disable the mapping with this:
@@ -399,7 +462,10 @@ nmap [h <Plug>(GitGutterPrevHunk)
 nmap ]h <Plug>(GitGutterNextHunk)
 " " }}}
 
-" " vim-instant_markdown ------- {{{
+" " vim-instant-markdown-preview ------- {{{
+" " NOTE that npm install instant_markdown_d failed with
+" " with the newest version of node.js (v16.*), using the
+" " snap version of node (v14)
 " " let it be slow (real-time update seems not mystyle)
 " let g:instant_markdown_slow = 0
 let g:instant_markdown_slow = 1
@@ -417,10 +483,10 @@ let g:instant_markdown_allow_unsafe_content = 1
 " " auto-scrolls to Where the cursor is positioned
 let g:instant_markdown_autoscroll = 1
 " " choose a custom browser
-" let g:instant_markdown_browser = "firefox --new-window"
+let g:instant_markdown_browser = "firefox --new-window"
 " " let's just keep it on local for now
 " let g:instant_markdown_open_to_the_world = 1
-" let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
 " " }}}
 
 " " vim-markdown --------------- {{{
@@ -444,20 +510,27 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_no_extensions_in_markdown = 1
 " " how to open new files [tab, vsplit, hsplit, current]
 let g:vim_markdown_edit_url_in = 'hsplit'
+" " create interal links and jump with `ge`
+let g:vim_markdown_follow_anchor = 1
 " " go to next header
 map ]] <Plug>Markdown_MoveToNextHeader
 map [[ <Plug>Markdown_MoveToNextHeader
 " " }}}
 
-" " tabular
-let g:tabular_loaded = 1
+" " vim markdown preview -------- {{{
+let vim_markdown_preview_github=1
+let vim_markdown_preview_pandoc=1
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_browser='firefox'
+let vim_markdown_preview_use_xdg_open=1
+" " }}}
 
-" " python-syntax highlight
+" " python-syntax highlight ----- {{{
 let python_highlight_all = 1
-
 " " py_PEP8 indent settings
 let g:python_pep8_indent_multiline_string = 1
 let g:python_pep8_indent_hang_closing = 1
+" " }}}
 
 " " UltiSnips settings --------- {{{
 " " handle the conflit with YCM
@@ -592,8 +665,8 @@ map <leader>f <Plug>(easymotion-f)
 map <leader>F <Plug>(easymotion-F)
 " " }}}
 
-" " tagbar needs Ctags/universe-ctags, and much more useful in larger project
 " " tagbar settings ------------ {{{
+" " tagbar needs Ctags/universe-ctags, and much more useful in larger project
 " let g:airline#extensions#tagbar#enabled = 1
 " let g:tagbar_autofocus=1
 " let g:tagbar_width=28
@@ -661,7 +734,6 @@ let g:ale_linters = {
             \   'cpp': ['libclang', 'gcc', 'clangd'],
             \   'go': ['gobuild', 'govet', 'gofmt'],
             \   'c': ['clang', 'gcc'],
-            \   'sh': ['shellcheck'],
             \   'rust': ['cargo', 'rustc'],
             \   'python': ['flake8']
             \}
@@ -669,18 +741,18 @@ let g:ale_python_flake8_use_global = 1
 let g:ale_fixers = {
             \   'python': ['yapf', 'autopep8']
             \}
+" let g:ale_fix_on_save = 1
 " " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
-let g:ale_fix_on_save = 1
 " " shell scripts static syntax linter
-let g:ale_sh_shellcheck_executable = 'shellcheck'
-let g:ale_sh_shellcheck_dialect = 'auto'
-let g:ale_set_signs = 1
-let g:ale_sign_column_always = 1
-let g:ale_echo_cursor = 1
-let g:ale_open_list = 1
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 0
+" let g:ale_sh_shellcheck_executable = 'shellcheck'
+" let g:ale_sh_shellcheck_dialect = 'auto'
+" let g:ale_set_signs = 1
+" let g:ale_sign_column_always = 1
+" let g:ale_echo_cursor = 1
+" let g:ale_open_list = 1
+" let g:ale_set_loclist = 1
+" let g:ale_set_quickfix = 0
 " " This can be useful if you are combining ALE with
 " " some other plugin which sets quickfix errors, etc.
 let g:ale_keep_list_window_open = 0
@@ -693,28 +765,59 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 nmap <silent> <C-p> <Plug>(ale_previous)
 nmap <silent> <C-n> <Plug>(ale_next)
 " " }}}
-
+" " }}}
 " " ================================Part-6: Autocmd Groups=========== {{{
-" " highlight 'long' lines(>= 79 symbols) ------- {{{
-augroup filefmt_autocmds
-    au!
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set nowrap
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang set colorcolumn=79
-    " auto begin in newline when exceed 79 charust,rs when edit these filetypes
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,go,golang setlocal textwidth=79 formatoptions+=t
-    " Don't add the comment prefix when I hit enter or o/O on a comment line
-    au FileType python,sh,markdown,md,c,cpp,rust,rs,vim,go setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" " for vimwiki md pandoc ------ {{{
+augroup pandoc_syntax
+  au! FileType vimwiki set syntax=markdown.pandoc
 augroup END
 " " }}}
 
+" " for html ------ {{{
+augroup html_format
+    au!
+    au BufNewFile,BufRead *.html set filetype=html
+    au FileType html set softtabstop=2
+    au FileType html set shiftwidth=2
+augroup END
+" " }}}
+
+" " for markdown ------ {{{
+augroup markdown_format
+    au!
+    au User GoyoEnter Limelight
+    au User GoyoLeave Limelight!
+    au BufNewFile,BufRead *.md set filetype=markdown
+    " au FileType markdown Goyo
+    au FileType markdown set nowrap
+    au FileType markdown setlocal textwidth=80
+    au FileType markdown setlocal conceallevel=2
+    " au FileType markdown setlocal spell spelllang=en_us
+    au FileType markdown set cursorline
+    au FileType markdown set cursorcolumn
+augroup END
+" " }}}
+
+" " highlight 'long' lines(>= 79 symbols) ------- {{{
+augroup filefmt_autocmds
+    au!
+    au FileType python,sh,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
+    au FileType python,sh,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
+    au FileType python,sh,c,cpp,rust,rs,go,golang set nowrap
+    au FileType python,sh,c,cpp,rust,rs,go,golang set colorcolumn=79
+    " auto begin in newline when exceed 79 charust,rs when edit these filetypes
+    au FileType python,sh,c,cpp,rust,rs,go,golang setlocal textwidth=79 formatoptions+=t
+    " Don't add the comment prefix when I hit enter or o/O on a comment line
+    au FileType python,sh,c,cpp,rust,rs,vim,go setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+augroup END
+" " }}}
+
+" " vim to edit the gpg encrypted file -------------------------------------- {{{
 " " augroup for edit *.gpg encrypted files
 " " Don't save backups of *.gpg files
 " set backupskip+=*.gpg
 " " To avoid that parts of the file is saved to .viminfo when yanking or deleting, empty the viminfo option
 " set viminfo=
-" " vim to edit the gpg encrypted file -------------------------------------- {{{
 " augroup filetype_gpg
 "     au!
 "     " Disable swap files, and set binary file format before reading the file
@@ -771,13 +874,14 @@ augroup filetype_vim
 augroup END
 " " }}}
 
-" " make change in vimrc working immediately
+" " make change in vimrc working immediately --- {{{
 augroup autosrc
     au!
     au BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
+" " }}}
 
-" " UltiSnips set to load on nothing
+" " UltiSnips set to load on nothing --- {{{
 " Plug 'SirVer/ultisnips', { 'on': [] }
 " " Only load it when edit *.py file
 augroup load_ultisnips
@@ -785,3 +889,4 @@ augroup load_ultisnips
   autocmd InsertEnter *.py call plug#load('ultisnips')
                      \| autocmd! load_ultisnips
 augroup END
+" " }}}

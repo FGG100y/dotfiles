@@ -4,6 +4,9 @@
 #------------------
 # last update: Wed 18 Aug 2021 23:27:02
 
+# jekyll website
+alias webpv='bundle exec jekyll serve'
+
 alias sdnow='shutdown now'
 
 # conda envs
@@ -38,10 +41,10 @@ alias mv='mv -i'
 alias cpr='cp -r'
 # Prevents accidentally clobbering files
 alias mkdir='mkdir -p'
-alias his='history'
 alias which='type -a'
 # Makes a more readable output
 alias du='du -mh'
+alias dirsize='du -sh --apparent-size'
 alias du9='du -Sh | sort -rh | head -9'
 alias df='df -kTh'
 # check the cd-alias
@@ -196,20 +199,10 @@ cdf() {
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
 
-# --------------
-# ssh connection
-# --------------
-SVRPORT=8899
-# connect to jupyterlab on remote server
-function jlab2re() {
-    svrport="${1:-$SVRPORT}"
-    remote_username=UserName
-    remote_hostname=Your.Host.net
-    remote_hostport=10086
-    url="http://localhost:$svrport"
-    echo "Opening $url"
-    xdg-open "$url"
-    cmd="ssh -CNL localhost:$svrport:localhost:$svrport $remote_username@$remote_hostname -p$remote_hostport"
-    echo "Running '$cmd'"
-    eval "$cmd"
+
+# ----------
+# md preview
+# ----------
+mdpv () {
+    pandoc $1 | lynx -stdin
 }
