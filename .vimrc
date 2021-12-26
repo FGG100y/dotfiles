@@ -87,12 +87,13 @@ endif
 " " allow variable syntax highlight approches instead of the default
 filetype plugin on
 syntax on
-" " Highlight TODO, FIXME, NOTE, etc.
+" " Highlight TODO, FIXME, NOTE, etc. (must not set before `syntax on`)
+" " more here: https://stackoverflow.com/questions/6577579/task-tags-in-vim
 if has("autocmd")
-    if v:version > 701
+  if v:version > 701
     autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
     autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
-    endif
+  endif
 endif
 hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
 hi Debug guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
@@ -265,9 +266,6 @@ let g:pandoc#spell#enabled = 0
 " " }}}
 
 " " vimwiki ----------- {{{
-" " already set above
-filetype plugin on
-syntax on
 " " vimwiki with markdwon support
 let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}
 " " my wiki path
