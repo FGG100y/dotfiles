@@ -152,14 +152,14 @@ fi
 # -----------------------------------------
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # Setting fd as the default source for fzf
-export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_COMMAND='fdfind --type f'
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # NOTE: If you want the command to follow symbolic links, and don't want it to
 # exclude hidden files, use the following command:
-# export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+# export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
 
 # python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
 if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
@@ -170,13 +170,6 @@ if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
     source ~/.local/bin/virtualenvwrapper.sh
 fi
 
-# golang's go
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-# go env -w GO111MODULE=auto
-
-# go env -w  GOPROXY=https://goproxy.io
-# 七牛云,国内镜像,给力!
-go env -w  GOPROXY=https://goproxy.cn,direct
-# go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
+# NOTE that get_pip.py install pip3 in /home/fgg/.local/bin/
+# and that did not in the $PATH of the system, manually set needed:
+export PATH=/home/fgg/.local/bin:$PATH
