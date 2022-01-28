@@ -17,7 +17,6 @@ alias coff='conda deactivate'
 alias py='python3'
 alias py2='python2'
 alias venvQ='deactivate'
-alias jlab='jupyter-lab'
 alias ipy='ipython'
 
 # ----------------

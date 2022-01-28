@@ -56,6 +56,10 @@ Plug 'instant-markdown/vim-instant-markdown', {'for': ['markdown', 'markdown.pan
 Plug 'vim-pandoc/vim-rmarkdown'             " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc'                " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc-syntax'         " RMarkdown Docs in Vim
+" "-------------------=== Julia lang suppoert  ===-------------------
+Plug 'JuliaEditorSupport/julia-vim'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" Plug 'roxma/nvim-completion-manager'  " optional, for auto-completion
 " "-------------------=== C family enhancement ===-------------------
 Plug 'fatih/vim-go'                         " for golang
 " Plug 'rust-lang/rust.vim'                 " for rust
@@ -71,9 +75,12 @@ call plug#end()            " required
 " " ================================Part-2: colorscheme && GUI=========== {{{
 " " NOTE: syntax enable is needed
 syntax enable
-set background=dark
+" set background=dark
 " colorscheme zenburn
 colorscheme Tomorrow-Night
+" Not so grace shotcuts to toggle dark/bright themes
+nnoremap <leader>tt :colo Tomorrow<cr>
+nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " gvim
 if has('gui_running')
     " no toolbar
@@ -185,10 +192,10 @@ set pastetoggle=<F2>
 nnoremap <space>] :tabn<cr>
 nnoremap <space>[ :tabp<cr>
 " " tmuxline snapshot file-saved
-nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-snapshot saved***"<cr>
+nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-airline snapshot saved***"<cr>
 " " The "e" flag tells ":substitute" that not finding a match is not an error.
 " " strip trailing whitespace (,,t)
-nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
+nnoremap <leader>tr :%s/\s\+$//ge<cr>
 " " quick select buffer and delete it
 " nnoremap <leader>bn :bnext<cr>
 " nnoremap <leader>bp :bprevious<cr>
@@ -199,9 +206,10 @@ nnoremap <space><space> :nohlsearch<cr>
 " " windows/panes resize
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
-" " close quickfix/local window
+" " close quickfix/local/preview window
 nnoremap <space>lo :cclose<cr>
 nnoremap <space>lc :lclose<cr>
+nnoremap <space>pc :pclose<cr>
 " " fzf shotcut
 imap <c-x><c-o> <plug>(fzf-complete-line)
 map <space>b :Buffers<cr>
@@ -260,6 +268,32 @@ ab :notry: Do. Or do not. There is no try 😏
 " " ================================Part-5: Plugins Settings=========== {{{
 " " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
+" " }}}
+" " Julia-vim --- {{{
+" " julia version >= 1.0
+let g:default_julia_version = '1.0'
+" " language server linting etc | NOTE that this is not good for 'old' machine, for the cpu sake.
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_serverCommands = {
+"             \   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
+"             \       using LanguageServer;
+"             \       using Pkg;
+"             \       import StaticLint;
+"             \       import SymbolServer;
+"             \       env_path = dirname(Pkg.Types.Context().env.project_file);
+"             \
+"             \       server = LanguageServer.LanguageServerInstance(stdin, stdout, env_path, "");
+"             \       server.runlinter = true;
+"             \       run(server);
+"             \   ']
+"             \ }
+" " block-wise jump
+runtime macros/matchit.vim
+let g:julia_indent_align_import=1
+let g:julia_indent_align_brackets=1
+hi link juliaParDelim Delimiter
+hi link juliaSemicolon Operator
+hi link juliaFunctionCall Identifier
 " " }}}
 " " pandoc, pandoc_syntax --- {{{
 let g:pandoc#spell#enabled = 0
@@ -383,13 +417,14 @@ let g:tmuxline_theme = 'zenburn'
 let g:airline#extensions#tmuxline#enabled = 1
 let g:tmuxline_powerline_separators = 0
 " let g:tmuxline_preset = '' "see autoload/tmuxline/preset/*
+" " NOTE that the status right section was override by tmux.conf for 'weather' to work
 let g:tmuxline_preset = {
       \'a'    : '#S',
       \'b'    : '\u2206t#(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
-      \'c'    : '',
+      \'c'    : '#(pwd)',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
-      \'y'    : ['%R','%a', '%F' ],
+      \'y'    : ['#{weather}', '%R','%a', '%F' ],
       \'z'    : '#H'}
 " " }}}
 
@@ -404,13 +439,6 @@ set tags=./tags;/
 " nnoremap <F9> :!ctags -R<cr>
 " " }}}
 " " fzf as vim-plugin ----------- {{{
-" " NOTE: both 'junegunn/fzf.vim'(the plugin) AND 'junegunn/fzf'(the program) are needed!
-" " NOTE: deal with the rtp of fzf difference from other machine's
-" if hostname() == 'wuhan608'
-"     set rtp+=~/.fzf
-" elseif hostname() == 'panyu202'
-"     set rtp+=~/fggit/GitHub_repos/fzf
-" endif
 " " For multi-platform sake, just install the fzf in ~/.fzf
 set rtp+=~/.fzf
 let g:fzf_layout = {'down': '~40%'}
@@ -733,8 +761,10 @@ let g:ale_linters = {
             \   'go': ['gobuild', 'govet', 'gofmt'],
             \   'c': ['clang', 'gcc'],
             \   'rust': ['cargo', 'rustc'],
-            \   'python': ['flake8']
+            \   'python': ['flake8'],
             \}
+" \   'julia': ['languageserver']
+" let g:ale_julia_executable='/usr/local/bin/julia'
 let g:ale_python_flake8_use_global = 1
 let g:ale_fixers = {
             \   'python': ['yapf', 'autopep8']
@@ -765,9 +795,17 @@ nmap <silent> <C-n> <Plug>(ale_next)
 " " }}}
 " " }}}
 " " ================================Part-6: Autocmd Groups=========== {{{
+" " for *.jl  ------ {{{
+augroup LanguageClient_config
+    au!
+    au User LanguageClientStarted setlocal signcolumn=yes
+    au User LanguageClientStopped setlocal signcolumn=auto
+augroup END
+" " }}}
+
 " " for vimwiki md pandoc ------ {{{
 augroup pandoc_syntax
-  au! FileType vimwiki set syntax=markdown.pandoc
+    au! FileType vimwiki set syntax=markdown.pandoc
 augroup END
 " " }}}
 

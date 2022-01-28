@@ -161,15 +161,18 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 # exclude hidden files, use the following command:
 # export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
 
-# python virtualenv and virtualenvwrapper | Sun 11 Aug 2019 23:08:49
-if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME=$HOME/.virtualenvs
-    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-    export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
-    export PROJECT_HOME=$HOME/fggit/pyvenvs
-    source ~/.local/bin/virtualenvwrapper.sh
-fi
+# # python virtualenv and virtualenvwrapper | Sun 02 Jan 2022 08:59:27
+# if [ -f ~/.local/bin/virtualenvwrapper.sh ]; then
+#     export WORKON_HOME=$HOME/.virtualenvs
+#     export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+#     export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
+#     export PROJECT_HOME=$HOME/fggit/pyvenvs
+#     source ~/.local/bin/virtualenvwrapper.sh
+# fi
 
 # NOTE that get_pip.py install pip3 in /home/fgg/.local/bin/
 # and that did not in the $PATH of the system, manually set needed:
+# NOTE2 'python3 -m pip xxx' may be a better idea
 export PATH=/home/fgg/.local/bin:$PATH
+# add julia to PATH (make a soft link to .local/bin | Sat 01 Jan 2022 11:10:02)
+# NOTE3 when it comes to 'soft link', always use the absolute path.
