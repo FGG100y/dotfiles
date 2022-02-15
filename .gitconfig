@@ -76,9 +76,11 @@
 	p = pull --recurse-submodules
 	# Clone a repository including all submodules.
 	c = clone --recursive
-	#  Commit or commit all changes.
-    ci = commit
+	#  Commit with one-liner in shell directly
     cm = commit -m
+    # or commit one file with the changes listed in Vim
+    ci = !git commit -v
+    # or commit all files with all changes listed in Vim
     ca = !git add -A && git commit -av
 	# Switch to a branch, creating it if necessary.
     co = checkout
