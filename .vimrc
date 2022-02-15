@@ -1,7 +1,7 @@
 " ================================
 " fgg's vimrc (Linux machine)
 " built: 2018-07-16
-" update: Tue 05 Oct 2021 15:53:59
+" update: Wed 09 Feb 2022 21:45:28
 " ================================
 
 set nocompatible                                " be iMproved
@@ -11,7 +11,8 @@ set nocompatible                                " be iMproved
 " " ================================Part-1: Plugins============ {{{
 call plug#begin('~/.vim/bundle')            " reuse the plugins dir
 " "-------------------=== Code/Project navigation ===-------------
-Plug 'majutsushi/tagbar'                    " Class/module browser
+" Plug 'majutsushi/tagbar'                    " Class/module browser
+" Plug 'xolox/vim-easytags'                   " Class/module browser
 Plug 'kshenoy/vim-signature'                " bookmark etc
 Plug 'easymotion/vim-easymotion'            " quick move
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -22,7 +23,6 @@ Plug 'Lokaltog/powerline'                   " Powerline fonts plugin
 Plug 'flazz/vim-colorschemes'               " Colorschemes
 Plug 'jnurmine/Zenburn'                     " For good mood
 Plug 'altercation/vim-colors-solarized'     " For good mood
-" Plug 'junegunn/vim-emoji'                 " Also for good mood, while conflict to YCM
 " "-------------------=== tmux ===-------------------------------
 Plug 'christoomey/vim-tmux-navigator'       " move to vim in tmux, it will take over and vice verse
 Plug 'edkolev/tmuxline.vim'                 " status line
@@ -46,16 +46,17 @@ Plug 'hdima/Python-Syntax'                  " highlights for python
 Plug 'Vimjas/vim-python-pep8-indent'        " nicer indent for multiple lines
 " "-------------------=== Wiki/markdown enhancement ===-------------------
 Plug 'vimwiki/vimwiki'                      " for personal wiki
-Plug 'mzlogin/vim-markdown-toc'
+Plug 'mattn/calendar-vim'                   " Calendar match with vimwiki
 Plug 'junegunn/goyo.vim'                    " distraction-free writing
 Plug 'junegunn/limelight.vim'               " distraction-free writing couple
 Plug 'godlygeek/tabular'                    " for markdown files, couple with vim-markdown
 Plug 'plasticboy/vim-markdown'              " for markdown files, couple with vim-instant-markdown
+Plug 'mzlogin/vim-markdown-toc'             " for table_of_content
 Plug 'instant-markdown/vim-instant-markdown', {'for': ['markdown', 'markdown.pandoc']}
-" Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown'}
 Plug 'vim-pandoc/vim-rmarkdown'             " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc'                " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc-syntax'         " RMarkdown Docs in Vim
+" Plug 'itchyny/calendar.vim'                 " Calendar
 " "-------------------=== Julia lang suppoert  ===-------------------
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
@@ -66,21 +67,18 @@ Plug 'fatih/vim-go'                         " for golang
 " Plug 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
 " Plug 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp
 " "-------------------=== other plugins ===-----------------------------
-" Plug 'gnupg.vim'                          " for transparent editting .gpg files
+Plug 'jamessan/vim-gnupg'                   " for transparent editting .gpg files
 " " Unmanaged local plugin (manually installed and update):
 Plug '~/.vim/bundle/xterm-color-table.vim'
 call plug#end()            " required
 
 " " }}}
-" " ================================Part-2: colorscheme && GUI=========== {{{
+" " ================================Part-2: colorscheme======== {{{
 " " NOTE: syntax enable is needed
 syntax enable
 " set background=dark
 " colorscheme zenburn
 colorscheme Tomorrow-Night
-" Not so grace shotcuts to toggle dark/bright themes
-nnoremap <leader>tt :colo Tomorrow<cr>
-nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " gvim
 if has('gui_running')
     " no toolbar
@@ -156,9 +154,13 @@ set updatetime=1000
 " " markdown settings
 set conceallevel=2
 " " }}}
-" " ================================Part-4: Leader commands=========== {{{
+" " ================================Part-4: Leader commands==== {{{
 " " leader set to the comma, but the <space> also very helpful
 let mapleader=","
+
+" " Not so grace shotcuts to toggle dark/bright themes
+nnoremap <leader>tt :colo Tomorrow<cr>
+nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
@@ -174,6 +176,13 @@ nnoremap <space>v :sp $MYVIMRC<cr>
 " command CC cd %:p:h <bar> :e %
 " " Svrc means saveas current file to my-repo dir (When init .vimrc using <header>v)
 " command Svrc sav! ~/fggit/gitrepos/fmhrepos/dotfiles/.vimrc
+" " command as shortcut to edit dotfiles, keep commands consist to bash aliases
+command Vimsh :tabnew <bar> :e ~/.bashrc
+command Vimbz :tabnew <bar> :e ~/.bashrc_aliases
+command Vimbl :tabnew <bar> :e ~/.bashrc_aliases_local_only
+command Vimtx :tabnew <bar> :e ~/.tmux.conf
+command Vimgc :tabnew <bar> :e ~/.gitconfig
+command Vimmt :tabnew <bar> :e ~/.muttrc
 " ---------------------------------------------------------
 " " common rule were: splitright & splitbelow
 " " but sometimes need to split on leftabove or above
@@ -197,8 +206,8 @@ nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx
 " " strip trailing whitespace (,,t)
 nnoremap <leader>tr :%s/\s\+$//ge<cr>
 " " quick select buffer and delete it
-" nnoremap <leader>bn :bnext<cr>
-" nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
 " nnoremap <leader>bf :ls<cr>
 " nnoremap <leader>bd :bd<cr>
 " " turn off highlights
@@ -233,6 +242,9 @@ inoremap jk <ESC>
 " " insert the datetime
 " " insert mode by typing 'dts' >> 'Sat 28 Aug 2021 09:45:56'
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+iab dte <c-r>=strftime("%Y-%m-%d")<cr>
+" " Em dash symbol
+iab emdash —
 " " Emoji shortcuts
 ab :check: ✅
 ab :warning: ⚠️
@@ -265,7 +277,7 @@ ab :China: 🇨🇳
 ab :usa: 🇺🇸
 ab :notry: Do. Or do not. There is no try 😏
 " " }}}
-" " ================================Part-5: Plugins Settings=========== {{{
+" " ================================Part-5: Plugins Settings=== {{{
 " " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
 " " }}}
@@ -300,23 +312,45 @@ let g:pandoc#spell#enabled = 0
 " " }}}
 
 " " vimwiki ----------- {{{
-" " vimwiki with markdwon support
+" " vimwiki with markdwon support (as default format)
 let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}
-" " my wiki path
+" "
+" " my wiki path >>> [count]<Leader>ww | [count]<Leader>wt (new tab)
+" " <Leader>ww opens the first wiki from |g:vimwiki_list| if no wiki is
+" " open. Otherwise the index of the currently active wiki is opened.
+" " 1<Leader>ww opens the first wiki from |g:vimwiki_list|.
+" " 2<Leader>ww opens the second wiki from |g:vimwiki_list|.
+" " 3<Leader>ww opens the third wiki from |g:vimwiki_list|.
+" " etc.
+" " <Leader>ws: List and select available wikis.
+" "
 let g:vimwiki_list = [
-    \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md', 'index': 'Home'},
+    \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
+    \  'index': 'Home', 'auto_export': 1, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimWiki_html',
+    \  'template_ext': '.html',
+    \  'template_default':'markdown',
+    \  'template_path': '~/VimWiki/template/',
+    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
+    \ },
     \ {'path': '~/VimWiki/LinuxTools', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/LinuxTools/Vim8', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/LinuxTools/CLIs', 'syntax': 'markdown', 'ext': '.md'},
     \ {'path': '~/VimWiki/MachineLearning', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/MachineLearning/LinearAlgebra', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/MachineLearning/Statistics', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/MachineLearning/NeuralNetwork', 'syntax': 'markdown', 'ext': '.md'},
     \ {'path': '~/VimWiki/Programing', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/Programing/Latex', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/Programing/Python', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/Programing/ShellScripts', 'syntax': 'markdown', 'ext': '.md'},
     \ ]
+" \ {'path': '~/VimWiki/Programing/Julia', 'syntax': 'markdown', 'ext': '.md'},
+" \ {'path': '~/VimWiki/Programing/Latex', 'syntax': 'markdown', 'ext': '.md'},
+" \ {'path': '~/VimWiki/Programing/Python', 'syntax': 'markdown', 'ext': '.md'},
+" \ {'path': '~/VimWiki/Programing/ShellScripts', 'syntax': 'markdown', 'ext': '.md'},
+" \ {'path': '~/VimWiki/MachineLearning/linearAlgebra', 'syntax': 'markdown', 'ext': '.md'},
+" \ {'path': '~/VimWiki/MachineLearning/statistics', 'syntax': 'markdown', 'ext': '.md'},
+" \ {'path': '~/VimWiki/MachineLearning/neuralNetwork', 'syntax': 'markdown', 'ext': '.md'},
+" \ ]
+" " Calendar + Diary
+let g:vimwiki_use_calendar=1
+" " some remaps
+" " open Link in VSplite
+nmap <leader>lh <Plug>VimwikiSplitLink
+nmap <leader>lv <Plug>VimwikiVSplitLink
 " " }}}
 " " goyo and limelight ------ {{{
 nnoremap <C-g> :Goyo<CR>
@@ -491,10 +525,13 @@ nmap ]h <Plug>(GitGutterNextHunk)
 " " vim-instant-markdown-preview ------- {{{
 " " NOTE that npm install instant_markdown_d failed with
 " " with the newest version of node.js (v16.*), using the
-" " snap version of node (v14)
-" " let it be slow (real-time update seems not mystyle)
+" " snap version of node (v14) or try 'fnm install'
+
+" " shortcut to preview
+command MDPV :InstantMarkdownPreview 
+" " let it be slow? (real-time update seems great)
 " let g:instant_markdown_slow = 0
-let g:instant_markdown_slow = 1
+" let g:instant_markdown_slow = 1
 " " manual trigger the preview window
 let g:instant_markdown_autostart = 0
 " " uses MathJax
@@ -537,18 +574,18 @@ let g:vim_markdown_no_extensions_in_markdown = 1
 " " how to open new files [tab, vsplit, hsplit, current]
 let g:vim_markdown_edit_url_in = 'hsplit'
 " " create interal links and jump with `ge`
-let g:vim_markdown_follow_anchor = 1
+" let g:vim_markdown_follow_anchor = 1
 " " go to next header
 map ]] <Plug>Markdown_MoveToNextHeader
 map [[ <Plug>Markdown_MoveToNextHeader
 " " }}}
 
 " " vim markdown preview -------- {{{
-let vim_markdown_preview_github=1
-let vim_markdown_preview_pandoc=1
-let vim_markdown_preview_hotkey='<C-m>'
-let vim_markdown_preview_browser='firefox'
-let vim_markdown_preview_use_xdg_open=1
+" let vim_markdown_preview_github=1
+" let vim_markdown_preview_pandoc=1
+" let vim_markdown_preview_hotkey='<C-m>'
+" let vim_markdown_preview_browser='firefox'
+" let vim_markdown_preview_use_xdg_open=1
 " " }}}
 
 " " python-syntax highlight ----- {{{
@@ -578,6 +615,13 @@ let g:tmux_navigator_disable_when_zoomed = 1
 " " value:1 -- :update (current buffer iff changed);
 " "       2 -- :wall (write all bufffer)
 " let g:tmux_navigator_save_on_switch = 1
+" " match with Tmux-side of vim-tmux-navigator
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 " " }}}
 
 " " nerdcommenter -------------- {{{
@@ -716,7 +760,8 @@ nmap <silent> <leader>> <Plug>IndentGuidesToggle
 " " airline settings ----------- {{{
 let g:airline#extensions#tabline = 1
 let g:airline_theme='zenburn'
-let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline', 'obsession']
+let g:airline_extensions=['branch', 'ale', 'tabline', 'obsession']
+" let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline', 'obsession']
 let g:airline_powerline_fonts=1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -793,8 +838,14 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 nmap <silent> <C-p> <Plug>(ale_previous)
 nmap <silent> <C-n> <Plug>(ale_next)
 " " }}}
+
+" " vim-gnugp settings --------------- {{{
+let g:GPGPreferArmor=1
+let g:GPGDefaultRecipients=["fanmhgg@gmail.com"]
 " " }}}
-" " ================================Part-6: Autocmd Groups=========== {{{
+
+" " =================================================================== }}}
+" " ================================Part-6: Autocmd Groups===== {{{
 " " for *.jl  ------ {{{
 augroup LanguageClient_config
     au!
