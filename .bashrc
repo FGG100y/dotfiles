@@ -176,3 +176,15 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export PATH=/home/fgg/.local/bin:$PATH
 # add julia to PATH (make a soft link to .local/bin | Sat 01 Jan 2022 11:10:02)
 # NOTE3 when it comes to 'soft link', always use the absolute path.
+
+# fnm for Node.js
+# (vim-instant-markdown-d needs Node.js)
+export PATH=/home/fgg/.fnm:$PATH
+eval "`fnm env`"
+
+# for vim-gnupg
+GPG_TTY=`tty`
+export GPG_TTY
+
+# set default editor to vim
+export EDITOR=vim
