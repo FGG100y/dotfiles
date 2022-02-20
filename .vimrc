@@ -70,6 +70,7 @@ Plug 'fatih/vim-go'                         " for golang
 Plug 'jamessan/vim-gnupg'                   " for transparent editting .gpg files
 " " Unmanaged local plugin (manually installed and update):
 Plug '~/.vim/bundle/xterm-color-table.vim'
+" Plug '~/.vim/bundle/vimim.vim'            " 实际上要放在 ./vim/plugin/ 才可
 call plug#end()            " required
 
 " " }}}
@@ -97,11 +98,11 @@ syntax on
 if has("autocmd")
   if v:version > 701
     autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
-    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
+    autocmd Syntax * call matchadd('Info', '\W\zs\(NOTE\|INFO\|IDEA\)')
   endif
 endif
 hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
-hi Debug guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
+hi Info guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
 " " Do not use a mouse, otherwise :set mouse=n/v/i/a
 set mouse=
 " " backspace for del
@@ -171,6 +172,7 @@ nnoremap <leader>Q :q!<cr>
 " " shotcut to edit ~/_vimrc, and update it to local git repo
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
 nnoremap <space>v :sp $MYVIMRC<cr>
+nnoremap <space>s :source $MYVIMRC<cr>
 " " groups of specific commands to update .vimrc to git repo
 " " CC = Change to Current file's directory (When init .vimrc with CLI vimrc)
 " command CC cd %:p:h <bar> :e %
@@ -203,7 +205,7 @@ nnoremap <space>[ :tabp<cr>
 " " tmuxline snapshot file-saved
 nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-airline snapshot saved***"<cr>
 " " The "e" flag tells ":substitute" that not finding a match is not an error.
-" " strip trailing whitespace (,,t)
+" " trimming trailing whitespace (,,t)
 nnoremap <leader>tr :%s/\s\+$//ge<cr>
 " " quick select buffer and delete it
 nnoremap <leader>bn :bnext<cr>
@@ -235,7 +237,7 @@ map <space>t :Tags<cr>
 " " Type :normal @q to run the macro from register q on each line.
 " " -------------------------------------------------------------------
 " " Open help at vertical pane
-nnoremap <Space>h :vert help 
+nnoremap <Space>h :vert help
 " " alternative way to back to normal mode
 inoremap jk <ESC>
 " " groups of abbreviate
@@ -264,7 +266,7 @@ ab :computer: 💻
 ab :redheart: ❤️
 ab :wtf: 😱
 ab :thanks: 😜
-ab :kiding: 🙄
+ab :kidding: 🙄
 ab :weary: 😩
 ab :robot: 🤖
 ab :panda: 🐼
@@ -281,7 +283,18 @@ ab :notry: Do. Or do not. There is no try 😏
 " " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
 " " }}}
-" " Julia-vim --- {{{
+" " vimim.vim settings -------------- {{{
+" let g:Vimim_map='tab_as_gi'
+" let g:vimim_shuangpin = 0
+" let g:vimim_punctuation = 2
+" let g:vimim_mode = 'dynamic'
+" let g:vimim_plugin = 'C:/var/mobile/vim/vimfiles/plugin'
+" " NOTE 这个指定目录的设置并不起作用,
+" " 必须将 vimim.vim 和 词库文件如 vimim.pinyin.txt 一起放在 plugin/ 目录
+" let g:vimim_plugin = '~/.vim/bundle/vim-vimim'
+" let g:vimim_toggle = 'pinyin,google,sogou'
+" " }}}
+" " Julia-vim settings --- {{{
 " " julia version >= 1.0
 let g:default_julia_version = '1.0'
 " " language server linting etc | NOTE that this is not good for 'old' machine, for the cpu sake.
@@ -310,7 +323,6 @@ hi link juliaFunctionCall Identifier
 " " pandoc, pandoc_syntax --- {{{
 let g:pandoc#spell#enabled = 0
 " " }}}
-
 " " vimwiki ----------- {{{
 " " vimwiki with markdwon support (as default format)
 let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}
@@ -347,6 +359,8 @@ let g:vimwiki_list = [
 " \ ]
 " " Calendar + Diary
 let g:vimwiki_use_calendar=1
+" " fancy todo listsyms
+let g:vimwiki_listsyms = '✗○◐●✓'
 " " some remaps
 " " open Link in VSplite
 nmap <leader>lh <Plug>VimwikiSplitLink
@@ -412,7 +426,7 @@ endif
 " " do not auto-jump (ack!) to the first result
 nnoremap <leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
-command Debug Ack! 'NOTE|INFO|IDEA'
+command Info Ack! 'NOTE|INFO|IDEA'
 " " }}}
 " " vim-go ---------------------- {{{
 let g:go_list_type = "locationlist"
@@ -440,6 +454,7 @@ let g:go_highlight_operators = 1
 let g:go_auto_type_info = 1
 " let g:go_auto_sameids = 1
 " " }}}
+
 " " rust.vim -------------------- {{{
 let g:rustfmt_autosave = 1
 let g:ale_rust_cargo_use_check = 1
@@ -472,6 +487,7 @@ set tags=./tags;/
 " " generate tag file, so we can Ctrl-] to goto definitions
 " nnoremap <F9> :!ctags -R<cr>
 " " }}}
+
 " " fzf as vim-plugin ----------- {{{
 " " For multi-platform sake, just install the fzf in ~/.fzf
 set rtp+=~/.fzf
@@ -528,7 +544,7 @@ nmap ]h <Plug>(GitGutterNextHunk)
 " " snap version of node (v14) or try 'fnm install'
 
 " " shortcut to preview
-command MDPV :InstantMarkdownPreview 
+command MDPV :InstantMarkdownPreview
 " " let it be slow? (real-time update seems great)
 " let g:instant_markdown_slow = 0
 " let g:instant_markdown_slow = 1
@@ -857,6 +873,8 @@ augroup END
 " " for vimwiki md pandoc ------ {{{
 augroup pandoc_syntax
     au! FileType vimwiki set syntax=markdown.pandoc
+    au! BufRead,BufNewFile vimwiki set noimdisable
+    au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set noimdisable
 augroup END
 " " }}}
 
