@@ -142,37 +142,6 @@ function extract()      # Handy Extract Program
     fi
 }
 
-# Wed 30 Oct 2019 20:26:53
-# Usage: mkgo dir_name
-mkgo () {
-    mkdir -p "$1"
-    cd "$1" || exit
-}
-
-# Usage: counts_files dir
-count_files () {
-    num_dir=0
-    num_f=0
-    if [ -d "$1" ]; then
-        for f in "$1"/*; do
-            if [ -d "$f" ]; then
-                num_dir=$(( num_dir + 1 ))
-            elif [ -f "$f" ]; then
-                num_f=$(( num_f + 1 ))
-            fi
-        done
-    else
-        echo "Bad argument. Must be a directory."
-    fi
-    echo "Total files: $(( num_dir + num_f ))"
-    echo "$num_dir directories, $num_f files"
-}
-
-# fzf find file in given path, then pile to software
-# viewbook () {
-     # fzf | xargs xdg-open &
-# }
-
 # cat *file's contents about some 'key'
 Bashalias () {
     cat < ~/.bashrc_aliases | grep "$1"
