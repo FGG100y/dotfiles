@@ -74,7 +74,7 @@ Plug '~/.vim/bundle/xterm-color-table.vim'
 call plug#end()            " required
 
 " " }}}
-" " ================================Part-2: colorscheme======== {{{
+" " ================================Part-2: Colorscheme======== {{{
 " " NOTE: syntax enable is needed
 syntax enable
 " set background=dark
@@ -165,7 +165,7 @@ nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <space>w :Gwrite<cr>
-nnoremap <space>c :G commit<cr>
+nnoremap <space>c :Gcommit -v<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>Q :q!<cr>
 " " ---------------------------------------------------------
@@ -338,16 +338,37 @@ let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 
 " "
 let g:vimwiki_list = [
     \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
-    \  'index': 'Home', 'auto_export': 1, 'automatic_nested_syntaxes':1,
-    \  'path_html': '~/VimWiki_html',
+    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
     \  'template_ext': '.html',
     \  'template_default':'markdown',
     \  'template_path': '~/VimWiki/template/',
     \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
     \ },
-    \ {'path': '~/VimWiki/LinuxTools', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/MachineLearning', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/VimWiki/Programing', 'syntax': 'markdown', 'ext': '.md'},
+    \ {'path': '~/VimWiki/LinuxTools', 'syntax': 'markdown', 'ext': '.md',
+    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
+    \  'template_ext': '.html',
+    \  'template_default':'markdown',
+    \  'template_path': '~/VimWiki/template/',
+    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
+    \ },
+    \ {'path': '~/VimWiki/MachineLearning', 'syntax': 'markdown', 'ext': '.md',
+    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
+    \  'template_ext': '.html',
+    \  'template_default':'markdown',
+    \  'template_path': '~/VimWiki/template/',
+    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
+    \ },
+    \ {'path': '~/VimWiki/Programing', 'syntax': 'markdown', 'ext': '.md',
+    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
+    \  'template_ext': '.html',
+    \  'template_default':'markdown',
+    \  'template_path': '~/VimWiki/template/',
+    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
+    \ },
     \ ]
 " \ {'path': '~/VimWiki/Programing/Julia', 'syntax': 'markdown', 'ext': '.md'},
 " \ {'path': '~/VimWiki/Programing/Latex', 'syntax': 'markdown', 'ext': '.md'},
@@ -828,7 +849,8 @@ let g:ale_linters = {
 " let g:ale_julia_executable='/usr/local/bin/julia'
 let g:ale_python_flake8_use_global = 1
 let g:ale_fixers = {
-            \   'python': ['yapf', 'autopep8']
+            \   'python': ['yapf', 'autopep8'],
+            \   'sql': ['pgformatter'],
             \}
 " let g:ale_fix_on_save = 1
 " " Bind F8 to fixing problems with ALE
@@ -862,6 +884,13 @@ let g:GPGDefaultRecipients=["fanmhgg@gmail.com"]
 
 " " =================================================================== }}}
 " " ================================Part-6: Autocmd Groups===== {{{
+" " for *.sql  ------ {{{
+augroup pgformatter_sql
+    au!
+    au FileType sql setl formatprg=/usr/local/bin/pg_format\ -
+augroup END
+" " }}}
+
 " " for *.jl  ------ {{{
 augroup LanguageClient_config
     au!
