@@ -11,7 +11,7 @@ alias juliarun='julia --startup-file=no'
 alias cman='man -M /usr/share/man/zh_CN'
 
 # jekyll website
-alias webpv='bundle exec jekyll serve'
+alias webpreview='bundle exec jekyll serve'
 
 # conda envs
 alias con='conda activate'
@@ -178,4 +178,17 @@ cdf() {
 # ----------
 mdpv () {
     pandoc $1 | lynx -stdin
+}
+
+# swap files names
+swap_files() {
+    if [ $# -ne 2 ]
+    then
+        echo "Usage: swap_files file1 file2"
+    else
+        local TMPFILE=$(mktemp)
+        mv -- "$1" "$TMPFILE"
+        mv -- "$2" "$1"
+        mv -- "$TMPFILE" "$2"
+    fi
 }
