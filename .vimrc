@@ -1,13 +1,13 @@
 " ================================
 " fgg's vimrc (Linux machine)
 " built: 2018-07-16
-" update: Wed 09 Feb 2022 21:45:28
+" update: Wed 25 May 2022 22:35:38
 " ================================
 
 set nocompatible                                " be iMproved
 
 " " ALWAYS PUT PLUGINS FIRST PLACE
-" " TO ADVOID SOME SILLY MISTAKES.
+" " TO AVOID SOME SILLY MISTAKES;)
 " " ================================Part-1: Plugins============ {{{
 call plug#begin('~/.vim/bundle')            " reuse the plugins dir
 " "-------------------=== Code/Project navigation ===-------------
@@ -173,11 +173,6 @@ nnoremap <leader>Q :q!<cr>
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
 nnoremap <space>v :sp $MYVIMRC<cr>
 nnoremap <space>s :source $MYVIMRC<cr>
-" " groups of specific commands to update .vimrc to git repo
-" " CC = Change to Current file's directory (When init .vimrc with CLI vimrc)
-" command CC cd %:p:h <bar> :e %
-" " Svrc means saveas current file to my-repo dir (When init .vimrc using <header>v)
-" command Svrc sav! ~/fggit/gitrepos/fmhrepos/dotfiles/.vimrc
 " " command as shortcut to edit dotfiles, keep commands consist to bash aliases
 command Vimsh :tabnew <bar> :e ~/.bashrc
 command Vimbz :tabnew <bar> :e ~/.bashrc_aliases
@@ -283,6 +278,7 @@ ab :notry: Do. Or do not. There is no try 😏
 " " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
 " " }}}
+
 " " vimim.vim settings -------------- {{{
 " let g:Vimim_map='tab_as_gi'
 " let g:vimim_shuangpin = 0
@@ -294,6 +290,7 @@ command! PU PlugUpdate | PlugUpgrade
 " let g:vimim_plugin = '~/.vim/bundle/vim-vimim'
 " let g:vimim_toggle = 'pinyin,google,sogou'
 " " }}}
+
 " " Julia-vim settings --- {{{
 " " julia version >= 1.0
 let g:default_julia_version = '1.0'
@@ -320,9 +317,11 @@ hi link juliaParDelim Delimiter
 hi link juliaSemicolon Operator
 hi link juliaFunctionCall Identifier
 " " }}}
+
 " " pandoc, pandoc_syntax --- {{{
 let g:pandoc#spell#enabled = 0
 " " }}}
+
 " " vimwiki ----------- {{{
 " " vimwiki with markdwon support (as default format)
 let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}
@@ -387,12 +386,14 @@ let g:vimwiki_listsyms = '✗○◐●✓'
 nmap <leader>lh <Plug>VimwikiSplitLink
 nmap <leader>lv <Plug>VimwikiVSplitLink
 " " }}}
+ 
 " " goyo and limelight ------ {{{
 nnoremap <C-g> :Goyo<CR>
 let g:goyo_linenr = 1
 let g:goyo_width = 80
 " let g:goyo_height = 85%
 " " }}}
+
 " " NERDTree ------- {{{
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
@@ -417,6 +418,7 @@ augroup ProjectDrawer
     autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 augroup END
 " " }}}
+
 " " Nerdtree like using netrw --- {{{
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
@@ -429,6 +431,7 @@ let g:netrw_winsize = 18
 "   autocmd VimEnter * :Vexplore
 " augroup END
 " " }}}
+
 " " Isort key-bind----------------- {{{
 let g:vim_isort_map = '<C-i>'
 " " Or disable the mapping with this:
@@ -440,6 +443,7 @@ let g:vim_isort_map = '<C-i>'
 " " so if isort is installed under Python 3:
 let g:vim_isort_python_version = 'python3'
 " " }}}
+
 " " Ack key-bind----------------- {{{
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -449,6 +453,7 @@ nnoremap <leader>a :Ack!<Space>
 command Todo Ack! 'TODO|FIXME|CHANGED|HACK'
 command Info Ack! 'NOTE|INFO|IDEA'
 " " }}}
+
 " " vim-go ---------------------- {{{
 let g:go_list_type = "locationlist"
 let g:go_list_type_commands = {"GoBuild": "quickfix"}
@@ -1001,6 +1006,7 @@ augroup END
 " let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
 " let g:gitgutter_sign_modified_removed = emoji#for('collision')
 " " }}}
+
 " " vimscript file settings -------------- {{{
 augroup filetype_vim
     au!

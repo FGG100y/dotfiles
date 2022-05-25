@@ -1,5 +1,4 @@
 # Dotfiles on my Ubuntu machine
-  - dotfiles management | what is the best practice?
 
 ## using rsync to udpate dotfile repo as needed
 
