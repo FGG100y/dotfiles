@@ -45,7 +45,8 @@
     ba = branch --all
     brmv = branch --move
     type = cat-file -t
-    dump = cat-file -p
+    # dump = cat-file -p
+    dump = show --name-only
     discard = restore
     unstage = restore --staged
     # set the local branch to track the remote/branch
@@ -61,7 +62,7 @@
     # show the last commit
     last = log -1 HEAD --stat
     # show the last commit's statistic
-    ; stat = log -n 1 --stat
+    # stat = log -n 1 --stat
     # more informative log message but not so grace
     logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
     hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
@@ -82,6 +83,8 @@
     ci = !git commit -v
     # or commit all files with all changes listed in Vim
     ca = !git add -A && git commit -av
+    # add only patches (not necessary the entire file)
+    ap = add -p
 	# Switch to a branch, creating it if necessary.
     co = checkout
     sw = switch
@@ -119,4 +122,4 @@
 	# List aliases.
 	aliases = config --get-regexp alias
 [credential]
-	helper = cache
+    helper = cache
