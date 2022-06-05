@@ -159,7 +159,7 @@ set conceallevel=2
 " " leader set to the comma, but the <space> also very helpful
 let mapleader=","
 
-" " Not so grace shotcuts to toggle dark/bright themes
+" " Not so grace shotcuts to toggle themes dark/bright
 nnoremap <leader>tt :colo Tomorrow<cr>
 nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
@@ -495,8 +495,8 @@ let g:tmuxline_powerline_separators = 0
 " " NOTE that the status right section was override by tmux.conf for 'weather' to work
 let g:tmuxline_preset = {
       \'a'    : '#S',
-      \'b'    : '\u2206t#(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
-      \'c'    : '#(pwd)',
+      \'b'    : '#[fg=green]\u2206#(uptime | cut -d " " -f 4,5 | cut -d "," -f 1)',
+      \'c'    : '',
       \'win'  : '#I #W',
       \'cwin' : '#I #W',
       \'y'    : ['#{weather}', '%R','%a', '%F' ],
