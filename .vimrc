@@ -4,60 +4,61 @@
 " update: Wed 25 May 2022 22:35:38
 " ================================
 
-set nocompatible                                " be iMproved
+set nocompatible                                " be IMproved
 
 " " ALWAYS PUT PLUGINS FIRST PLACE
 " " TO AVOID SOME SILLY MISTAKES;)
-" " ================================Part-1: Plugins============ {{{
+" " ================================Part-1: Plugins List======= {{{
 call plug#begin('~/.vim/bundle')            " reuse the plugins dir
 " "-------------------=== Code/Project navigation ===-------------
 " Plug 'majutsushi/tagbar'                    " Class/module browser
-" Plug 'xolox/vim-easytags'                   " Class/module browser
 Plug 'kshenoy/vim-signature'                " bookmark etc
 Plug 'easymotion/vim-easymotion'            " quick move
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 " "-------------------=== vim outfit ===-------------------------------
-Plug 'vim-airline/vim-airline'              " Lean & mean status/tabline for vim
+Plug 'vim-airline/vim-airline'              " Lean & mean status/tabline
 Plug 'vim-airline/vim-airline-themes'       " Themes for airline
 Plug 'Lokaltog/powerline'                   " Powerline fonts plugin
 Plug 'flazz/vim-colorschemes'               " Colorschemes
 Plug 'jnurmine/Zenburn'                     " For good mood
 Plug 'altercation/vim-colors-solarized'     " For good mood
 " "-------------------=== tmux ===-------------------------------
-Plug 'christoomey/vim-tmux-navigator'       " move to vim in tmux, it will take over and vice verse
-Plug 'edkolev/tmuxline.vim'                 " status line
+Plug 'christoomey/vim-tmux-navigator'       " vim <-> tmux hopping
+Plug 'edkolev/tmuxline.vim'                 " tmux status line
 " "-------------------=== Coding enhancement ===-------------------
+Plug 'airblade/vim-gitgutter'               " shows git diff and more
 Plug 'tpope/vim-fugitive'                   " awsome git wrapper!
-Plug 'tpope/vim-obsession'                  " :mksession --> :Obsess || :source or vim -S back to session.vim
-Plug 'tpope/vim-surround'                   " Parentheses, brackets, quotes, XML tags, and more
+Plug 'tpope/vim-obsession'                  " for `vim -S` back to sessions
+Plug 'tpope/vim-surround'                   " (), [], “”, XML tags, and more
 Plug 'tpope/vim-repeat'                     " enhance . repeat
-Plug 'tpope/vim-surround'                   " T-Pope / Change surrounding tags, characters, quotes
-Plug 'tpope/vim-eunuch'                     " Vim sugar for the UNIX shell commands
-Plug 'airblade/vim-gitgutter'               " shows a git diff in the sign column (i.e., gutter)
+Plug 'tpope/vim-eunuch'                     " Vim sugar for UNIX shell commands
 Plug 'scrooloose/nerdcommenter'             " code line/block commented
 Plug 'Valloric/YouCompleteMe'               " all for completion
 Plug 'dense-analysis/ale'                   " Linter
 Plug 'mileszs/ack.vim'                      " cherrypick your strings
 Plug 'junegunn/fzf', { 'do': './install --all' } | Plug 'junegunn/fzf.vim'
-" "-------------------=== Python enhancement ===-------------------
 Plug 'SirVer/ultisnips', { 'on': [] } | Plug 'honza/vim-snippets'
+" "-------------------=== Python enhancement ===-------------------
 Plug 'fisadev/vim-isort'                    " python import sorted
 Plug 'hdima/Python-Syntax'                  " highlights for python
+" Plug 'davidhalter/jedi-vim'                 " python auto-completion
 Plug 'Vimjas/vim-python-pep8-indent'        " nicer indent for multiple lines
 " "-------------------=== Wiki/markdown enhancement ===-------------------
 Plug 'vimwiki/vimwiki'                      " for personal wiki
 Plug 'mattn/calendar-vim'                   " Calendar match with vimwiki
 Plug 'junegunn/goyo.vim'                    " distraction-free writing
 Plug 'junegunn/limelight.vim'               " distraction-free writing couple
-Plug 'godlygeek/tabular'                    " for markdown files, couple with vim-markdown
-Plug 'plasticboy/vim-markdown'              " for markdown files, couple with vim-instant-markdown
+Plug 'godlygeek/tabular'                    " couple with vim-markdown
+Plug 'plasticboy/vim-markdown'              " couple with vim-instant-markdown
 Plug 'mzlogin/vim-markdown-toc'             " for table_of_content
 Plug 'instant-markdown/vim-instant-markdown', {'for': ['markdown', 'markdown.pandoc']}
 Plug 'vim-pandoc/vim-rmarkdown'             " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc'                " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc-syntax'         " RMarkdown Docs in Vim
-" Plug 'itchyny/calendar.vim'                 " Calendar
-" "-------------------=== Julia lang suppoert  ===-------------------
+" "-------------------=== Latex suppoert  ===-------------------
+Plug 'lervag/vimtex'                        " for LaTeX files
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }  " live-preview out.pdf
+" "-------------------=== Julia lang enhancement  ===-------------------
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 " Plug 'roxma/nvim-completion-manager'  " optional, for auto-completion
@@ -67,9 +68,12 @@ Plug 'fatih/vim-go'                         " for golang
 " Plug 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
 " Plug 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp
 " "-------------------=== other plugins ===-----------------------------
-Plug 'jamessan/vim-gnupg'                   " for transparent editting .gpg files
+Plug 'jamessan/vim-gnupg'                   " transparent editting .gpg files
+" "-------------------=== local plugins ===-----------------------------
 " " Unmanaged local plugin (manually installed and update):
 Plug '~/.vim/bundle/xterm-color-table.vim'
+" " 中文跳转 (easymotion-like)
+Plug '~/.vim/bundle/vim-PinyinSearch'
 " Plug '~/.vim/bundle/vimim.vim'            " 实际上要放在 ./vim/plugin/ 才可
 call plug#end()            " required
 
@@ -77,13 +81,9 @@ call plug#end()            " required
 " " ================================Part-2: Colorscheme======== {{{
 " " NOTE: syntax enable is needed
 syntax enable
-" set background=dark
-" colorscheme zenburn
-colorscheme Tomorrow-Night
-" " gvim
+" " gvim (rarely used through)
 if has('gui_running')
-    " no toolbar
-    set guioptions=
+    set guioptions=     " no toolbar
     " set guifont=Lucida_Console:h9
     " colorscheme solarized
     " call togglebg#map("<F5>")
@@ -152,14 +152,14 @@ set shiftwidth=4
 set autoindent
 " " (default 4000, i.e., 4 seconds)
 set updatetime=1000
-" " markdown settings
-set conceallevel=2
+" " markdown concealed text hidden
+set conceallevel=1
 " " }}}
-" " ================================Part-4: Leader commands==== {{{
+" " ================================Part-4: Leader Commands==== {{{
 " " leader set to the comma, but the <space> also very helpful
 let mapleader=","
 
-" " Not so grace shotcuts to toggle themes dark/bright
+" " Not so grace shotcuts to toggle themes dark/bright 
 nnoremap <leader>tt :colo Tomorrow<cr>
 nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
@@ -172,7 +172,6 @@ nnoremap <leader>Q :q!<cr>
 " " shotcut to edit ~/_vimrc, and update it to local git repo
 nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
 nnoremap <space>v :sp $MYVIMRC<cr>
-nnoremap <space>s :source $MYVIMRC<cr>
 " " command as shortcut to edit dotfiles, keep commands consist to bash aliases
 command Vimsh :tabnew <bar> :e ~/.bashrc
 command Vimbz :tabnew <bar> :e ~/.bashrc_aliases
@@ -180,6 +179,8 @@ command Vimbl :tabnew <bar> :e ~/.bashrc_aliases_local_only
 command Vimtx :tabnew <bar> :e ~/.tmux.conf
 command Vimgc :tabnew <bar> :e ~/.gitconfig
 command Vimmt :tabnew <bar> :e ~/.muttrc
+" " command to make vimwiki to jekyll posts
+command Postit :execute "w!" . "$HOME/fggSite/fgg100y.github.io/_posts/" . strftime("%Y-%m-%d-") . expand("%:t")
 " ---------------------------------------------------------
 " " common rule were: splitright & splitbelow
 " " but sometimes need to split on leftabove or above
@@ -213,9 +214,9 @@ nnoremap <space><space> :nohlsearch<cr>
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " " close quickfix/local/preview window
-nnoremap <space>lo :cclose<cr>
-nnoremap <space>lc :lclose<cr>
-nnoremap <space>pc :pclose<cr>
+" nnoremap <space>lo :cclose<cr>
+" nnoremap <space>lc :lclose<cr>
+" nnoremap <space>pc :pclose<cr>
 " " fzf shotcut
 imap <c-x><c-o> <plug>(fzf-complete-line)
 map <space>b :Buffers<cr>
@@ -232,17 +233,19 @@ map <space>t :Tags<cr>
 " " Type :normal @q to run the macro from register q on each line.
 " " -------------------------------------------------------------------
 " " Open help at vertical pane
-nnoremap <Space>h :vert help
+nnoremap <Space>h :vert help 
 " " alternative way to back to normal mode
 inoremap jk <ESC>
 " " groups of abbreviate
 " " insert the datetime
 " " insert mode by typing 'dts' >> 'Sat 28 Aug 2021 09:45:56'
 iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
-iab dte <c-r>=strftime("%Y-%m-%d")<cr>
+iab dte <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
 " " Em dash symbol
 iab emdash —
 " " Emoji shortcuts
+ab :wilkyway: 🌌
+ab :rocket: 🚀
 ab :check: ✅
 ab :warning: ⚠️
 ab :bulb: 💡
@@ -260,6 +263,7 @@ ab :email: 📧
 ab :computer: 💻
 ab :redheart: ❤️
 ab :wtf: 😱
+ab :toj: 😂
 ab :thanks: 😜
 ab :kidding: 🙄
 ab :weary: 😩
@@ -274,9 +278,34 @@ ab :China: 🇨🇳
 ab :usa: 🇺🇸
 ab :notry: Do. Or do not. There is no try 😏
 " " }}}
-" " ================================Part-5: Plugins Settings=== {{{
+" " ================================Part-5: Plugins Configs==== {{{
 " " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
+" " }}}
+
+" " vim-PinyinSearch settings -------------- {{{
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#show_call_signatures = "1"
+" " " split panes commands
+" let g:jedi#use_tabs_not_buffers = 1
+" let g:jedi#use_splits_not_buffers = "left"
+" " " go-to commands
+" let g:jedi#goto_command = "<leader>g"
+" " let g:jedi#goto_assignments_command = "<leader>d"
+" let g:jedi#goto_stubs_command = "<leader>s"
+" let g:jedi#goto_definitions_command = "<leader>j"
+" let g:jedi#documentation_command = "K"
+" let g:jedi#usages_command = "<leader>n"
+" let g:jedi#completions_command = "<C-n>"
+" let g:jedi#rename_command = "<leader>r"
+" " }}}
+
+" " vim-PinyinSearch settings -------------- {{{
+let g:PinyinSearch_Dict = $HOME . '/.vim/bundle/vim-PinyinSearch/PinyinSearch.dict'
+nnoremap ? :call PinyinSearch()<CR>
+" " I suggest using '?' to search Pinyin
+" " (since we have 'N', why using ? to search backward)
+nnoremap <Leader>pn :call PinyinNext()<CR>
 " " }}}
 
 " " vimim.vim settings -------------- {{{
@@ -284,10 +313,8 @@ command! PU PlugUpdate | PlugUpgrade
 " let g:vimim_shuangpin = 0
 " let g:vimim_punctuation = 2
 " let g:vimim_mode = 'dynamic'
-" let g:vimim_plugin = 'C:/var/mobile/vim/vimfiles/plugin'
-" " NOTE 这个指定目录的设置并不起作用,
-" " 必须将 vimim.vim 和 词库文件如 vimim.pinyin.txt 一起放在 plugin/ 目录
-" let g:vimim_plugin = '~/.vim/bundle/vim-vimim'
+" " NOTE 必须将 vimim.vim 和 词库文件如 vimim.pinyin.txt
+" " 一起放在 .vim/plugin/ 目录下
 " let g:vimim_toggle = 'pinyin,google,sogou'
 " " }}}
 
@@ -337,46 +364,14 @@ let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 
 " "
 let g:vimwiki_list = [
     \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
-    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
-    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
+    \  'index': 'index', 'auto_export': 0, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimWiki/draft_html/',
     \  'template_ext': '.html',
-    \  'template_default':'markdown',
+    \  'template_default': 'markdown',
     \  'template_path': '~/VimWiki/template/',
-    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
-    \ },
-    \ {'path': '~/VimWiki/LinuxTools', 'syntax': 'markdown', 'ext': '.md',
-    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
-    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
-    \  'template_ext': '.html',
-    \  'template_default':'markdown',
-    \  'template_path': '~/VimWiki/template/',
-    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
-    \ },
-    \ {'path': '~/VimWiki/MachineLearning', 'syntax': 'markdown', 'ext': '.md',
-    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
-    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
-    \  'template_ext': '.html',
-    \  'template_default':'markdown',
-    \  'template_path': '~/VimWiki/template/',
-    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
-    \ },
-    \ {'path': '~/VimWiki/Programing', 'syntax': 'markdown', 'ext': '.md',
-    \  'index': 'index', 'auto_export': 1, 'automatic_nested_syntaxes':1,
-    \  'path_html': '~/VimwikiHtml/fgg100y.github.io/',
-    \  'template_ext': '.html',
-    \  'template_default':'markdown',
-    \  'template_path': '~/VimWiki/template/',
-    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
     \ },
     \ ]
-" \ {'path': '~/VimWiki/Programing/Julia', 'syntax': 'markdown', 'ext': '.md'},
-" \ {'path': '~/VimWiki/Programing/Latex', 'syntax': 'markdown', 'ext': '.md'},
-" \ {'path': '~/VimWiki/Programing/Python', 'syntax': 'markdown', 'ext': '.md'},
-" \ {'path': '~/VimWiki/Programing/ShellScripts', 'syntax': 'markdown', 'ext': '.md'},
-" \ {'path': '~/VimWiki/MachineLearning/linearAlgebra', 'syntax': 'markdown', 'ext': '.md'},
-" \ {'path': '~/VimWiki/MachineLearning/statistics', 'syntax': 'markdown', 'ext': '.md'},
-" \ {'path': '~/VimWiki/MachineLearning/neuralNetwork', 'syntax': 'markdown', 'ext': '.md'},
-" \ ]
+" " \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
 " " Calendar + Diary
 let g:vimwiki_use_calendar=1
 " " fancy todo listsyms
@@ -481,12 +476,6 @@ let g:go_auto_type_info = 1
 " let g:go_auto_sameids = 1
 " " }}}
 
-" " rust.vim -------------------- {{{
-let g:rustfmt_autosave = 1
-let g:ale_rust_cargo_use_check = 1
-" let g:rust_cargo_check_all_targets = 1
-" " }}}
-
 " " tmuxline -------------------- {{{
 let g:tmuxline_theme = 'zenburn'
 let g:airline#extensions#tmuxline#enabled = 1
@@ -558,10 +547,12 @@ let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_sign_added = '++'
 let g:gitgutter_sign_modified = '~~'
 let g:gitgutter_sign_removed = '--'
-" let g:gitgutter_sign_removed_first_line = '^^'
-" let g:gitgutter_sign_modified_removed = 'ww'
+let g:gitgutter_preview_win_floating=1
 nmap [h <Plug>(GitGutterPrevHunk)
 nmap ]h <Plug>(GitGutterNextHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
 " " }}}
 
 " " vim-instant-markdown-preview ------- {{{
@@ -640,10 +631,10 @@ let g:python_pep8_indent_hang_closing = 1
 " " UltiSnips settings --------- {{{
 " " handle the conflit with YCM
 let g:UltiSnipsExpandTrigger="<leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
-let g:UltiSnipsJumpBackwardTrigger="<leader><S-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 " " include self-define Snippets
-let g:UltiSnipsSnippetDir="$HOME/.vim/bundle/ultisnips"
+" let g:UltiSnipsSnippetDir="$HOME/.vim/bundle/ultisnips"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "fggsnippets"]
 " " UltiSinpsUsePythonVersion
 let g:UltiSinpsUsePythonVersion = 3
@@ -772,6 +763,8 @@ nnoremap <leader>k :YcmCompleter GetDoc<CR>
 let g:EasyMotion_do_mapping=0
 " " case insensitive on
 let g:EasyMotion_smartcase=1
+" " for Chinese
+" let g:EasyMotion_use_Chinese=1
 " " find motions: line motions
 map <leader>f <Plug>(easymotion-f)
 map <leader>F <Plug>(easymotion-F)
@@ -849,6 +842,7 @@ let g:ale_linters = {
             \   'c': ['clang', 'gcc'],
             \   'rust': ['cargo', 'rustc'],
             \   'python': ['flake8'],
+            \   'tex': 'all',
             \}
 " \   'julia': ['languageserver']
 " let g:ale_julia_executable='/usr/local/bin/julia'
@@ -885,6 +879,30 @@ nmap <silent> <C-n> <Plug>(ale_next)
 " " vim-gnugp settings --------------- {{{
 let g:GPGPreferArmor=1
 let g:GPGDefaultRecipients=["fanmhgg@gmail.com"]
+" " }}}
+
+" " vimtex/lively-preview --- {{{
+" let g:vimtex_compiler_latexmk_engines = 'xelatex'
+if !exists('g:ycm_semantic_triggers')
+let g:ycm_semantic_triggers = {}
+endif
+au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
+let g:livepreview_engine = 'xelatex'
+let g:livepreview_cursorhold_recompile = 0
+let g:ale_textlint_executable = 'textlint'
+let g:vimtex_syntax_conceal = {
+      \ 'accents': 1,
+      \ 'cites': 1,
+      \ 'fancy': 1,
+      \ 'greek': 1,
+      \ 'math_bounds': 1,
+      \ 'math_delimiters': 1,
+      \ 'math_fracs': 1,
+      \ 'math_super_sub': 1,
+      \ 'math_symbols': 1,
+      \ 'sections': 0,
+      \ 'styles': 0,
+      \}
 " " }}}
 
 " " =================================================================== }}}
@@ -927,27 +945,11 @@ augroup markdown_format
     au User GoyoEnter Limelight
     au User GoyoLeave Limelight!
     au BufNewFile,BufRead *.md set filetype=markdown
-    " au FileType markdown Goyo
     au FileType markdown set nowrap
-    au FileType markdown setlocal textwidth=80
+    au FileType markdown setlocal textwidth=79
     au FileType markdown setlocal conceallevel=2
-    " au FileType markdown setlocal spell spelllang=en_us
     au FileType markdown set cursorline
     au FileType markdown set cursorcolumn
-augroup END
-" " }}}
-
-" " highlight 'long' lines(>= 79 symbols) ------- {{{
-augroup filefmt_autocmds
-    au!
-    au FileType python,sh,c,cpp,rust,rs,go,golang highlight Excess ctermbg=DarkGrey guibg=Black
-    au FileType python,sh,c,cpp,rust,rs,go,golang match Excess /\%80v.*/
-    au FileType python,sh,c,cpp,rust,rs,go,golang set nowrap
-    au FileType python,sh,c,cpp,rust,rs,go,golang set colorcolumn=79
-    " auto begin in newline when exceed 79 charust,rs when edit these filetypes
-    au FileType python,sh,c,cpp,rust,rs,go,golang setlocal textwidth=79 formatoptions+=t
-    " Don't add the comment prefix when I hit enter or o/O on a comment line
-    au FileType python,sh,c,cpp,rust,rs,vim,go setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END
 " " }}}
 
@@ -1014,19 +1016,36 @@ augroup filetype_vim
 augroup END
 " " }}}
 
-" " make change in vimrc working immediately --- {{{
-augroup autosrc
-    au!
-    au BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
-" " }}}
-
 " " UltiSnips set to load on nothing --- {{{
-" Plug 'SirVer/ultisnips', { 'on': [] }
+" " Plug 'SirVer/ultisnips', { 'on': [] }
 " " Only load it when edit *.py file
 augroup load_ultisnips
   autocmd!
-  autocmd InsertEnter *.py call plug#load('ultisnips')
-                     \| autocmd! load_ultisnips
+  autocmd BufEnter,BufNewFile,BufRead *.md,*.py call plug#load('ultisnips')
+              \| autocmd! load_ultisnips
+augroup END
+" " }}}
+
+" " highlight 'long' lines(>= 79 symbols) ------- {{{
+augroup filefmt_autocmds
+    au!
+    au FileType python,sh,c,cpp,julia,md,vimwiki,go,tex highlight Excess ctermbg=DarkGrey guibg=Black
+    au FileType python,sh,c,cpp,julia,md,vimwiki,go,tex match Excess /\%80v.*/
+    au FileType python,sh,c,cpp,julia,md,vimwiki,go,tex set nowrap
+    au FileType python,sh,c,cpp,julia,md,vimwiki,go,tex set colorcolumn=79
+    " auto begin in newline when exceed 79 chars when edit these filetypes
+    au FileType python,sh,c,cpp,julia,md,vimwiki,go,tex setlocal textwidth=79 formatoptions+=t
+    " gp for Chinese characters with formatoptions+=mM
+    au FileType python,sh,julia,md,vimwiki,tex setlocal textwidth=79 formatoptions+=tmM
+    " Don't add the comment prefix when I hit enter or o/O on a comment line
+    au FileType python,sh,c,cpp,julia,md,vimwiki,vim,go,tex setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    " " do not popup docstring windown when using jedi completion
+    " au FileType python setlocal completeopt-=preview
+augroup END
+" " }}}
+
+" " make change in vimrc working immediately --- {{{
+augroup autosrc
+    au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC | redraw
 augroup END
 " " }}}
