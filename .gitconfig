@@ -113,6 +113,8 @@
 	# Remove branches that have already been merged with main.
 	# a.k.a. ‘delete merged’
 	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    # Undo a Merge Conflict and Start Over
+    abmerged = merge --abort
 	# List contributors with number of commits.
 	contributors = shortlog --summary --numbered
 	# Show the user email for the current repository.
