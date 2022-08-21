@@ -4,23 +4,30 @@
 #------------------
 # last update: Sun 26 Dec 2021 16:31:48
 
+# 中文文件名 解压缩乱码 | 或直接使用 unar 命令
+alias unzipzh='unzip -O CP936'
+
+# fetch weather report from wttr.in
+alias tianqi='curl wttr.in'
+
+# run jekyll local site
+alias postup='bundle exec jekyll server'
+
+# bat default with dark theme
+# make a alias for light theme
+alias batl='bat --theme gruvbox-light'
+
 # julia startup-file=no
-alias juliarun='julia --startup-file=no'
+alias jlrun='julia --startup-file=no'
 
 # man pages with zh_CN:
 alias cman='man -M /usr/share/man/zh_CN'
 
-# jekyll website
-alias webpreview='bundle exec jekyll serve'
-
-# conda envs
-alias con='conda activate'
-alias coff='conda deactivate'
 # python and jupyter
 alias py='python3'
 alias py2='python2'
-alias venvQ='deactivate'
 alias ipy='ipython'
+alias venvQ='deactivate'
 
 # ----------------
 # change dir group
@@ -31,11 +38,9 @@ alias ...='cd ../..'
 # -----------------------
 # common use sys commands
 # -----------------------
-alias sdnow='shutdown now'
-# source ***
+alias qp='clear'
+alias gj='shutdown now'
 alias srcsh='source ~/.bashrc'
-# wget continue download flags
-alias wget='wget -c'
 # tree the directory
 alias tree2='tree -dL 2'
 alias tree3='tree -dL 3'
@@ -44,13 +49,13 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cpr='cp -r'
 # Prevents accidentally clobbering files
-alias mkdir='mkdir -p'
 alias which='type -a'
+alias mkdir='mkdir -p'
 # Makes a more readable output
 alias du='du -mh'
+alias df='df -kTh'
 alias dirsize='du -sh --apparent-size'
 alias du9='du -Sh | sort -rh | head -9'
-alias df='df -kTh'
 # check the cd-alias
 alias mycds='cat ~/.bashrc_aliases_local_only | grep cd'
 
@@ -152,16 +157,6 @@ Vimalias () {
 }
 
 
-# copy .gitignore file to .
-Gignore () {
-    myfile="$HOME"/fggit/GitHub_repos/gitignore/"$1".gitignore
-    if [ -f "$myfile" ]; then
-        cp "$myfile" ./.gitignore
-    else
-        echo "No such file/dir"
-    fi
-}
-
 # ---------
 # fzf grops
 # ---------
@@ -191,4 +186,12 @@ swap_files() {
         mv -- "$2" "$1"
         mv -- "$TMPFILE" "$2"
     fi
+}
+
+# unzip to same name folder
+unzip_d() {
+    zipfile="$1"
+    suffix="${2:-.zip}"
+    zipdir=$(basename "$zipfile" "$suffix")
+    unzip -d "$zipdir" "$zipfile"
 }
