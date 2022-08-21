@@ -202,3 +202,9 @@ export GPG_TTY
 
 # set default editor to vim
 export EDITOR=vim
+
+# vi mode in bash
+set -o vi
+
+# make terminal cursor green
+echo -ne "\e]12;green\a"
