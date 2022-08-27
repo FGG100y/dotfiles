@@ -3,6 +3,10 @@
 " built: 2018-07-16
 " update: Wed 25 May 2022 22:35:38
 " ================================
+" set foldmethod=marker as default
+" I myself using <Space> to toggle
+" and the `za` also works as well.
+" check with `:h za` in the manual 
 
 set nocompatible                                " be IMproved
 
@@ -11,7 +15,7 @@ set nocompatible                                " be IMproved
 " " ================================Part-1: Plugins List======= {{{
 call plug#begin('~/.vim/bundle')            " reuse the plugins dir
 " "-------------------=== Code/Project navigation ===-------------
-" Plug 'majutsushi/tagbar'                    " Class/module browser
+Plug 'majutsushi/tagbar'                    " Class/module browser
 Plug 'kshenoy/vim-signature'                " bookmark etc
 Plug 'easymotion/vim-easymotion'            " quick move
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -49,9 +53,10 @@ Plug 'mattn/calendar-vim'                   " Calendar match with vimwiki
 Plug 'junegunn/goyo.vim'                    " distraction-free writing
 Plug 'junegunn/limelight.vim'               " distraction-free writing couple
 Plug 'godlygeek/tabular'                    " couple with vim-markdown
-Plug 'plasticboy/vim-markdown'              " couple with vim-instant-markdown
-Plug 'mzlogin/vim-markdown-toc'             " for table_of_content
+Plug 'preservim/vim-markdown'              " couple with vim-instant-markdown
 Plug 'instant-markdown/vim-instant-markdown', {'for': ['markdown', 'markdown.pandoc']}
+Plug 'mzlogin/vim-markdown-toc'             " for table_of_content in .md
+" Plug 'rderik/vim-markdown-toc', { 'branch': 'add-anchors-to-headings/drc2r' }
 Plug 'vim-pandoc/vim-rmarkdown'             " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc'                " RMarkdown Docs in Vim
 Plug 'vim-pandoc/vim-pandoc-syntax'         " RMarkdown Docs in Vim
@@ -60,10 +65,10 @@ Plug 'lervag/vimtex'                        " for LaTeX files
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }  " live-preview out.pdf
 " "-------------------=== Julia lang enhancement  ===-------------------
 Plug 'JuliaEditorSupport/julia-vim'
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 " Plug 'roxma/nvim-completion-manager'  " optional, for auto-completion
 " "-------------------=== C family enhancement ===-------------------
-Plug 'fatih/vim-go'                         " for golang
+" Plug 'fatih/vim-go'                       " for golang
 " Plug 'rust-lang/rust.vim'                 " for rust
 " Plug 'octol/vim-cpp-enhanced-highlight'   " extra highlights for cpp
 " Plug 'derekwyatt/vim-fswitch'             " switch between *.h and *.cpp
@@ -76,17 +81,26 @@ Plug '~/.vim/bundle/xterm-color-table.vim'
 Plug '~/.vim/bundle/vim-PinyinSearch'
 " Plug '~/.vim/bundle/vimim.vim'            " 实际上要放在 ./vim/plugin/ 才可
 call plug#end()            " required
-
 " " }}}
 " " ================================Part-2: Colorscheme======== {{{
-" " NOTE: syntax enable is needed
-syntax enable
-" " gvim (rarely used through)
+syntax enable            " " NOTE: syntax enable is needed
+
+" " default colorscheme
+" colorscheme default
+" if g:colors_name == 'default'
+"     hi CursorLine   cterm=NONE ctermbg=DarkGrey ctermfg=NONE
+"     hi CursorColumn cterm=NONE ctermbg=LightBlue ctermfg=NONE
+" endif
+" " gvim (rarely used though)
 if has('gui_running')
     set guioptions=     " no toolbar
     " set guifont=Lucida_Console:h9
     " colorscheme solarized
     " call togglebg#map("<F5>")
+endif
+" " vimdiff mode
+if &diff
+    colorscheme Tomorrow
 endif
 " " }}}
 " " ================================Part-3: Settings=========== {{{
@@ -97,7 +111,7 @@ syntax on
 " " more here: https://stackoverflow.com/questions/6577579/task-tags-in-vim
 if has("autocmd")
   if v:version > 701
-    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|HACK\)')
     autocmd Syntax * call matchadd('Info', '\W\zs\(NOTE\|INFO\|IDEA\)')
   endif
 endif
@@ -281,6 +295,13 @@ ab :notry: Do. Or do not. There is no try 😏
 " " ================================Part-5: Plugins Configs==== {{{
 " " vim-plug update itself using PlugUpgrade command --- {{{
 command! PU PlugUpdate | PlugUpgrade
+" " }}}
+
+" " vim-markdown-toc settings -------------- {{{
+let g:vmt_fence_text = 'TOC'
+let g:vmt_fence_closing_text = '/TOC'
+" let g:vmt_insert_anchors = 1
+" let g:vmt_auto_update_on_save = 1
 " " }}}
 
 " " vim-PinyinSearch settings -------------- {{{
@@ -586,6 +607,9 @@ let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
 " " }}}
 
 " " vim-markdown --------------- {{{
+" " do not auto insert bullets
+let g:vim_markdown_auto_insert_bullets = 0
+" let g:vim_markdown_new_list_item_indent = 0
 " " fold style
 let g:vim_markdown_folding_style_pythonic = 1
 " " To prevent foldtext from being set
@@ -606,7 +630,9 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_no_extensions_in_markdown = 1
 " " how to open new files [tab, vsplit, hsplit, current]
 let g:vim_markdown_edit_url_in = 'hsplit'
-" " create interal links and jump with `ge`
+" " evaluate 'v:anchor' with a quoted string that contains the anchor
+" let g:vim_markdown_anchorexpr = "''"
+" " create interal links and jump with `ge` (not as good as vimwiki)
 " let g:vim_markdown_follow_anchor = 1
 " " go to next header
 map ]] <Plug>Markdown_MoveToNextHeader
@@ -884,9 +910,8 @@ let g:GPGDefaultRecipients=["fanmhgg@gmail.com"]
 " " vimtex/lively-preview --- {{{
 " let g:vimtex_compiler_latexmk_engines = 'xelatex'
 if !exists('g:ycm_semantic_triggers')
-let g:ycm_semantic_triggers = {}
+    let g:ycm_semantic_triggers = {}
 endif
-au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 let g:livepreview_engine = 'xelatex'
 let g:livepreview_cursorhold_recompile = 0
 let g:ale_textlint_executable = 'textlint'
@@ -900,6 +925,7 @@ let g:vimtex_syntax_conceal = {
       \ 'math_fracs': 1,
       \ 'math_super_sub': 1,
       \ 'math_symbols': 1,
+      \ 'ligatures': 0,
       \ 'sections': 0,
       \ 'styles': 0,
       \}
@@ -907,6 +933,14 @@ let g:vimtex_syntax_conceal = {
 
 " " =================================================================== }}}
 " " ================================Part-6: Autocmd Groups===== {{{
+
+" " for *.tex  ------ {{{
+augroup vimtex_tex
+    au!
+    au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
+augroup END
+" " }}}
+
 " " for *.sql  ------ {{{
 augroup pgformatter_sql
     au!
@@ -1045,7 +1079,8 @@ augroup END
 " " }}}
 
 " " make change in vimrc working immediately --- {{{
+" au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC | redraw
 augroup autosrc
-    au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC | redraw
+    au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC
 augroup END
 " " }}}
