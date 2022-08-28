@@ -17,6 +17,7 @@ esac
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -159,6 +160,7 @@ fi
 # GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     GIT_PROMPT_ONLY_IN_REPO=1
+    GIT_PROMPT_THEME=Default_Ubuntu
     source $HOME/.bash-git-prompt/gitprompt.sh
 fi
 
