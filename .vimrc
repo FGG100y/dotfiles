@@ -8,7 +8,7 @@
 " and the `za` also works as well.
 " check with `:h za` in the manual 
 
-set nocompatible                                " be IMproved
+set nocompatible     " be IMproved
 
 " " ALWAYS PUT PLUGINS FIRST PLACE
 " " TO AVOID SOME SILLY MISTAKES;)
@@ -117,6 +117,8 @@ if has("autocmd")
 endif
 hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
 hi Info guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
+" " do not highlight the math conceal symbols
+hi clear Conceal
 " " Do not use a mouse, otherwise :set mouse=n/v/i/a
 set mouse=
 " " backspace for del
@@ -132,8 +134,8 @@ set smartcase
 " " UI settings
 set laststatus=2
 set ruler
-set cursorline
-set cursorcolumn
+nnoremap <F3> :set cursorcolumn!<CR>
+" nnoremap <F2> :set cursorcolumn!<Bar>set cursorline!<CR>
 set number relativenumber
 set showcmd
 set wildmenu
@@ -372,7 +374,9 @@ let g:pandoc#spell#enabled = 0
 
 " " vimwiki ----------- {{{
 " " vimwiki with markdwon support (as default format)
-let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}
+let g:vimwiki_ext2syntax={
+    \ '.md': 'markdown', '.markdown': 'markdown',
+    \ '.mdown': 'markdown', '.rmd': 'markdown'}
 " "
 " " my wiki path >>> [count]<Leader>ww | [count]<Leader>wt (new tab)
 " " <Leader>ww opens the first wiki from |g:vimwiki_list| if no wiki is
@@ -391,6 +395,8 @@ let g:vimwiki_list = [
     \  'template_default': 'markdown',
     \  'template_path': '~/VimWiki/template/',
     \ },
+    \ {'path': '~/VimWiki/MachineLearning',
+    \  'syntax': 'markdown', 'ext': '.md', 'index':'index'},
     \ ]
 " " \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
 " " Calendar + Diary
@@ -632,7 +638,7 @@ let g:vim_markdown_no_extensions_in_markdown = 1
 let g:vim_markdown_edit_url_in = 'hsplit'
 " " evaluate 'v:anchor' with a quoted string that contains the anchor
 " let g:vim_markdown_anchorexpr = "''"
-" " create interal links and jump with `ge` (not as good as vimwiki)
+" " create interal links and jump with `ge` (not as good as viwiki)
 " let g:vim_markdown_follow_anchor = 1
 " " go to next header
 map ]] <Plug>Markdown_MoveToNextHeader
@@ -959,6 +965,8 @@ augroup END
 " " for vimwiki md pandoc ------ {{{
 augroup pandoc_syntax
     au! FileType vimwiki set syntax=markdown.pandoc
+    " au! FileType vimwiki highlight clear Conceal
+    " au! FileType vimwiki set CursorColumn!
     au! BufRead,BufNewFile vimwiki set noimdisable
     au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set noimdisable
 augroup END
@@ -983,7 +991,7 @@ augroup markdown_format
     au FileType markdown setlocal textwidth=79
     au FileType markdown setlocal conceallevel=2
     au FileType markdown set cursorline
-    au FileType markdown set cursorcolumn
+    " au FileType markdown set cursorcolumn
 augroup END
 " " }}}
 
