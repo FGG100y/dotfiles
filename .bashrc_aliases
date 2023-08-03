@@ -16,7 +16,7 @@ alias nb2rst='jupyter nbconvert --to rst'
 
 # cookiecutter alias
 alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
-=======
+
 #------------------
 # last update: Sun 26 Dec 2021 16:31:48
 
@@ -44,7 +44,6 @@ alias py='python3'
 alias py2='python2'
 alias ipy='ipython'
 alias venvQ='deactivate'
->>>>>>> 554218151fd1555599d9c18f6c6e06c3145f6d5a
 
 # ----------------
 # change dir group
@@ -263,4 +262,3 @@ unzip_d() {
     zipdir=$(basename "$zipfile" "$suffix")
     unzip -d "$zipdir" "$zipfile"
 }
->>>>>>> 554218151fd1555599d9c18f6c6e06c3145f6d5a
