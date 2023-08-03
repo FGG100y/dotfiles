@@ -1,0 +1,332 @@
+" Since WINDOWS is such a pathetic petty villain,
+" configurate a full-fledged plugins Linux-like vim on it was too much pain.
+" THUS:
+" HOW TO DO 90% OF WHAT PLUGINS DO (WITH JUST VIM)
+" from Max Cantor, NYC Vim Meetup | August 3, 2016
+
+" THIS MINI_VIMRC COVERS:
+" - git-wrap plugins
+" - ale for linters
+" - code easymotion
+" - File Browsing
+" - Autocomplete
+" - Tag jumping
+
+" BASIC SETUP:
+set nocompatible                            " enter the current millenium
+" enable syntax and plugins (for netrw)
+syntax enable
+filetype plugin on
+
+
+" " ================================Part-1: Plugins List======= {{{
+call plug#begin('~/.vim/bundle')            " reuse the plugins dir
+" "-------------------=== Code/Project navigation ===-------------
+Plug 'majutsushi/tagbar'                    " Class/module browser
+Plug 'kshenoy/vim-signature'                " bookmark etc
+Plug 'easymotion/vim-easymotion'            " quick move
+Plug 'vim-airline/vim-airline'              " Lean & mean status/tabline
+Plug 'vim-airline/vim-airline-themes'       " Themes for airline
+Plug 'jnurmine/Zenburn'                     " For good mood
+" "-------------------=== Coding enhancement ===-------------------
+Plug 'scrooloose/nerdcommenter'             " code line/block commented
+Plug 'airblade/vim-gitgutter'               " shows git diff and more
+Plug 'tpope/vim-fugitive'                   " awsome git wrapper!
+Plug 'tpope/vim-obsession'                  " for `vim -S` back to sessions
+Plug 'tpope/vim-surround'                   " (), [], “”, XML tags, and more
+Plug 'tpope/vim-repeat'                     " enhance . repeat
+Plug 'tpope/vim-eunuch'                     " Vim sugar for UNIX commands
+Plug 'dense-analysis/ale'                   " Linter
+" "-------------------=== local plugins ===-----------------------------
+Plug '~/.vim/bundle/vim-PinyinSearch'       " 中文跳转 (easymotion-like)
+call plug#end()            " required
+" }}}
+
+" " ================================Part-2: Colorschemes======= {{{
+"colo Tomorrow-Night
+colo zenburn
+" }}}
+
+" " ================================Part-3: Settings=========== {{{
+set pythonthreedll=python38.dll             " winsuckstem
+" " Highlight TODO, FIXME, NOTE, etc. (must not set before `syntax on`)
+" " more here: https://stackoverflow.com/questions/6577579/task-tags-in-vim
+if has("autocmd")
+    if v:version > 701
+    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|CHANGED\|HACK\|OPT\)')
+    autocmd Syntax * call matchadd('Info', '\W\zs\(NOTE\|INFO\|IDEA\)')
+    endif
+endif
+hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
+hi Info guifg=#0f4f4f guibg=#ffdfaf ctermfg=223 ctermbg=NONE gui=bold cterm=NONE
+" " Do not use a mouse, otherwise :set mouse=n/v/i/a
+set mouse=
+" " backspace for del
+set backspace=indent,eol,start
+" " spliting panes behaviours
+set splitright
+set splitbelow
+" " Searching
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+" " UI settings
+set t_Co=256
+set laststatus=2
+set ruler
+set cursorline
+set cursorcolumn
+set number relativenumber
+" " always keep cursor away 7 lines from the bottom
+set scrolloff=7
+set sidescrolloff=3
+set foldmethod=manual
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+" " markdown concealed text hidden
+set conceallevel=1
+" " utf8 encoding
+set encoding=utf-8
+set viminfo+=h  " do no store searches
+set history=1024
+set pastetoggle=<F2>
+
+" FINDING FILES: {{{
+" - Fuzzy File Search
+
+" Search down into subfolders
+" Provides tab-completion for all file-related tasks
+set path+=**
+
+" Display all matching files when we tab complete
+set wildmenu
+
+" NOW WE CAN:
+" - Hit tab to :find by partial match
+" - Use * to make it fuzzy
+
+" THINGS TO CONSIDER:
+" - :b lets you autocomplete any open buffer
+" }}}
+
+" TAG JUMPING: {{{
+
+" Create the `tags` file (may need to install ctags first)
+command! MakeTags !ctags -R .
+" }}}
+
+" AUTOCOMPLETE: {{{
+
+" The good stuff is documented in |ins-completion|
+
+" HIGHLIGHTS:
+" - ^x^n for JUST this file
+" - ^x^f for filenames (works with our path trick!)
+" - ^x^] for tags only
+" - ^n for anything specified by the 'complete' option
+" }}}
+
+" FILE BROWSING: {{{
+
+" Tweaks for browsing
+let g:netrw_banner=0        " disable annoying banner
+let g:netrwebrowse_split=4  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" NOW WE CAN:
+" - :edit a folder to open a file browser
+" - <CR>/v/t to open in an h-split/v-split/tab
+" - check |netrw-browse-maps| for more mappings
+" }}}
+
+" }}}
+
+" " ================================Part-4: Leader Commands==== {{{
+" " leader set to the comma, but the <space> also very helpful
+let mapleader=","
+" " alternative way to back to normal mode
+inoremap jk <ESC>
+" " jump panes
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+" " Not so grace shotcuts to toggle themes dark/bright 
+nnoremap <leader>tt :colo Tomorrow<cr>
+nnoremap <leader>tn :colo Tomorrow-Night<cr>
+" " quick save/exit etc
+nnoremap <leader>w :w<cr>
+nnoremap <leader>c :G commit -v<cr>
+nnoremap <leader>q :q<cr>
+nnoremap <leader>Q :q!<cr>
+" yanking/pasting with system clipboard
+" pasting from sys clipboard to vim
+nnoremap <space>p "+gp
+" " yank to sys clipboard only in Visual Mode
+vnoremap <space>y "+y
+" " shotcuts to new tabs and moving around
+nnoremap <space>] :tabn<cr>
+nnoremap <space>[ :tabp<cr>
+" turn off highlights
+nnoremap <space><space> :nohlsearch<cr>
+" " Open help at vertical pane
+nnoremap <Space>h :vert help 
+" " shotcut to edit ~/_vimrc, and update it to local git repo
+nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
+" " insert pwd string
+inoremap \fp <C-R>=getcwd()<CR>
+iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+iab dte <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
+" " }}}
+
+" " ================================Part-5: Plugins Configs==== {{{
+" " vim-plug update itself using PlugUpgrade command --- {{{
+command! PU PlugUpdate | PlugUpgrade
+" " }}}
+" " for Chinese easymotion
+" " vim-PinyinSearch settings -------------- {{{
+let g:PinyinSearch_Dict = $HOME . '/.vim/bundle/vim-PinyinSearch/PinyinSearch.dict'
+nnoremap ? :call PinyinSearch()<CR>
+" " I suggest using '?' to search Pinyin
+" " (since we have 'N', why using ? to search backward)
+nnoremap <Leader>pn :call PinyinNext()<CR>
+" " }}}
+" " vim gitgutter -------------- {{{
+let g:gitgutter_signs = 1
+let g:gitgutter_max_signs = 500
+let g:gitgutter_sign_allow_clobber = 1
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '~~'
+let g:gitgutter_sign_removed = '--'
+let g:gitgutter_preview_win_floating=1
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+" " }}}
+" " EasyMotion ----------------- {{{
+" " disable default prefix <leader><leader>
+let g:EasyMotion_do_mapping=0
+" " case insensitive on
+let g:EasyMotion_smartcase=1
+" " find motions: line motions
+map <leader>f <Plug>(easymotion-f)
+map <leader>F <Plug>(easymotion-F)
+" " }}}
+" " tagbar settings ------------ {{{
+" " tagbar needs Ctags/universe-ctags, and much more useful in larger project
+let g:airline#extensions#tagbar#enabled = 1
+let g:tagbar_autofocus=1
+let g:tagbar_width=28
+let g:tagbar_left=1
+let g:tagbar_sort=0
+let g:tagbar_show_linenumbers = 2     " show relative nu
+let g:tagbar_expand = 1
+" remap keys | toggle tagbar | Jump directly to tagbar
+nnoremap <leader>b :TagbarToggle<CR>
+nnoremap <space>j :TagbarOpen fj<CR>
+" " }}}
+" " airline settings ----------- {{{
+let g:airline#extensions#tabline = 1
+"let g:airline_theme='zenburn'
+let g:airline_extensions=['branch', 'ale', 'tabline', 'obsession']
+" let g:airline_extensions=['branch', 'tagbar', 'ale', 'tabline', 'obsession']
+let g:airline_powerline_fonts=1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" " airline symbols, install the fonts-powerline first
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.dirty='⚡'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+" " display the tail of the filename
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+" " configure symbol used to represent close button >
+let g:airline#extensions#tabline#close_symbol = 'X'
+" " configure the title text for quickfix buffers >
+let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+" " configure the title text for location list buffers >
+let g:airline#extensions#quickfix#location_text = 'Location'
+" " vim-fugitive
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#displayed_head_limit = 10
+" let g:airline#extensions#branch#format = 0
+" " vim-Obsession
+let g:airline#extensions#obsession#enabled = 1
+let g:airline#extensions#obsession#indicator_text = '$'
+" " }}}
+
+" " ale settings --------------- {{{
+let g:ale_enabled = 1
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters_explicit = 1
+let g:ale_linters = {
+            \   'python': ['flake8'],
+            \   'tex': 'all',
+            \}
+let g:ale_fixers = {
+            \   'python': ['yapf', 'autopep8'],
+            \   'sql': ['pgformatter'],
+            \}
+let g:ale_python_flake8_use_global = 1
+" " Bind F8 to fixing problems with ALE
+nmap <F8> <Plug>(ale_fix)
+" " This can be useful if you are combining ALE with
+" " some other plugin which sets quickfix errors, etc.
+let g:ale_keep_list_window_open = 0
+" " Show 10 lines of errors (default: 10)
+let g:ale_list_window_size = 10
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" " ale movements
+nmap <silent> <C-p> <Plug>(ale_previous)
+nmap <silent> <C-n> <Plug>(ale_next)
+" " }}}
+" }}}
+
+" " ================================Part-6: Autocmd Groups===== {{{
+" " highlight 'long' lines(>= 79 symbols) ------- {{{
+augroup filefmt_autocmds
+    au!
+    au FileType python,sh,julia,md,tex highlight Excess ctermbg=DarkGrey guibg=Black
+    au FileType python,sh,julia,md,tex match Excess /\%80v.*/
+    au FileType python,sh,julia,md,tex set nowrap
+    au FileType python,sh,julia,md,tex set colorcolumn=79
+    " auto begin in newline when exceed 79 chars when edit these filetypes
+    au FileType python,sh,julia,md,tex setlocal textwidth=79 formatoptions+=t
+    " gp for Chinese characters with formatoptions+=mM
+    au FileType python,sh,julia,md,tex setlocal textwidth=79 formatoptions+=tmM
+    " Don't add the comment prefix when I hit enter or o/O on a comment line
+    au FileType vim,python,sh,julia,md,tex setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    " " do not popup docstring windown when using jedi completion
+    " au FileType python setlocal completeopt-=preview
+augroup END
+" " }}}
+
+" " vimscript file settings -------------- {{{
+augroup filetype_vim
+    au!
+    au FileType vim setlocal foldmethod=marker
+augroup END
+" " }}}
+
+" " make change in vimrc working immediately --- {{{
+augroup autosrc
+    au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC
+augroup END
+" " }}}
+" }}}

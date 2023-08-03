@@ -1,0 +1,266 @@
+#------------------
+# Ubuntu 20.04-LTS ^^
+# Personal Aliases
+#-------------------
+# last modified: Thu 19 Aug 2021 10:34:28
+
+alias py='python3'
+alias ipy='ipython'
+
+# jupyter lab server
+# NOTE that the port number is better to keep put
+alias jlab='jupyter lab --no-browser --port=8899'
+
+# convert ipynb notebook to restructured format
+alias nb2rst='jupyter nbconvert --to rst'
+
+# cookiecutter alias
+alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
+=======
+#------------------
+# last update: Sun 26 Dec 2021 16:31:48
+
+# 中文文件名 解压缩乱码 | 或直接使用 unar 命令
+alias unzipzh='unzip -O CP936'
+
+# fetch weather report from wttr.in
+alias tianqi='curl wttr.in'
+
+# run jekyll local site
+alias postup='bundle exec jekyll server'
+
+# bat default with dark theme
+# make a alias for light theme
+alias batl='bat --theme gruvbox-light'
+
+# julia startup-file=no
+alias jlrun='julia --startup-file=no'
+
+# man pages with zh_CN:
+alias cman='man -M /usr/share/man/zh_CN'
+
+# python and jupyter
+alias py='python3'
+alias py2='python2'
+alias ipy='ipython'
+alias venvQ='deactivate'
+>>>>>>> 554218151fd1555599d9c18f6c6e06c3145f6d5a
+
+# ----------------
+# change dir group
+# ----------------
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# -----------------------
+# common use sys commands
+# -----------------------
+alias qp='clear'
+alias srcsh='source ~/.bashrc'
+# tree the directory
+alias tree2='tree -dL 2'
+alias tree3='tree -dL 3'
+# In case of careless rm
+alias rm='rm -i'
+alias mv='mv -i'
+alias cpr='cp -r'
+# Prevents accidentally clobbering files
+alias which='type -a'
+alias mkdir='mkdir -p'
+# Makes a more readable output
+alias du='du -mh'
+alias df='df -kTh'
+alias dirsize='du -sh --apparent-size'
+alias du9='du -Sh | sort -rh | head -9'
+# check the cd-alias
+alias mycds='cat ~/.bashrc_aliases_local_only | grep cd'
+
+# --------------
+# dotfiles group
+# --------------
+# edit dotfiles
+# NOTE this HOME is for vms only, use "diffg LO" when merge remote conflict
+alias vimsh='vim $HOME/.bashrc'
+alias vimbz='vim $HOME/.bashrc_aliases'
+alias vimrc='vim $HOME/.vimrc'
+alias vimtx='vim $HOME/.tmux.conf'
+alias vimgc='vim $HOME/.gitconfig'
+alias vimbl='vim $HOME/.bashrc_aliases_local_only'
+
+# -------------
+# tmux commands
+# -------------
+alias txls='tmux ls'
+alias txat='tmux attach -t'
+alias txks='tmux kill-session -t'
+# alias txns='tmux new-session -s'
+# alias txsh='tmux new-session -s shell'
+
+# ------------------
+# The 'ls' family :)
+# barely changed
+# ------------------
+# Add colors for filetype and  human-readable sizes by default on 'ls':
+alias ls='ls -h --color'
+# The ubiquitous 'll': directories first, with alphanumeric sorting:
+alias l="ls -lF --group-directories-first"
+alias ll="ls -lhv --group-directories-first"
+alias lx='ls -lXB'         #  Sort by extension.
+alias lk='ls -lSr'         #  Sort by size, biggest last.
+alias lt='ls -ltr'         #  Sort by date, most recent last.
+alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
+alias llm='ll | more'      #  Pipe through 'more'
+alias llr='ll -R'          #  Recursive ls.
+alias la='ll -A'           #  Show hidden files.
+alias hidden='ls -d .*'    # show dot files only
+alias hf="ls -d .* | grep '^\.'"    # exclude directories
+alias hd="ls -d .* | grep -v '^\.'" # keep directories only
+
+# --------------
+# language group
+# --------------
+# complier for C++
+# -----------------
+# alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
+alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
+# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
+# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
+
+# NOTE: more paras/flags for clang:
+# clang -Wno-disabled-macro-expansion -Wno-float-equal -Wno-c++98-compat-pedantic'
+#       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
+#       -Wno-old-style-cast 
+
+
+# ---------------
+# handy functions
+# ---------------
+
+# Creates an archive (*.tar.gz) from given directory
+function mktar() { tar cvzf "${1%%/}.tar.gz" "${1%%/}"; }
+
+# Creates a ZIP archive of file or folder
+function mkzip() { zip -r "${1%%/}.zip" "$1" ; }
+
+function extract()      # Handy Extract Program
+{
+    if [ -f "$1" ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf "$1"     ;;
+            *.tar.xz)    tar xvJf "$1"     ;;
+            *.tar.gz)    tar xvzf "$1"     ;;
+            *.bz2)       bunzip2 "$1"      ;;
+            *.rar)       unrar x "$1"      ;;
+            *.gz)        gunzip "$1"       ;;
+            *.tar)       tar xvf "$1"      ;;
+            *.tbz2)      tar xvjf "$1"     ;;
+            *.tgz)       tar xvzf "$1"     ;;
+            *.zip)       unzip "$1"        ;;
+            *.Z)         uncompress "$1"   ;;
+            *.7z)        7z x "$1"         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+
+# ---------
+# fzf grops
+# ---------
+# cdf - cd into the directory of the selected file
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
+}
+
+# ---------
+# my funcs
+# ---------
+# cat *file's contents about some 'key'
+Bashalias () {
+    cat < ~/.bashrc_aliases | grep "$1"
+}
+# quick check vimrc key-combinations
+Vimalias () {
+    cat < ~/.vimrc | grep "$1"
+}
+
+# copy .gitignore file to .
+Gignore () {
+    myfile="$HOME"/gitignore/"$1".gitignore
+    if [ -f "$myfile" ]; then
+        cp "$myfile" ./.gitignore
+    else
+        echo "No such file/dir"
+    fi
+}
+
+# Wed 30 Oct 2019 20:26:53
+# Usage: mkgo dir_name
+mkgo () {
+    mkdir -p "$1"
+    cd "$1" || exit
+}
+
+# swap files names
+swap_files() {
+    if [ $# -ne 2 ]
+    then
+        echo "Usage: swap_files file1 file2"
+    else
+        echo "Bad argument. Must be a directory."
+    fi
+    echo "Total files: $(( num_dir + num_f ))"
+    echo "$num_dir directories, $num_f files"
+}
+
+# unzip to same name folder
+unzip_d() {
+    zipfile="$1"
+    suffix="${2:-.zip}"
+    zipdir=$(basename "$zipfile" "$suffix")
+    unzip -d "$zipdir" "$zipfile"
+}
+=======
+
+# ---------
+# fzf grops
+# ---------
+# cdf - cd into the directory of the selected file
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
+}
+
+
+# ----------
+# md preview
+# ----------
+mdpv () {
+    pandoc $1 | lynx -stdin
+}
+
+# swap files names
+swap_files() {
+    if [ $# -ne 2 ]
+    then
+        echo "Usage: swap_files file1 file2"
+    else
+        local TMPFILE=$(mktemp)
+        mv -- "$1" "$TMPFILE"
+        mv -- "$2" "$1"
+        mv -- "$TMPFILE" "$2"
+    fi
+}
+
+# unzip to same name folder
+unzip_d() {
+    zipfile="$1"
+    suffix="${2:-.zip}"
+    zipdir=$(basename "$zipfile" "$suffix")
+    unzip -d "$zipdir" "$zipfile"
+}
+>>>>>>> 554218151fd1555599d9c18f6c6e06c3145f6d5a
