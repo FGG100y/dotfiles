@@ -1,15 +1,70 @@
-#------------------
-# Ubuntu 20.04-LTS ^^
+# -------------------
+# Ubuntu 22.04-LTS ^^
+# -------------------
+# last modified: 2023-03-18 09:39:40 星期六
+
+# ----------------
 # Personal Aliases
-#-------------------
-# last modified: Thu 19 Aug 2021 10:34:28
+# ----------------
+
+alias wechat='LANG=zh_CN.UTF-8 wine /home/ds01/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/WeChat/WeChat.exe'
+alias stopwinetricks='winetricks --optout'
+
+alias lsfonts='fc-list  | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
+
+alias vpngddst='sudo openvpn /etc/openvpn/gddst.x3322.net.ovpn'
+
+# server side UDP port temporary config: sudo iptables -I INPUT 1 -p udp --dport 60000:60010 -j ACCEPT
+alias mosh181='mosh -p 60001 --predict=always --experimental-remote-ip=remote --ssh="/usr/bin/ssh -p 40181 -i ~/.ssh/id_rsa" fmh@gddst.wicp.vip'
+alias mosh183='mosh -p 60001 --ssh="/usr/bin/ssh -p 40183 -i ~/.ssh/id_ed25519" fmh@gddst.wicp.vip'
+# alias mosh183='mosh -p 60001 --predict=always --experimental-remote-ip=remote --ssh="/usr/bin/ssh -p 40183 -i ~/.ssh/id_ed25519" fmh@gddst.wicp.vip'
+
+# xfce monitor setting extend to left
+alias monitorpd2left="xrandr --output HDMI-A-0 --auto --left-of eDP"
+alias monitorpd2right="xrandr --output HDMI-A-0 --auto --right-of eDP"
+
+#testPyPI: fmh99; PyPI: fan99; password see API-token in $HOME/.pypirc
+alias testpypi='twine upload --repository testpypi --skip-existing dist/*'
+
+alias qp='clear'
+alias gj='shutdown now'
+
+# step back to parent dir
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# 如果终端不能访问此地址，可能需要检查防火墙端口设置 (ufw allow 8000/tcp)
+# 且已经设置: sudo ufw default deny incoming
+alias httpy='python3 -m http.server -b $(hostname -I | cut -d" " -f 1)'
+
+# 本地 venv, jupyterlab 环境(必须到相应的根目录再执行命令):
+# 指定pdb环境: PYTHONBREAKPOINT='IPython.core.debugger.set_trace' envpy run.py
+alias envpy='./.venv/bin/python3'
+alias envpip='./.venv/bin/pip3'
+alias envjpl='./.venv/bin/jupyter-lab'
+# base venv
+alias venvDS='source ~/venv/bin/activate'
+
+# 为什么非要连接服务器上的？无它，服务器性能强劲 (但要接受网络差的现实)
+alias jlab181='echo "connect to http://localhost:8181 (jupyterlab on svr181)" && ssh -NL localhost:8181:localhost:8181 fmhshell_181'
+alias hzzjlab='echo "connect to http://localhost:8900 (jupyterlab on svr183)" && ssh -NL localhost:8900:localhost:8900 fmhshell_183'
+alias jlab183='echo "connect to http://localhost:8183 (jupyterlab on svr183)" && ssh -NL localhost:8183:localhost:8183 fmhshell_183'
+alias tsb183='echo "connect to http://localhost:6006 (tensorboard on svr183)" && ssh -NL localhost:6006:localhost:6006 fmhshell_183'
+alias fcllm='echo "connect to http://localhost:7860 (gradio on svr183)" && ssh -NL localhost:7860:localhost:7860 fmhshell_183'
+alias bcllm='echo "connect to http://localhost:8501 (streamlit on svr183)" && ssh -NL localhost:8501:localhost:8501 fmhshell_183'
+# alias llmcpp='echo "connect to http://localhost:8080 (llama.cpp on svr183)" && ssh -NL localhost:8080:localhost:8080 fmhshell_183'
+alias llmcpp='echo "connect to http://localhost:8081 (llama.cpp on svr183)" && ssh -NL localhost:8081:localhost:8081 fmhshell_183'
+
+# using en_US.utf8 in R;
+# maybe better than change the locale or so
+alias R='LANGUAGE=en_US.UTF-8 R --no-save'
 
 alias py='python3'
-alias ipy='ipython'
-
-# jupyter lab server
-# NOTE that the port number is better to keep put
-alias jlab='jupyter lab --no-browser --port=8899'
+alias ipy='ipython3'
+alias envpip='.venv/bin/pip3'
+alias envpy='.venv/bin/python3'
+alias envipy='.venv/bin/ipython3'
+alias pipqh='pip install -i https://pypi.tuna.tsinghua.edu.cn/simple'
 
 # convert ipynb notebook to restructured format
 alias nb2rst='jupyter nbconvert --to rst'
@@ -17,68 +72,44 @@ alias nb2rst='jupyter nbconvert --to rst'
 # cookiecutter alias
 alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
 
-#------------------
-# last update: Sun 26 Dec 2021 16:31:48
+alias julia='$HOME/Julia/julia-1.6.7/bin/julia'
 
-# 中文文件名 解压缩乱码 | 或直接使用 unar 命令
-alias unzipzh='unzip -O CP936'
-
-# fetch weather report from wttr.in
-alias tianqi='curl wttr.in'
-
-# run jekyll local site
-alias postup='bundle exec jekyll server'
-
-# bat default with dark theme
-# make a alias for light theme
-alias batl='bat --theme gruvbox-light'
-
-# julia startup-file=no
-alias jlrun='julia --startup-file=no'
-
-# man pages with zh_CN:
-alias cman='man -M /usr/share/man/zh_CN'
-
-# python and jupyter
-alias py='python3'
-alias py2='python2'
-alias ipy='ipython'
-alias venvQ='deactivate'
-
-# ----------------
-# change dir group
-# ----------------
-alias ..='cd ..'
-alias ...='cd ../..'
+alias firefox='/home/ds01/Downloads/Tools/firefox/firefox'
 
 # -----------------------
 # common use sys commands
 # -----------------------
-alias qp='clear'
-alias srcsh='source ~/.bashrc'
+# source ***
+# alias srcsh='source ~/.bashrc_aliases; source ~/.bashrc_aliases_local_only'
+alias srcsh='source ~/.bashrc_aliases'
+# wget continue download flags
+alias wget='wget -c'
 # tree the directory
 alias tree2='tree -dL 2'
 alias tree3='tree -dL 3'
+alias treepy='tree -I "__pycache__|*.egg-info"'
 # In case of careless rm
 alias rm='rm -i'
 alias mv='mv -i'
 alias cpr='cp -r'
 # Prevents accidentally clobbering files
-alias which='type -a'
 alias mkdir='mkdir -p'
+alias which='type -a'
 # Makes a more readable output
-alias du='du -mh'
 alias df='df -kTh'
+alias du='du -mh'
 alias dirsize='du -sh --apparent-size'
 alias du9='du -Sh | sort -rh | head -9'
-# check the cd-alias
-alias mycds='cat ~/.bashrc_aliases_local_only | grep cd'
+alias du1='du --max-depth=1 | sort -rh'
+# drop var/journal for free space
+# alia sudo journalctl --vacuum-size=100M
+
+# rsync show progress info
+alias rsync='rsync -av --info=progress2'
 
 # --------------
-# dotfiles group
-# --------------
 # edit dotfiles
-# NOTE this HOME is for vms only, use "diffg LO" when merge remote conflict
+# --------------
 alias vimsh='vim $HOME/.bashrc'
 alias vimbz='vim $HOME/.bashrc_aliases'
 alias vimrc='vim $HOME/.vimrc'
@@ -98,9 +129,10 @@ alias txks='tmux kill-session -t'
 # ------------------
 # The 'ls' family :)
 # barely changed
+# use exa instead(?) 2023-03-13 23:02:10 星期一
 # ------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
-alias ls='ls -h --color'
+alias ls='ls -h --color --group-directories-first'
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
 alias l="ls -lF --group-directories-first"
 alias ll="ls -lhv --group-directories-first"
@@ -108,35 +140,30 @@ alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
 alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
-alias llm='ll | more'      #  Pipe through 'more'
 alias llr='ll -R'          #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
 alias hidden='ls -d .*'    # show dot files only
 alias hf="ls -d .* | grep '^\.'"    # exclude directories
 alias hd="ls -d .* | grep -v '^\.'" # keep directories only
 
-# --------------
-# language group
-# --------------
-# complier for C++
-# -----------------
-# alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
-alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
-# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
-# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
-
-# NOTE: more paras/flags for clang:
-# clang -Wno-disabled-macro-expansion -Wno-float-equal -Wno-c++98-compat-pedantic'
-#       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
-#       -Wno-old-style-cast 
-
-
 # ---------------
 # handy functions
 # ---------------
+# github mirror
+function gitmirror() { git clone https://mirror.ghproxy.com/$1 ; }
 
+# test microphone working or not:
+function test-microphone() {
+    arecord -vvv -f dat /dev/null
+}
+
+# die-hard terminal nostalgists:
+function readme75cols() { fmt -s -w 75 < $1 | less ; }
+
+# Creates an archive (*.tar) from given directory
+function mktar() { tar cvf "${1%%/}.tar" "${1%%/}"; }
 # Creates an archive (*.tar.gz) from given directory
-function mktar() { tar cvzf "${1%%/}.tar.gz" "${1%%/}"; }
+function mktgz() { tar cvzf "${1%%/}.tar.gz" "${1%%/}"; }
 
 # Creates a ZIP archive of file or folder
 function mkzip() { zip -r "${1%%/}.zip" "$1" ; }
@@ -164,9 +191,44 @@ function extract()      # Handy Extract Program
     fi
 }
 
-# ---------
-# fzf grops
-# ---------
+# --------------
+# language group
+# --------------
+# complier for C++
+# -----------------
+# alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
+# alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
+# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
+# alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
+
+# NOTE: more paras/flags for clang:
+# clang -Wno-disabled-macro-expansion -Wno-float-equal -Wno-c++98-compat-pedantic'
+#       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
+#       -Wno-old-style-cast 
+
+# --------------
+# fmh preference
+# --------------
+
+# unzip 中文乱码
+# apt install unar && unar 鬼佬不懂中文.zip
+
+# set vi mode in bash
+set -o vi
+
+# terminal cursor green
+echo -ne "\e]12;green\a"
+
+# for vim colorschmes
+# alternative: alias vim='vim -T xterm-256color'
+export TERM=xterm-256color
+
+# trim path in prompt
+export PROMPT_DIRTRIM=2
+
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # cdf - cd into the directory of the selected file
 cdf() {
    local file
@@ -174,91 +236,18 @@ cdf() {
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
 
-# ---------
-# my funcs
-# ---------
-# cat *file's contents about some 'key'
-Bashalias () {
-    cat < ~/.bashrc_aliases | grep "$1"
-}
-# quick check vimrc key-combinations
-Vimalias () {
-    cat < ~/.vimrc | grep "$1"
-}
+# bash-git-prompt
+if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+    unset PROMPT_COMMAND
+    GIT_PROMPT_ONLY_IN_REPO=0
+    # GIT_PROMPT_THEME=Single_line_Ubuntu
+    GIT_PROMPT_THEME=Solarized_Ubuntu
+    source $HOME/.bash-git-prompt/gitprompt.sh
+fi
 
-# copy .gitignore file to .
-Gignore () {
-    myfile="$HOME"/gitignore/"$1".gitignore
-    if [ -f "$myfile" ]; then
-        cp "$myfile" ./.gitignore
-    else
-        echo "No such file/dir"
-    fi
-}
-
-# Wed 30 Oct 2019 20:26:53
-# Usage: mkgo dir_name
-mkgo () {
-    mkdir -p "$1"
-    cd "$1" || exit
-}
-
-# swap files names
-swap_files() {
-    if [ $# -ne 2 ]
-    then
-        echo "Usage: swap_files file1 file2"
-    else
-        echo "Bad argument. Must be a directory."
-    fi
-    echo "Total files: $(( num_dir + num_f ))"
-    echo "$num_dir directories, $num_f files"
-}
-
-# unzip to same name folder
-unzip_d() {
-    zipfile="$1"
-    suffix="${2:-.zip}"
-    zipdir=$(basename "$zipfile" "$suffix")
-    unzip -d "$zipdir" "$zipfile"
-}
-=======
-
-# ---------
-# fzf grops
-# ---------
-# cdf - cd into the directory of the selected file
-cdf() {
-   local file
-   local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
-}
+# cht.sh bash-completion
+. ~/.bash.d/cht.sh
 
 
-# ----------
-# md preview
-# ----------
-mdpv () {
-    pandoc $1 | lynx -stdin
-}
-
-# swap files names
-swap_files() {
-    if [ $# -ne 2 ]
-    then
-        echo "Usage: swap_files file1 file2"
-    else
-        local TMPFILE=$(mktemp)
-        mv -- "$1" "$TMPFILE"
-        mv -- "$2" "$1"
-        mv -- "$TMPFILE" "$2"
-    fi
-}
-
-# unzip to same name folder
-unzip_d() {
-    zipfile="$1"
-    suffix="${2:-.zip}"
-    zipdir=$(basename "$zipfile" "$suffix")
-    unzip -d "$zipdir" "$zipfile"
-}
+# 踏雪无痕
+alias txwh='ssh -t fmhshell_183 sudo -S lastlog --clear --user fmh'

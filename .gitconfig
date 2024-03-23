@@ -4,7 +4,7 @@
 # ========================================
 [user]
 	name = fgg100y
-    email = fanmhgg@gmail.com
+    email = 1522009317@qq.com
 
 [core]
 	editor = vim
@@ -21,6 +21,9 @@
 	# Speed up commands involving untracked files such as `git status`.
 	# https://git-scm.com/docs/git-update-index#_untracked_cache
 	untrackedCache = true
+
+    # 显示中文路径、中文文件名等
+    quotepath = false
 
 [apply]
 	# Detect whitespace errors when applying a patch.
@@ -40,21 +43,99 @@
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
 
+[credential]
+	helper = cache
+
 [alias]
+	# -------daily operations------------------------
+	# Pull in remote changes for the current repository and all its submodules.
+	p = pull --recurse-submodules
+
+	# Clone a repository including all submodules.
+	c = clone --recursive
+
+    s = status -s
+	st = status
+    sw = switch
+    co = checkout
+    ci = commit
+    cv = commit -v
+    cm = commit -m
     br = branch
     ba = branch --all
     brmv = branch --move
+    brmr = branch --merged
+    brnm = branch --no-merged
     type = cat-file -t
-    # dump = cat-file -p
-    dump = show --name-only
+    dump = cat-file -p
     discard = restore
     unstage = restore --staged
-    # -------about remote branch---------------------
-    # set the local branch to track the remote/branch
+
+	# Show verbose output about tags, remotes
+	tags = tag -l
+	remotes = remote --verbose
+
+	# Amend the currently staged files to the latest commit.
+    # NOTE NOTE NOTE do not amend the pushed commit.
+	emend = commit --amend
+	amend = commit --amend --reuse-message=HEAD
+
+    # -------meta info commands----------------------
+	# List contributors with number of commits.
+	contributors = shortlog --summary --numbered
+
+	# Show the user email for the current repository.
+	whoami = config user.email
+
+    # cache the passphrase/password
+    cachepwd = config --global credential.helper cache
+
+	# List aliases.
+	aliases = config --get-regexp alias
+
+    # -------about stash-----------------------------
+    #
+    # NOTE using `stash push` over `stash save` (which going to be deprecated)
+    # For quickly making a snapshot, you can omit "push". In this mode,
+    # non-option arguments are not allowed to prevent a misspelled subcommand
+    # from making an unwanted stash entry.
+    #
+    # gives the description along with the stashed state:
+    stpm = stash push --message
+
+    # list stashes:
+    stls = stash list
+
+    # show the file of stash:
+    stsh = stash show
+
+    # show the changes of most recent stash:
+    stsp = stash show -p
+    # show the changes of nemed stash:
+    ; stsp = stash show -p stash{0}
+    ; stsp = stash show -p 0
+
+    # -------about (remote) branch-------------------
+
+    # push a local one to new remote repo (say, github.com) the first time:
+    # One must create an empty github repo first, then:
+    ; git remote add origin git@github.com/fgg100y/repo-name.git
+    # No tech stuff, but may happier if do:
+    ; git branch -M main
+    # push the local one to new remote repo:
+    ; git push -u origin main
+
+    # git reset URL of origin:
+    ; git remote set-url origin https://github.com/user/repo2.git
+    ; git push -u origin main
+
+    # set a local branch to track the remote/branch
     track = checkout --track
+
     # To set up a local branch with a different name than the remote branch
     # $ git checkout -b myfoo origin/remotefoo
     trackas = checkout -b
+
     # If you already have a local branch and want to set it to a remote branch
     # (may be that you just pulled down), or want to change the upstream branch
     # you’re tracking, use the equivalent:
@@ -62,75 +143,56 @@
     # NOTE if the local branch 'foo' is not the current branch:
     # $ git branch -u remote/foo foo
     setupto = branch --set-upstream-to
+
     # delete remote branch
     dremote = push origin --delete
+
+	# Remove branches that have already been merged with main.
+	# a.k.a. ‘delete merged’
+	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
     # -----------------------------------------------
+
+    # -------about logs -----------------------------
 	# View abbreviated SHA, description, and history graph of the latest 20 commits.
 	lg = log --pretty=oneline -n 20 --graph --abbrev-commit
+
     # show the last commit
     last = log -1 HEAD --stat
+
     # show the last commit's statistic
     # stat = log -n 1 --stat
     # more informative log message but not so grace
     logg = log --all --color --graph --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset\" --abbrev-commit
     hist = log --pretty=format:\"%Cred%h%Creset %ad | %s%C(yellow)%d %C(bold blue)[%an]\" --graph --date=short
-	# View the current working tree status, -s: using the short format.
-	s = status
-    st = status -s
-	# Show the diff between the latest commit and the current state.
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
-	# `git di $number` shows the diff between the state `$number` revisions ago and the current state.
-	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
-	# Pull in remote changes for the current repository and all its submodules.
-	p = pull --recurse-submodules
-	# Clone a repository including all submodules.
-	c = clone --recursive
-	#  Commit with one-liner in shell directly
-    cm = commit -m
-    # or commit one file with the changes listed in Vim
-    ci = !git commit -v
-    # or commit all files with all changes listed in Vim
-    ca = !git add -A && git commit -av
-    # add only patches (not necessary the entire file)
-    ap = add -p
-	# Switch to a branch, creating it if necessary.
-    co = checkout
-    sw = switch
-	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-	# Show verbose output about tags, remotes
-	tags = tag -l
-	remotes = remote --verbose
-	# Amend the currently staged files to the latest commit.
-    # NOTE do not amend the pushed commit.
-	amend = commit --amend --reuse-message=HEAD
-	# Credit an author on the latest commit.
-	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+
+    # -------handy functions-------------------------
 	# Interactive rebase with the given number of latest commits.
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
+
 	# Remove the old tag with this name and tag the latest commit with it.
     # l for local, r for remote
-	retagl = "!r() { git tag -d $1 && git tag $1; }; r"
-	retagr = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
-	# Find branches containing commit, need to know the specifice commit first
+	rmtagl = "!r() { git tag -d $1 && git tag $1; }; r"
+	rmtagr = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+	# Show the diff between the latest commit and the current state.
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+
+	# `git di $number` shows the diff between the state `$number` revisions ago and the current state.
+	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+
+	# Switch to a branch, creating it if necessary.
+	; go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+	# Credit an author on the latest commit.
+	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+
+	# find branches containing commit, need to know the specifice commit first
 	fbr = "!f() { git branch -a --contains $1; }; f"
-	# Find tags containing commit
+
+	# find tags containing commit
 	ftg = "!f() { git describe --always --contains $1; }; f"
-	# Find commits by source code
+
+	# find commits by source code
 	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-	# Find commits by commit message
+
+	# find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-	# Remove branches that have already been merged with main.
-	# a.k.a. ‘delete merged’
-	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-    # Undo a Merge Conflict and Start Over
-    abmerged = merge --abort
-	# List contributors with number of commits.
-	contributors = shortlog --summary --numbered
-	# Show the user email for the current repository.
-	whoami = config user.email
-    # cache the passphrase/password
-    cachepwd = config --global credential.helper cache
-	# List aliases.
-	aliases = config --get-regexp alias
-[credential]
-    helper = cache
