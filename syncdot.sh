@@ -37,4 +37,4 @@ else
         udpate_dotfiles;
 	fi;
 fi;
-unset udpate_dotfiles;
+unset update_dotfiles;
