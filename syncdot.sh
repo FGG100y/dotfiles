@@ -21,13 +21,16 @@ usage () {
 #     echo ""
 # }
 
-udpate_dotfiles () {
-    rsync -avh "$HOME"/.bashrc "$HOME"/.bashrc_aliases \
-        "$HOME"/.gitconfig "$HOME"/.tmux.conf "$HOME"/.vimrc .;
+update_dotfiles () {
+    rsync -avh "$HOME"/.bashrc \
+        "$HOME"/.bashrc_aliases \
+        "$HOME"/.gitconfig \
+        "$HOME"/.tmux.conf \
+        "$HOME"/.vimrc .;
 }
 
 if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-	udpate_dotfiles;
+	update_dotfiles;
 else
 	read -rp "This may overwrite existing files in current repo. Are you sure? (y/n) " -n 1;
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
