@@ -7,6 +7,13 @@
 # Personal Aliases
 # ----------------
 
+# var/log/journal clean up:
+alias vlog100m="sudo journalctl --vacuum-size=100M" 
+alias vlog14d="sudo journalctl --vacuum-time=14d" 
+
+# ps and grep with header
+alias fmhps='ps -ef | egrep "PID|${USER}"'
+
 alias wechat='LANG=zh_CN.UTF-8 wine /home/ds01/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/WeChat/WeChat.exe'
 alias stopwinetricks='winetricks --optout'
 
@@ -100,9 +107,8 @@ alias df='df -kTh'
 alias du='du -mh'
 alias dirsize='du -sh --apparent-size'
 alias du9='du -Sh | sort -rh | head -9'
-alias du1='du --max-depth=1 | sort -rh'
-# drop var/journal for free space
-# alia sudo journalctl --vacuum-size=100M
+alias du1='du --max-depth=1 | sort -h'
+alias sudodu1='sudo du -mh --max-depth=1 | sort -h'
 
 # rsync show progress info
 alias rsync='rsync -av --info=progress2'

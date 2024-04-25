@@ -4,7 +4,8 @@
 # ========================================
 [user]
 	name = fgg100y
-    email = 1522009317@qq.com
+    email = bryantvan49@outlook.com
+    ; email = 1522009317@qq.com
 
 [core]
 	editor = vim
@@ -174,6 +175,18 @@
 	rmtagl = "!r() { git tag -d $1 && git tag $1; }; r"
 	rmtagr = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
+    # Show the diff between two local branch:
+    ; git diff branch01:path/to/file1 branch02:path/to/file2
+    ; git diff branch01 branch02 -- path/to/file
+
+    # Show the diff between local branch and remote branch:
+    # NOTE do `git fetch` first
+    ; git diff <local branch> <remote>/<remote branch>
+    ; git diff featureA origin/next
+    ; git diff origin/next featureA (to see what the push will do to the remote)
+    ; git diff @{upstream} (is sufficient if you just compare with your upstream branch)
+    ;
+
 	# Show the diff between the latest commit and the current state.
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
@@ -196,3 +209,8 @@
 
 	# find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+# 国内镜像：
+[url "https://gitclone.com/"]
+    insteadOf = https://
+; [url "https://hub.fastgit.xyz/"]
+;     insteadOf = https://github.com/

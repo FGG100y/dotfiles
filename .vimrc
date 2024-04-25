@@ -186,7 +186,7 @@ inoremap \fp <C-R>=getcwd()<CR>
 " " insert the datetime
 " " insert mode by typing 'dts' >> 'Sat 28 Aug 2021 09:45:56'
 " iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
-iab dte <c-r>=strftime("%Y-%m-%d %H:%M %a")<cr>
+iab dte <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
 iab dts <c-r>=strftime("%Y-%m-%d %a")<cr>
 " " Em dash symbol
 iab emdash —
@@ -236,6 +236,89 @@ ab :usa: 🇺🇸
 ab :notry: Do. Or do not. There is no try 😏
 " " }}}
 " " ================================Part-5: Plugin Config====== {{{
+" " vimwiki ----------------------------- {{{
+" " vimwiki with markdwon support (as default format)
+" " turn off support for other extension(???)
+let g:vimwiki_ext2syntax = {}
+" "
+" let g:vimwiki_ext2syntax={
+"     \ '.md': 'markdown', '.markdown': 'markdown',
+"     \ '.mdown': 'markdown', '.rmd': 'markdown'
+"     \ }
+" "
+" " my wiki path >>> [count]<Leader>ww | [count]<Leader>wt (new tab)
+" " <Leader>ww opens the first wiki from |g:vimwiki_list| if no wiki is
+" " open. Otherwise the index of the currently active wiki is opened.
+" " 1<Leader>ww opens the first wiki from |g:vimwiki_list|.
+" " 2<Leader>ww opens the second wiki from |g:vimwiki_list|.
+" " 3<Leader>ww opens the third wiki from |g:vimwiki_list|.
+" " etc.
+" " <Leader>ws: List and select available wikis.
+" "
+" " treat all markdown files in machine as part of vimwiki:
+let g:vimwiki_list = [
+    \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
+    \  'index': 'index', 'auto_export': 0, 'automatic_nested_syntaxes':1,
+    \  'path_html': '~/VimWiki/draft_html/',
+    \  'template_ext': '.html',
+    \  'template_default': 'markdown',
+    \  'template_path': '~/VimWiki/template/',
+    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
+    \ },
+    \ {'path': '~/VimWiki/MachineLearning',
+    \  'syntax': 'markdown', 'ext': '.md', 'index':'index'},
+    \ ]
+" " restrict Vimwiki's operation to only those paths listed in `g:vimwiki_list`:
+let g:vimwiki_global_ext = 0
+" " Calendar + Diary
+let g:vimwiki_use_calendar=1
+" " fancy todo listsyms
+let g:vimwiki_listsyms = '✗○◐●✓'
+" " some remaps
+" " open Link in VSplite
+nmap <leader>lh <Plug>VimwikiSplitLink
+nmap <leader>lv <Plug>VimwikiVSplitLink
+
+" " from https://gist.github.com/enpassant/0496e3db19e32e110edca03647c36541
+autocmd FileType vimwiki call SetMarkdownOptions()
+function! SetMarkdownOptions()
+  call VimwikiSet('syntax', 'markdown')
+  call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
+endfunction
+" " :VimwikiAll2HTML and <leader>wh work well.
+
+" " 好马配好鞍: 一句话生成网页博客
+command Postit :execute "w!" . "$HOME/fmh-gh-repo/fgg100y.github.io/_posts/" . strftime("%Y-%m-%d-") . expand("%:t")
+" " }}}
+" " vim-instant-markdown-preview ------- {{{
+" " NOTE that npm install instant_markdown_d failed with
+" " with the newest version of node.js (v16.*), using the
+" " snap version of node (v14) or try 'fnm install'
+" " shortcut to preview:
+command Showmd :InstantMarkdownPreview
+" command MDPV :InstantMarkdownPreview
+" " let it be slow? (real-time update seems great)
+" let g:instant_markdown_slow = 0
+" let g:instant_markdown_slow = 1
+" " manual trigger the preview window
+let g:instant_markdown_autostart = 0
+" " uses MathJax
+let g:instant_markdown_mathjax = 1
+" " only if not want to load images, stylesheets etc.
+let g:instant_markdown_allow_external_content = 1
+" " to allow scripts to run
+let g:instant_markdown_allow_unsafe_content = 1
+" " new in ver0.2.0 and latter
+" " choose a custom port instead of default 8090
+" let g:instant_markdown_port = 8888
+" " auto-scrolls to Where the cursor is positioned
+let g:instant_markdown_autoscroll = 1
+" " choose a custom browser
+let g:instant_markdown_browser = "firefox --new-window"
+" " let's just keep it on local for now
+" let g:instant_markdown_open_to_the_world = 1
+let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+" " }}}
 " " codeium & nvim python --------------- {{{
 " " wolk-around the Unknown highlight group name 'CodeiumSuggestion'
 hi default CodeiumSuggestion guifg=#50FA7B ctermfg=Gray
@@ -367,14 +450,14 @@ let g:ale_linters_explicit = 1
 " " pylint too noisy
 "    \   'python': ['flake8', 'pylint'],
 let g:ale_linters = {
-    \   'python': ['flake8'],
+    \   'python': ['ruff',],
     \}
 nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
 " let g:ale_python_flake8_use_global = 1
 "            \   'python': ['yapf', 'autopep8'],
 let g:ale_fixers = {
-            \   'python': ['black', 'isort'],
+            \   'python': ['ruff', 'black', 'isort'],
             \   'sql': ['pgformatter'],
             \}
 " " Bind F9 to fixing problems with ALE
@@ -469,7 +552,15 @@ let g:NERDToggleCheckAllLines = 1
 " " }}}
 " " ================================Part-6: Augroups=========== {{{
 
-" make change in vimrc working immediately --- {{{
+" " for vimwiki md pandoc ------ {{{
+augroup pandoc_syntax
+    au! FileType vimwiki set syntax=markdown.pandoc
+    au! BufRead,BufNewFile vimwiki set noimdisable
+    au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set noimdisable
+augroup END
+" " }}}
+
+" " make relativenumber only in working window --- {{{
 augroup BgHighlight
     au!
     au WinEnter * set relativenumber
