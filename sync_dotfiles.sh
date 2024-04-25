@@ -34,7 +34,7 @@ if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
 else
 	read -rp "This may overwrite existing files in current repo. Are you sure? (y/n) " -n 1;
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-        udpate_dotfiles;
+        update_dotfiles;
 	fi;
 fi;
 unset update_dotfiles;
