@@ -22,11 +22,13 @@ usage () {
 # }
 
 update_dotfiles () {
-    rsync -avh "$HOME"/.bashrc \
-        "$HOME"/.bashrc_aliases \
+    rsync -avh \
         "$HOME"/.gitconfig \
         "$HOME"/.tmux.conf \
         "$HOME"/.vimrc .;
+        "$HOME"/.bashrc \
+        "$HOME"/.bash_aliases \
+        "$HOME"/.bashrc_aliases \
 }
 
 if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
