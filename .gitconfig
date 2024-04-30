@@ -4,12 +4,11 @@
 # ========================================
 [user]
 	name = fgg100y
-    email = bryantvan49@outlook.com
-    ; email = 1522009317@qq.com
+    email = brantvan49@outlook.com
 
 [core]
 	editor = vim
-    mergetool = vimdiff
+	; mergeTool = vimdiff
 	# Use custom `.gitignore` and `.gitattributes`.
     # excludesfile = ~/.gitignore
     # attributesfile = ~/.gitattributes
@@ -26,6 +25,11 @@
     # 显示中文路径、中文文件名等
     quotepath = false
 
+[url "https://github.com/"]
+	insteadOf = https://githubfast.com/
+	; insteadOf = https://kkgithub.com/
+	; insteadOf = https://521github.com/
+
 [apply]
 	# Detect whitespace errors when applying a patch.
 	whitespace = fix
@@ -37,6 +41,7 @@
 [merge]
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+	tool = vimdiff
 
 [push]
 	# https://git-scm.com/docs/git-config#git-config-pushdefault
@@ -74,7 +79,8 @@
 
 	# Show verbose output about tags, remotes
 	tags = tag -l
-	remotes = remote --verbose
+    # tagging older commit:
+    ; git tag -a v1.2 9fceb02 -m "Message here"
 
 	# Amend the currently staged files to the latest commit.
     # NOTE NOTE NOTE do not amend the pushed commit.
@@ -130,6 +136,9 @@
     ; git remote set-url origin https://github.com/user/repo2.git
     ; git push -u origin main
 
+    # show remote infos
+	remotes = remote --verbose
+
     # set a local branch to track the remote/branch
     track = checkout --track
 
@@ -175,18 +184,6 @@
 	rmtagl = "!r() { git tag -d $1 && git tag $1; }; r"
 	rmtagr = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
-    # Show the diff between two local branch:
-    ; git diff branch01:path/to/file1 branch02:path/to/file2
-    ; git diff branch01 branch02 -- path/to/file
-
-    # Show the diff between local branch and remote branch:
-    # NOTE do `git fetch` first
-    ; git diff <local branch> <remote>/<remote branch>
-    ; git diff featureA origin/next
-    ; git diff origin/next featureA (to see what the push will do to the remote)
-    ; git diff @{upstream} (is sufficient if you just compare with your upstream branch)
-    ;
-
 	# Show the diff between the latest commit and the current state.
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
@@ -209,8 +206,3 @@
 
 	# find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-# 国内镜像：
-[url "https://gitclone.com/"]
-    insteadOf = https://
-; [url "https://hub.fastgit.xyz/"]
-;     insteadOf = https://github.com/
