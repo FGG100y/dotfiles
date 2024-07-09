@@ -14,7 +14,7 @@ endif
 let current_scheme = get(g:, 'colors_name', 'default')
 if 'default' == current_scheme
     " set bg=dark based on clock: (from help of Mixtral8x7b :)
-    let &background = strftime("%H") < 8 || strftime("%H") > 18 ? "dark" : "light"
+    let &background = strftime("%H") < 7 || strftime("%H") > 19 ? "dark" : "light"
     set nocursorcolumn
     set cursorline
     hi CursorLine term=bold cterm=bold guibg=Grey40
@@ -92,7 +92,7 @@ set autoindent
 " " (default 4000, i.e., 4 seconds)
 set updatetime=500
 " " markdown concealed text hidden
-set conceallevel=2
+set conceallevel=0
 if !has('nvim')
     " " nnoremap <space>p "+gp : when the "+gp is not working, toggle the paste mode:
     " " then change to insert mode to paste the code,
@@ -186,7 +186,7 @@ inoremap \fp <C-R>=getcwd()<CR>
 " " insert the datetime
 " " insert mode by typing 'dts' >> 'Sat 28 Aug 2021 09:45:56'
 " iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
-iab dte <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
+iab dtf <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
 iab dts <c-r>=strftime("%Y-%m-%d %a")<cr>
 " " Em dash symbol
 iab emdash —
@@ -288,7 +288,19 @@ endfunction
 " " :VimwikiAll2HTML and <leader>wh work well.
 
 " " 好马配好鞍: 一句话生成网页博客
-command Postit :execute "w!" . "$HOME/fmh-gh-repo/fgg100y.github.io/_posts/" . strftime("%Y-%m-%d-") . expand("%:t")
+" command Postit :execute "w!" . "$HOME/fmh-gh-repo/fgg100y.github.io/_posts/" . strftime("%Y-%m-%d-") . expand("%:t")
+" command! HugoHeader :0r ~/.vim/templates/hugo_post_front_matter.template  | :1s/{{ title }}/<C-R>=expand("%:t:r")<CR>/
+
+" command NewPost call CreateNewPost()
+" function! CreateNewPost()
+"     let filename = input('Enter post title: ')
+"     let time = localtime()
+"     let date = strftime('%FT%T%z', time)
+"     " let frontmatter = "---\ntitle: " . filename . "\ndate: " . date . "\n---\n\n"
+"     let template = ["---", "title: \"" . filename . "\"", "date: " . date, "draft: True", "image: ", "tags: []"]
+"     call extend(template,["---", ""])
+"     call append(0, template)
+" endfunction
 " " }}}
 " " vim-instant-markdown-preview ------- {{{
 " " NOTE that npm install instant_markdown_d failed with
@@ -394,18 +406,22 @@ let g:vim_markdown_toc_autofit = 1
 " let g:vim_markdown_emphasis_multiline = 0                                                                                                                                                                                             
 " " syntax concealing                                                                                                                                                                                                                   
 " " disable math conceal with LaTex math syntax enable                                                                                                                                                                                  
-" let g:tex_conceal = ""
+let g:tex_conceal = ""
 let g:vim_markdown_math = 1                                                                                                                                                                                                             
 " " Disabling conceal for code fences requires an additional setting:
-" let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_conceal_code_blocks = 0
 " " do not require .md extensions for Markdown links '[link text](link-url)'
 " " using the 'ge' command to open link-url.md instead of the file link-url
 let g:vim_markdown_no_extensions_in_markdown = 1                                                                                                                                                                                        
 " " how to open new files [tab, vsplit, hsplit, current]                                                                                                                                                                                
 let g:vim_markdown_edit_url_in = 'hsplit'                                                                                                                                                                                               
 " " go to next header                                                                                                                                                                                                                   
-map ]] <Plug>Markdown_MoveToNextHeader                                                                                                                                                                                                  
-map [[ <Plug>Markdown_MoveToNextHeader                                                                                                                                                                                                  
+map ]] <Plug>Markdown_MoveToNextHeader
+map [[ <Plug>Markdown_MoveToPreviousHeader
+map ][ <Plug>Markdown_MoveToNextSiblingHeader
+map [] <Plug>Markdown_MoveToPreviousSiblingHeader
+" " disable ']h': go to current header (conflict to gitgutter's)
+map <Plug> <Plug>Markdown_MoveToCurHeader
 " " }}}
 " " netrw gitignore ------------- {{{
 let g:netrw_liststyle = 0
@@ -598,13 +614,13 @@ augroup filefmt_autocmds
 augroup END
 " " }}}
 
-" " no-highlight when concealing (texts or equations) -------------- {{{
-" augroup filetype_md
-"     au!
-"     au BufNewFile,BufRead *.md set filetype=markdown
-"     au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
-" augroup END
-" " }}}
+" no-highlight when concealing (texts or equations) -------------- {{{
+augroup filetype_md
+    au!
+    au BufNewFile,BufRead *.md set filetype=markdown
+    au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+augroup END
+" }}}
 
 " " make change in vimrc working immediately --- {{{
 "augroup autosrc
