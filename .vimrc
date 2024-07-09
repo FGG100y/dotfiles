@@ -418,8 +418,8 @@ let g:vim_markdown_edit_url_in = 'hsplit'
 " " go to next header
 map ]] <Plug>Markdown_MoveToNextHeader
 map [[ <Plug>Markdown_MoveToPreviousHeader
-map ][ <Plug>Markdown_MoveToNextSiblingHeader
-map [] <Plug>Markdown_MoveToPreviousSiblingHeader
+map [] <Plug>Markdown_MoveToNextSiblingHeader
+map ][ <Plug>Markdown_MoveToPreviousSiblingHeader
 " " disable ']h': go to current header (conflict to gitgutter's)
 map <Plug> <Plug>Markdown_MoveToCurHeader
 " " }}}
