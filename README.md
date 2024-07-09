@@ -8,4 +8,4 @@ A customized terminal of mine:
 
 ![myTerm-2022](./images/myTerm.png)
 
-![myTerm-2024](./images/myTmuxLayoutDemoCapture2024.png)
+![myTerm-2024](./images/myTerm-2024-07-09-223536.png)
