@@ -6,4 +6,6 @@ The config files of bash shell, Tmux, Vim and Git.
 
 A customized terminal of mine:
 
-![myTerm](./images/myTmuxLayoutDemoCapture2024.png)
+![myTerm-2022](./images/myTerm.png)
+
+![myTerm-2024](./images/myTmuxLayoutDemoCapture2024.png)
