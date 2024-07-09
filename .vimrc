@@ -114,7 +114,7 @@ endif
 " " leader set to the comma, but the <space> also very helpful
 let mapleader=","
 
-" " Not so grace shotcuts to toggle themes dark/bright 
+" " Not so grace shotcuts to toggle themes dark/bright
 nnoremap <leader>tt :colo Tomorrow<cr>
 nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
@@ -177,7 +177,7 @@ map <space>t :Tags<cr>
 " " Type :normal @q to run the macro from register q on each line.
 " " -------------------------------------------------------------------
 " " Open help at vertical pane
-nnoremap <Space>h :vert help 
+nnoremap <Space>h :vert help
 " " alternative way to back to normal mode
 inoremap jk <ESC>
 " " insert pwd string
@@ -348,7 +348,7 @@ let g:codeium_filetypes = {
 " imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 " imap <C-x>   <Cmd>call codeium#Clear()<CR>
 " " }}}
-" " vim-jedi --------------- {{{                                                                                                                                                                                                    
+" " vim-jedi --------------- {{{
 " " user preference:
 let g:jedi#popup_select_first = "1"
 " " I myself prefer splits (Options: top, left, right, bottom or winwidth)
@@ -376,7 +376,7 @@ nmap ga <Plug>(EasyAlign)
 " let g:UltiSnipsJumpForwardTrigger="<c-j>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " " }}}
-" " vim-easymotion --------------- {{{                                                                                                                                                                                                    
+" " vim-easymotion --------------- {{{
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1  " Turn on case-insensitive feature
 
@@ -391,31 +391,31 @@ nmap s <Plug>(easymotion-overwin-f2)
 " map <Leader>j <Plug>(easymotion-j)
 " map <Leader>k <Plug>(easymotion-k)
 " " }}}
-" " vim-markdown --------------- {{{                                                                                                                                                                                                    
-" " fold style                                                                                                                                                                                                                          
-let g:vim_markdown_folding_style_pythonic = 1                                                                                                                                                                                           
-" " To prevent foldtext from being set                                                                                                                                                                                                  
-let g:vim_markdown_override_foldtext = 0                                                                                                                                                                                                
-" " set header folding level                                                                                                                                                                                                            
-let g:vim_markdown_folding_level = 6                                                                                                                                                                                                    
-" " no default key mappings                                                                                                                                                                                                             
-" let g:vim_markdown_no_default_key_mapping = 1                                                                                                                                                                                         
-" " enable TOC windown auto-fit                                                                                                                                                                                                         
-let g:vim_markdown_toc_autofit = 1                                                                                                                                                                                                      
-" " text emphasis resriction to single line                                                                                                                                                                                             
-" let g:vim_markdown_emphasis_multiline = 0                                                                                                                                                                                             
-" " syntax concealing                                                                                                                                                                                                                   
-" " disable math conceal with LaTex math syntax enable                                                                                                                                                                                  
+" " vim-markdown --------------- {{{
+" " fold style
+let g:vim_markdown_folding_style_pythonic = 1
+" " To prevent foldtext from being set
+let g:vim_markdown_override_foldtext = 0
+" " set header folding level
+let g:vim_markdown_folding_level = 6
+" " no default key mappings
+" let g:vim_markdown_no_default_key_mapping = 1
+" " enable TOC windown auto-fit
+let g:vim_markdown_toc_autofit = 1
+" " text emphasis resriction to single line
+" let g:vim_markdown_emphasis_multiline = 0
+" " syntax concealing
+" " disable math conceal with LaTex math syntax enable
 let g:tex_conceal = ""
-let g:vim_markdown_math = 1                                                                                                                                                                                                             
+let g:vim_markdown_math = 1
 " " Disabling conceal for code fences requires an additional setting:
 let g:vim_markdown_conceal_code_blocks = 0
 " " do not require .md extensions for Markdown links '[link text](link-url)'
 " " using the 'ge' command to open link-url.md instead of the file link-url
-let g:vim_markdown_no_extensions_in_markdown = 1                                                                                                                                                                                        
-" " how to open new files [tab, vsplit, hsplit, current]                                                                                                                                                                                
-let g:vim_markdown_edit_url_in = 'hsplit'                                                                                                                                                                                               
-" " go to next header                                                                                                                                                                                                                   
+let g:vim_markdown_no_extensions_in_markdown = 1
+" " how to open new files [tab, vsplit, hsplit, current]
+let g:vim_markdown_edit_url_in = 'hsplit'
+" " go to next header
 map ]] <Plug>Markdown_MoveToNextHeader
 map [[ <Plug>Markdown_MoveToPreviousHeader
 map ][ <Plug>Markdown_MoveToNextSiblingHeader
@@ -448,7 +448,7 @@ endif
 nnoremap <leader>a :Ack
 command Todo Ack 'TODO|FIXME|CHANGED|HACK'
 command Info Ack 'NOTE|INFO|IDEA|DEBUGGING'
-" " }}}  
+" " }}}
 " " ALE ---- {{{
 " Write this in your vimrc file
 let g:ale_lint_on_text_changed = 'never'
