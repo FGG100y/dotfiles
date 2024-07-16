@@ -14,7 +14,7 @@ endif
 let current_scheme = get(g:, 'colors_name', 'default')
 if 'default' == current_scheme
     " set bg=dark based on clock: (from help of Mixtral8x7b :)
-    let &background = strftime("%H") < 7 || strftime("%H") > 19 ? "dark" : "light"
+    let &background = strftime("%H") < 7 || strftime("%H") > 17 ? "dark" : "light"
     set nocursorcolumn
     set cursorline
     hi CursorLine term=bold cterm=bold guibg=Grey40
@@ -236,6 +236,23 @@ ab :usa: 🇺🇸
 ab :notry: Do. Or do not. There is no try 😏
 " " }}}
 " " ================================Part-5: Plugin Config====== {{{
+" " Obsession ----------------------------- {{{
+function! StartObsessionInProjectRoot()
+    " Find the directory containing the .git directory
+    let l:root = finddir('.git', '.;')
+    if !empty(l:root)
+        " Remove the .git part to get the project root directory
+        let l:root = fnamemodify(l:root, ':h')
+        execute 'cd' fnameescape(l:root)
+    endif
+
+    " Start Obsession
+    Obsession
+endfunction
+
+" Command to start obsession in the project root
+command! ObsessRoot call StartObsessionInProjectRoot()
+" " }}}
 " " vimwiki ----------------------------- {{{
 " " vimwiki with markdwon support (as default format)
 " " turn off support for other extension(???)
@@ -424,6 +441,7 @@ map ][ <Plug>Markdown_MoveToPreviousSiblingHeader
 map <Plug> <Plug>Markdown_MoveToCurHeader
 " " }}}
 " " netrw gitignore ------------- {{{
+let g:netrw_winsize = 30
 let g:netrw_liststyle = 0
 let g:netrw_list_hide= netrw_gitignore#Hide()
 "let g:netrw_list_hide= netrw_gitignore#Hide('my_gitignore_file')
@@ -623,9 +641,9 @@ augroup END
 " }}}
 
 " " make change in vimrc working immediately --- {{{
-"augroup autosrc
-"    au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC
-"augroup END
+augroup autosrc
+   au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC
+augroup END
 " " }}}
 
 " " }}}
