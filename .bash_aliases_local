@@ -1,0 +1,64 @@
+#
+# 这是用于直接照搬的，直接复制到新机器
+# 这是用于直接照搬的，直接复制到新机器
+# 这是用于直接照搬的，直接复制到新机器
+#
+# 给新手的"我再啰唆几句" >>：
+#
+# if [ -f ~/.bash_aliases_local ]; then
+#     . ~/.bash_aliases_local
+# fi
+#
+# <<以上三句应该加入到你的 .bashrc 文件
+
+# SVR_HOST (是可以外网连接的那个，通常你要去问网管大佬)：
+SVR_HOST="your.great.vip"
+HOSTPORT="2221"
+
+# connect to neo4j on a server (neo4j setup was outdated)
+function neo4jbrowser() {
+    user="${1:-dsgdb}"
+    port="${2:-7474}"
+    boltport="${3:-7687}"
+    hostport=$HOSTPORT
+    svr_host=$SVR_HOST
+    url="http://localhost:$port"
+    echo "Neo4j-browser: Opening $url in the browser"
+    cmd="ssh -CNL $port:localhost:$port -CNL $boltport:localhost:$boltport \
+        $user@$svr_host -p$hostport"
+    echo "running '$cmd'"
+    eval "$cmd"
+}
+
+# svr -- port 8080 to llama; port 7860 to vicuna or codegeex2.
+function connect_llm_server() {
+    port="${1:-8080}"
+    user="${2:-fmh}"
+    hostport=$HOSTPORT
+    svr_host=$SVR_HOST
+    url="http://localhost:$port"
+    echo "llm-on-browser: Opening $url"
+    cmd="ssh -NL $port:localhost:$port $user@$svr_host -p$hostport"
+    echo "running '$cmd'"
+    eval "$cmd"
+}
+
+# on server side do this first: jupyter-lab --no-browser --port=8183
+function connect_jpl_server() {
+    port="${1:-8183}"
+    user="${2:-fmh}"
+    hostport=$HOSTPORT
+    svr_host=$SVR_HOST
+    url="http://localhost:$port"
+    echo "jupyterlab-on-browser: Opening $url"
+    cmd="ssh -NL $port:localhost:$port $user@$svr_host -p$hostport"
+    echo "running '$cmd'"
+    eval "$cmd"
+}
+
+local_user='ds01'
+alias torepo='cd /home/$local_user/gitrepos/'
+alias tolab='cd /home/$local_user/dataGroup/fmhlab/'
+alias tovim='cd /home/$local_user/.vim/pack/vendor/start/'
+alias tollm='cd /home/$local_user/Downloads/Tools/LLMs/'
+alias towork='cd /home/$local_user/dataGroup/workSpace/'

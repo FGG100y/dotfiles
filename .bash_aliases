@@ -1,6 +1,9 @@
-# -------------------
+#
+# 这里大部分是可以直接照搬的，但挑选适合自己的即可（你不会知道别人的一些习惯会多离谱）
+# 这里大部分是可以直接照搬的，但挑选适合自己的即可（你不会知道别人的一些习惯会多离谱）
+# 这里大部分是可以直接照搬的，但挑选适合自己的即可（你不会知道别人的一些习惯会多离谱）
+#
 # Ubuntu 22.04-LTS ^^
-# -------------------
 # last modified: 2023-03-18 09:39:40 星期六
 
 # ----------------
@@ -81,7 +84,6 @@ alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data
 
 alias julia='$HOME/Julia/julia-1.6.7/bin/julia'
 
-alias firefox='/home/ds01/Downloads/Tools/firefox/firefox'
 
 # -----------------------
 # common use sys commands
