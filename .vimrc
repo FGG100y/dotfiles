@@ -22,6 +22,13 @@ endif
 " nnoremap <F8> :set number! relativenumber!<CR>
 " " do not highlight concealing part
 nnoremap <F8> :hi Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE<CR>
+" "  ensure that the highlight group gets created and is not cleared by future colorscheme commands:
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+" autocmd BufWinLeave * call clearmatches()
 " " }}}
 " " ================================Part-2: Highlight tags===== {{{
 " " enable filetype plugin detection etc, such as:
