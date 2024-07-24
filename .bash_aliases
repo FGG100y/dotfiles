@@ -11,8 +11,8 @@
 # ----------------
 
 # var/log/journal clean up:
-alias vlog100m="sudo journalctl --vacuum-size=100M" 
-alias vlog14d="sudo journalctl --vacuum-time=14d" 
+alias vlog100m="sudo journalctl --vacuum-size=100M"
+alias vlog14d="sudo journalctl --vacuum-time=14d"
 
 # ps and grep with header
 alias fmhps='ps -ef | egrep "PID|${USER}"'
@@ -89,8 +89,7 @@ alias julia='$HOME/Julia/julia-1.6.7/bin/julia'
 # common use sys commands
 # -----------------------
 # source ***
-# alias srcsh='source ~/.bashrc_aliases; source ~/.bashrc_aliases_local_only'
-alias srcsh='source ~/.bashrc_aliases'
+alias srcsh='source ~/.bash_aliases'
 # wget continue download flags
 alias wget='wget -c'
 # tree the directory
@@ -119,11 +118,11 @@ alias rsync='rsync -av --info=progress2'
 # edit dotfiles
 # --------------
 alias vimsh='vim $HOME/.bashrc'
-alias vimbz='vim $HOME/.bashrc_aliases'
+alias vimbz='vim $HOME/.bash_aliases'
 alias vimrc='vim $HOME/.vimrc'
 alias vimtx='vim $HOME/.tmux.conf'
 alias vimgc='vim $HOME/.gitconfig'
-alias vimbl='vim $HOME/.bashrc_aliases_local_only'
+alias vimbl='vim $HOME/.bash_aliases_local'
 
 # -------------
 # tmux commands
@@ -212,7 +211,7 @@ function extract()      # Handy Extract Program
 # NOTE: more paras/flags for clang:
 # clang -Wno-disabled-macro-expansion -Wno-float-equal -Wno-c++98-compat-pedantic'
 #       -Wno-global-constructors -Wno-missing-prototypes -Wno-padded
-#       -Wno-old-style-cast 
+#       -Wno-old-style-cast
 
 # --------------
 # fmh preference
@@ -244,18 +243,36 @@ cdf() {
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || exit
 }
 
-# bash-git-prompt
+# bash-git-prompt; if the synbols cutter, change the terminal fonts
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     unset PROMPT_COMMAND
     GIT_PROMPT_ONLY_IN_REPO=0
     # GIT_PROMPT_THEME=Single_line_Ubuntu
     GIT_PROMPT_THEME=Solarized_Ubuntu
+    # BASH_GIT_PROMPT__MAX_WIDTH=100
     source $HOME/.bash-git-prompt/gitprompt.sh
 fi
 
 # cht.sh bash-completion
-. ~/.bash.d/cht.sh
-
+if [ -f "$HOME/.bash.d/cht.sh" ]; then
+    . ~/.bash.d/cht.sh
+fi
 
 # 踏雪无痕
-alias txwh='ssh -t fmhshell_183 sudo -S lastlog --clear --user fmh'
+alias txwh='ssh -t dstsvr sudo -S lastlog --clear --user fmh'
+
+# pyenv
+PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# NOTE 首次安装可能会报错，主要是系统依赖未安装，例如：
+# sudo apt-get install build-essential zlib1g-dev libbz2-dev libreadline-dev
+#   \ libsqlite3-dev libssl-dev libncurses5-dev libncursesw5-dev tk-dev tcl-dev
+#   \ libffi-dev liblzma-dev
+pyenv_install(){
+    local version=${1:-"3.11.9"}
+    echo $version
+    wget "https://mirrors.huaweicloud.com/python/$version/Python-$version.tar.xz" -P ~/.pyenv/cache/
+    pyenv install $version
+}
