@@ -25,10 +25,10 @@
     # 显示中文路径、中文文件名等
     quotepath = false
 
-[url "https://github.com/"]
-	insteadOf = https://githubfast.com/
-	; insteadOf = https://kkgithub.com/
-	; insteadOf = https://521github.com/
+; [url "https://github.com/"]
+;     insteadOf = https://githubfast.com/
+;     ; insteadOf = https://kkgithub.com/
+;     ; insteadOf = https://521github.com/
 
 [apply]
 	# Detect whitespace errors when applying a patch.
@@ -50,7 +50,7 @@
 	followTags = true
 
 [credential]
-	helper = cache
+	helper = store
 
 [alias]
 	# -------daily operations------------------------
@@ -135,6 +135,10 @@
     # git reset URL of origin:
     ; git remote set-url origin https://github.com/user/repo2.git
     ; git push -u origin main
+
+    # if credential.helper=store, while when your `git push` operation keep
+    # asking for username and password:
+    ; git remote set-url origin git@github.com:user/repo2.git
 
     # show remote infos
 	remotes = remote --verbose
