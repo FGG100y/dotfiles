@@ -223,7 +223,7 @@ function extract()      # Handy Extract Program
 # set vi mode in bash
 set -o vi
 
-# terminal cursor green
+# terminal cursor green; when it does not work, config the console GUI instead
 echo -ne "\e]12;green\a"
 
 # for vim colorschmes
