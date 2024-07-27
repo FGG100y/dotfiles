@@ -18,6 +18,7 @@ if 'default' == current_scheme
     set nocursorcolumn
     set cursorline
     hi CursorLine term=bold cterm=bold guibg=Grey40
+    hi ColorColumn ctermbg=lightblue guibg=lightgrey
 endif
 " nnoremap <F8> :set number! relativenumber!<CR>
 " " do not highlight concealing part
@@ -100,22 +101,6 @@ set autoindent
 set updatetime=500
 " " markdown concealed text hidden
 set conceallevel=0
-if !has('nvim')
-    " " nnoremap <space>p "+gp : when the "+gp is not working, toggle the paste mode:
-    " " then change to insert mode to paste the code,
-    " " after pasting is done, toggle it back (to support 'auto-indent' again)
-    set pastetoggle=<F2>
-    " " no codeAI in lower verion
-    if !has('patch-9.0.0185')
-        let g:codeium_enabled = v:false
-    endif
-else
-    " " this is for neovim, which report E519: Option not supported: pastetoggle
-    nmap <F2> :set paste<cr>
-    nmap <F3> :set nopaste<cr>
-    " " try AI in nvim
-    let g:codeium_enabled = v:true
-endif
 " " }}}
 " " ================================Part-4: Leader Commands==== {{{
 " " leader set to the comma, but the <space> also very helpful
@@ -355,22 +340,6 @@ let g:instant_markdown_browser = "firefox --new-window"
 " let g:instant_markdown_open_to_the_world = 1
 let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
 " " }}}
-" " codeium & nvim python --------------- {{{
-" " wolk-around the Unknown highlight group name 'CodeiumSuggestion'
-hi default CodeiumSuggestion guifg=#50FA7B ctermfg=Gray
-" " Manually trigger suggestion | codeium#Complete() | <alt-Bslash>
-let g:codeium_manual = v:true
-" " disable for particular filetypes
-let g:codeium_filetypes = {
-    \ "bash": v:true,
-    \ "python": v:true,
-    \ "markdown": v:false,
-    \ }
-" " customize keymaps (examples):
-" imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-" imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
-" imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-" imap <C-x>   <Cmd>call codeium#Clear()<CR>
 " " }}}
 " " vim-jedi --------------- {{{
 " " user preference:
@@ -516,18 +485,6 @@ let g:gitgutter_preview_win_floating = 1
 " " }}}
 " " Hands on STATUSLINE ---- {{{
 " " statusline add extra info: paste mode, Obsession, Git-branch and hunks, etc
-function! CodeiumStatus()
-  if !has('nvim')
-    " if v:version <= 900
-    if !has('patch-9.0.0185')
-      return printf('OFF')
-    else
-      return codeium#GetStatusString()
-    endif
-  else
-    return codeium#GetStatusString()
-  endif
-endfunction
 function! GitStatus()
   let [a,m,r] = GitGutterGetHunkSummary()
   return printf('+%d ~%d -%d', a, m, r)
@@ -566,7 +523,6 @@ set statusline+=%{IsInGitRepo()==1?'':''}                  " Git branch indic
 set statusline+=%{GitGetCurrentBranch()}                    " Git current branch name
 set statusline+=%{IsInGitRepo()==1?GitStatus():''}          " GitGutterGetHunkSummary
 set statusline+=\                                           " A space
-set statusline+=🦜%3{CodeiumStatus()}             " add code-ai status
 set statusline+=%=                                          " split left/right sides
 set statusline+=%{ObsessionStatus()}                        " Obsession status
 set statusline+=\                                           " A space
@@ -616,12 +572,12 @@ augroup filetype_vim
 augroup END
 " " }}}
 
-" " highlight 'long' lines(>= 88 symbols) ------- {{{
+" " highlight 'long' lines(>= 89 symbols) ------- {{{
 augroup filefmt_autocmds
     au!
     " au FileType python,sh,julia,vimwiki,go,tex highlight Excess ctermbg=Lightred guibg=Black
-    au FileType python,sh,julia,vimwiki,go,tex highlight Excess ctermbg=Green guibg=Black
-    au FileType python,sh,julia,vimwiki,go,tex match Excess /\%88v.*/
+    au FileType python,sh,julia,vimwiki,go,tex highlight Excess ctermbg=Red guibg=Black
+    au FileType python,sh,julia,vimwiki,go,tex match Excess /\%89v.*/
     au FileType python,sh,julia,vimwiki,go,tex set colorcolumn=88
     au FileType python,sh,julia,markdown,vimwiki,go,tex set nowrap
     " auto begin in newline when exceed 88 chars when edit these filetypes
@@ -647,11 +603,11 @@ augroup filetype_md
 augroup END
 " }}}
 
-" " make change in vimrc working immediately --- {{{
-augroup autosrc
-   au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC
-augroup END
-" " }}}
+" " " make change in vimrc working immediately --- {{{
+" augroup autosrc
+"    au! BufWritePost $MYVIMRC source % | echom "Reload " . $MYVIMRC
+" augroup END
+" " " }}}
 
 " " }}}
 
