@@ -265,6 +265,7 @@ alias txwh='ssh -t dstsvr sudo -S lastlog --clear --user fmh'
 PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # NOTE 首次安装可能会报错，主要是系统依赖未安装，例如：
 # sudo apt-get install build-essential zlib1g-dev libbz2-dev libreadline-dev
