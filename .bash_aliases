@@ -21,6 +21,7 @@ alias wechat='LANG=zh_CN.UTF-8 wine /home/ds01/.wine/drive_c/Program\ Files\ \(x
 alias stopwinetricks='winetricks --optout'
 
 alias lsfonts='fc-list  | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
+alias lsfontszh='fc-list :lang=zh-cn | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
 
 alias vpngddst='sudo openvpn /etc/openvpn/gddst.x3322.net.ovpn'
 
@@ -96,6 +97,7 @@ alias wget='wget -c'
 alias tree2='tree -dL 2'
 alias tree3='tree -dL 3'
 alias treepy='tree -I "__pycache__|*.egg-info"'
+alias tree3py='tree -dL 3 -I "__pycache__|*.egg-info|tmp"'
 # In case of careless rm
 alias rm='rm -i'
 alias mv='mv -i'
