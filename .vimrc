@@ -20,10 +20,17 @@ if 'default' == current_scheme
     hi CursorLine term=bold cterm=bold guibg=Grey40
     hi ColorColumn ctermbg=lightblue guibg=lightgrey
 endif
-" nnoremap <F8> :set number! relativenumber!<CR>
+
+" " 使用 键盘功能键 的两个地方 --- {{{
+" " when one need to copy the code only:
+nnoremap <F8> :set number! relativenumber!<CR>
 " " do not highlight concealing part
-nnoremap <F8> :hi Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE<CR>
-" "  ensure that the highlight group gets created and is not cleared by future colorscheme commands:
+" nnoremap <F8> :hi Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE<CR>
+" " nmap <F9> <Plug>(ale_fix)
+" " }}}
+
+" " whitespace highlight: ensure that the highlight group gets created and is
+" " not cleared by future colorscheme commands:
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
@@ -107,8 +114,8 @@ set conceallevel=0
 let mapleader=","
 
 " " Not so grace shotcuts to toggle themes dark/bright
-nnoremap <leader>tt :colo Tomorrow<cr>
-nnoremap <leader>tn :colo Tomorrow-Night<cr>
+" nnoremap <leader>tt :colo Tomorrow<cr>
+" nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
 nnoremap <space>c :G commit -v<cr>
 nnoremap <leader>w :w<cr>
@@ -207,7 +214,7 @@ ab :point_right: 👉
 ab :book: 📖
 ab :link: 🔗
 ab :wrench: 🔧
-ab :callme: 🤙📞
+ab :callme: 🤙
 ab :email: 📧
 ab :computer: 💻
 ab :redheart: ❤️
@@ -223,9 +230,7 @@ ab :globe: 🌏
 ab :cherry: 🍒
 ab :cheers: 🍻
 ab :football: ⚽
-ab :China: 🇨🇳
-ab :usa: 🇺🇸
-ab :notry: Do. Or do not. There is no try 😏
+ab :notry: Do. Or do not. There is no try.
 " " }}}
 " " ================================Part-5: Plugin Config====== {{{
 " " Obsession ----------------------------- {{{
@@ -248,7 +253,7 @@ command! ObsessRoot call StartObsessionInProjectRoot()
 " " vimwiki ----------------------------- {{{
 " " vimwiki with markdwon support (as default format)
 " " turn off support for other extension(???)
-let g:vimwiki_ext2syntax = {}
+" let g:vimwiki_ext2syntax = {}
 " "
 " let g:vimwiki_ext2syntax={
 "     \ '.md': 'markdown', '.markdown': 'markdown',
@@ -265,40 +270,39 @@ let g:vimwiki_ext2syntax = {}
 " " <Leader>ws: List and select available wikis.
 " "
 " " treat all markdown files in machine as part of vimwiki:
-let g:vimwiki_list = [
-    \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
-    \  'index': 'index', 'auto_export': 0, 'automatic_nested_syntaxes':1,
-    \  'path_html': '~/VimWiki/draft_html/',
-    \  'template_ext': '.html',
-    \  'template_default': 'markdown',
-    \  'template_path': '~/VimWiki/template/',
-    \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
-    \ },
-    \ {'path': '~/VimWiki/MachineLearning',
-    \  'syntax': 'markdown', 'ext': '.md', 'index':'index'},
-    \ ]
-" " restrict Vimwiki's operation to only those paths listed in `g:vimwiki_list`:
-let g:vimwiki_global_ext = 0
-" " Calendar + Diary
-let g:vimwiki_use_calendar=1
-" " fancy todo listsyms
-let g:vimwiki_listsyms = '✗○◐●✓'
-" " some remaps
-" " open Link in VSplite
-nmap <leader>lh <Plug>VimwikiSplitLink
-nmap <leader>lv <Plug>VimwikiVSplitLink
-
-" " from https://gist.github.com/enpassant/0496e3db19e32e110edca03647c36541
-autocmd FileType vimwiki call SetMarkdownOptions()
-function! SetMarkdownOptions()
-  call VimwikiSet('syntax', 'markdown')
-  call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
-endfunction
+" let g:vimwiki_list = [
+"     \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
+"     \  'index': 'index', 'auto_export': 0, 'automatic_nested_syntaxes':1,
+"     \  'path_html': '~/VimWiki/draft_html/',
+"     \  'template_ext': '.html',
+"     \  'template_default': 'markdown',
+"     \  'template_path': '~/VimWiki/template/',
+"     \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
+"     \ },
+"     \ {'path': '~/VimWiki/MachineLearning',
+"     \  'syntax': 'markdown', 'ext': '.md', 'index':'index'},
+"     \ ]
+" " " restrict Vimwiki's operation to only those paths listed in `g:vimwiki_list`:
+" let g:vimwiki_global_ext = 0
+" " " Calendar + Diary
+" let g:vimwiki_use_calendar=1
+" " " fancy todo listsyms
+" let g:vimwiki_listsyms = '✗○◐●✓'
+" " " some remaps
+" " " open Link in VSplite
+" nmap <leader>lh <Plug>VimwikiSplitLink
+" nmap <leader>lv <Plug>VimwikiVSplitLink
+"
+" " " from https://gist.github.com/enpassant/0496e3db19e32e110edca03647c36541
+" autocmd FileType vimwiki call SetMarkdownOptions()
+" function! SetMarkdownOptions()
+"   call VimwikiSet('syntax', 'markdown')
+"   call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
+" endfunction
 " " :VimwikiAll2HTML and <leader>wh work well.
 
 " " 好马配好鞍: 一句话生成网页博客
-" command Postit :execute "w!" . "$HOME/fmh-gh-repo/fgg100y.github.io/_posts/" . strftime("%Y-%m-%d-") . expand("%:t")
-" command! HugoHeader :0r ~/.vim/templates/hugo_post_front_matter.template  | :1s/{{ title }}/<C-R>=expand("%:t:r")<CR>/
+" command Postit :execute "w!" . "$HOME/path/to/posts/" . strftime("%Y-%m-%d-") . expand("%:t")
 
 " command NewPost call CreateNewPost()
 " function! CreateNewPost()
@@ -550,11 +554,11 @@ let g:NERDToggleCheckAllLines = 1
 " " ================================Part-6: Augroups=========== {{{
 
 " " for vimwiki md pandoc ------ {{{
-augroup pandoc_syntax
-    au! FileType vimwiki set syntax=markdown.pandoc
-    au! BufRead,BufNewFile vimwiki set noimdisable
-    au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set noimdisable
-augroup END
+" augroup pandoc_syntax
+"     au! FileType vimwiki set syntax=markdown.pandoc
+"     au! BufRead,BufNewFile vimwiki set noimdisable
+"     au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set noimdisable
+" augroup END
 " " }}}
 
 " " make relativenumber only in working window --- {{{
