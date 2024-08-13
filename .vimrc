@@ -21,6 +21,10 @@ if 'default' == current_scheme
     hi ColorColumn ctermbg=lightblue guibg=lightgrey
 endif
 
+" " visual mode highlight default with `term=reverse ctermbg=7 guibg=LightGrey`
+" " not so good when using white theme in summer mid-day
+highlight Visual term=reverse ctermbg=7 ctermfg=yellow
+
 " " 使用 键盘功能键 的两个地方 --- {{{
 " " when one need to copy the code only:
 nnoremap <F8> :set number! relativenumber!<CR>
@@ -514,6 +518,7 @@ function! GitGetCurrentBranch()
 endfunction
 :autocmd BufEnter * silent! lcd %:p:h                       " ask vim to sliently change current dir to path of buffer (so that IsInGitRepo() make no misstake)
 highlight StatusVimModeStr ctermfg=Black ctermbg=DarkYellow
+" highlight StatusVimModeStr ctermfg=Black ctermbg=NONE
 set statusline=%#StatusVimModeStr#                          " highlight color for mode() section
 set statusline+=%{'-'.toupper(mode(1)).'-'}                 " mode() upper case
 set statusline+=%{&paste?'PASTE':''}                        " PASTE indication
@@ -531,8 +536,8 @@ set statusline+=%=                                          " split left/right s
 set statusline+=%{ObsessionStatus()}                        " Obsession status
 set statusline+=\                                           " A space
 set statusline+=%-14.(%l,%c%V%)\ %P                         " '-' for left justifying the 'row/col num & percentage'
-hi StatusLineNC ctermbg=Black ctermfg=Lightgray
-hi StatusLine ctermbg=NONE ctermfg=Blue
+hi StatusLineNC ctermbg=Black ctermfg=Blue
+hi StatusLine ctermbg=NONE ctermfg=Green
 " " }}}
 " " NERDCOMMENTER ---- {{{
 " " Create default mappings
