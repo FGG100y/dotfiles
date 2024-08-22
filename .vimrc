@@ -1,15 +1,18 @@
 " " This version of vimrc: using vim built-in pack for plugin management
-" " Last-update: 2023-12-19 23:20 二
+" " Last-update: 2024-08-22 Thu
 
-set nocompatible 		" a warn greeting to 21st cent.
+set nocompatible 		" a warm greeting to 21st cent.
 
 " language en_US.utf8     " list here as a backup (not needed here, See .bashrc)
 
 " " ================================Part-1: Colorscheme===== {{{
 " " colorscheme when init with vimdiff (if alread in diffmode: colo zenburn)
 if &diff
-        colorscheme zenburn
+    colorscheme zenburn
 endif
+" " Not so grace shotcuts to toggle themes dark/bright
+" nnoremap <leader>tt :colo Tomorrow<cr>
+" nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " colorscheme and cursorline/cursorcolumn style
 let current_scheme = get(g:, 'colors_name', 'default')
 if 'default' == current_scheme
@@ -22,13 +25,13 @@ if 'default' == current_scheme
 endif
 
 " " visual mode highlight default with `term=reverse ctermbg=7 guibg=LightGrey`
-" " not so good when using white theme in summer mid-day
+" " not so good when using light theme in summer mid-day
 highlight Visual term=reverse ctermbg=7 ctermfg=yellow
 
-" " 使用 键盘功能键 的两个地方 --- {{{
+" " 使用 键盘功能键Fn 的两个地方 --- {{{
 " " when one need to copy the code only:
 nnoremap <F8> :set number! relativenumber!<CR>
-" " do not highlight concealing part
+" " alternative: do not highlight concealing part
 " nnoremap <F8> :hi Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE<CR>
 " " nmap <F9> <Plug>(ale_fix)
 " " }}}
@@ -62,8 +65,6 @@ hi Info guifg=#0f4f4f guibg=#ffdfaf ctermfg=208 ctermbg=NONE gui=bold cterm=NONE
 " " ================================Part-3: Settings=========== {{{
 " " term_256color, better visualization
 set t_Co=256
-" " using fzf
-set rtp+=~/.fzf
 " " Do not need a mouse, otherwise :set mouse=n/v/i/a
 set mouse=
 " " backspace for delete (think windows)
@@ -108,8 +109,11 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set autoindent
-" " (default 4000, i.e., 4 seconds)
-set updatetime=500
+" " (default 4000, i.e., 4 seconds) from `:help`:
+" " If this many milliseconds nothing is typed the swap file will be
+" " written to disk (see |crash-recovery|).  Also used for the
+" " |CursorHold| autocommand event.
+set updatetime=4000
 " " markdown concealed text hidden
 set conceallevel=0
 " " }}}
@@ -117,11 +121,7 @@ set conceallevel=0
 " " leader set to the comma, but the <space> also very helpful
 let mapleader=","
 
-" " Not so grace shotcuts to toggle themes dark/bright
-" nnoremap <leader>tt :colo Tomorrow<cr>
-" nnoremap <leader>tn :colo Tomorrow-Night<cr>
 " " quick save/exit etc
-nnoremap <space>c :G commit -v<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>Q :q!<cr>
@@ -144,15 +144,15 @@ vnoremap <space>y "+y
 " " NOTE that 'Ctrl-w R' swap the splits top/bottom or left/right
 nnoremap <space>] :tabn<cr>
 nnoremap <space>[ :tabp<cr>
-" " Ctrl-h/j/k/l to jump around
-" " got the tmux-vim-nevigator, need not config here
+" " Ctrl-h/j/k/l to jump around (as backup when there is no plugin)
+" " got the tmux-vim-nevigator plugin, need not config here anymore
 "nnoremap <C-J> <C-W><C-J>
 "nnoremap <C-K> <C-W><C-K>
 "nnoremap <C-L> <C-W><C-L>
 "nnoremap <C-H> <C-W><C-H>
-" tmuxline snapshot file-saved
-nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-snapshot saved***"<cr>
-" The "e" flag tells ":substitute" that not finding a match is not an error.
+" " tmuxline snapshot file-saved
+" nnoremap <leader>tx :TmuxlineSnapshot! ~/.vim/colors/tx-airline<cr> :echo "***tx-snapshot saved***"<cr>
+" " The "e" flag tells ":substitute" that not finding a match is not an error.
 " strip trailing whitespace (,,t)
 nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
 " turn off highlights
@@ -160,16 +160,10 @@ nnoremap <space><space> :nohlsearch<cr>
 " windows/panes resize
 nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
-" " close quickfix/local/preview window
+" " close quickfix/local/preview window, just do it manualy
 " nnoremap <space>lo :cclose<cr>
 " nnoremap <space>lc :lclose<cr>
 " nnoremap <space>pc :pclose<cr>
-" " fzf shotcut
-imap <c-x><c-o> <plug>(fzf-complete-line)
-map <space>b :Buffers<cr>
-map <space>f :Gcd <bar> Files<cr>
-map <space>g :GFiles<cr>
-map <space>t :Tags<cr>
 " " -------------------------------------------------------------------
 " " Start recording keystrokes by typing qq.
 " " End recording with q (first press Escape if you are in insert mode).
@@ -186,11 +180,10 @@ inoremap jk <ESC>
 " " insert pwd string
 inoremap \fp <C-R>=getcwd()<CR>
 " " groups of abbreviate
-" " insert the datetime
-" " insert mode by typing 'dts' >> 'Sat 28 Aug 2021 09:45:56'
-" iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
+" " insert the datetime; dtf=2024-08-22T11:05:57+0800 for hugo blog
 iab dtf <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
 iab dts <c-r>=strftime("%Y-%m-%d %a")<cr>
+" iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 " " Em dash symbol
 iab emdash —
 " " Emoji shortcuts
@@ -246,108 +239,11 @@ function! StartObsessionInProjectRoot()
         let l:root = fnamemodify(l:root, ':h')
         execute 'cd' fnameescape(l:root)
     endif
-
     " Start Obsession
     Obsession
 endfunction
-
 " Command to start obsession in the project root
 command! ObsessRoot call StartObsessionInProjectRoot()
-" " }}}
-" " vimwiki ----------------------------- {{{
-" " vimwiki with markdwon support (as default format)
-" " turn off support for other extension(???)
-" let g:vimwiki_ext2syntax = {}
-" "
-" let g:vimwiki_ext2syntax={
-"     \ '.md': 'markdown', '.markdown': 'markdown',
-"     \ '.mdown': 'markdown', '.rmd': 'markdown'
-"     \ }
-" "
-" " my wiki path >>> [count]<Leader>ww | [count]<Leader>wt (new tab)
-" " <Leader>ww opens the first wiki from |g:vimwiki_list| if no wiki is
-" " open. Otherwise the index of the currently active wiki is opened.
-" " 1<Leader>ww opens the first wiki from |g:vimwiki_list|.
-" " 2<Leader>ww opens the second wiki from |g:vimwiki_list|.
-" " 3<Leader>ww opens the third wiki from |g:vimwiki_list|.
-" " etc.
-" " <Leader>ws: List and select available wikis.
-" "
-" " treat all markdown files in machine as part of vimwiki:
-" let g:vimwiki_list = [
-"     \ {'path': '~/VimWiki', 'syntax': 'markdown', 'ext': '.md',
-"     \  'index': 'index', 'auto_export': 0, 'automatic_nested_syntaxes':1,
-"     \  'path_html': '~/VimWiki/draft_html/',
-"     \  'template_ext': '.html',
-"     \  'template_default': 'markdown',
-"     \  'template_path': '~/VimWiki/template/',
-"     \  'custom_wiki2html': '~/VimWiki/wiki2html.sh',
-"     \ },
-"     \ {'path': '~/VimWiki/MachineLearning',
-"     \  'syntax': 'markdown', 'ext': '.md', 'index':'index'},
-"     \ ]
-" " " restrict Vimwiki's operation to only those paths listed in `g:vimwiki_list`:
-" let g:vimwiki_global_ext = 0
-" " " Calendar + Diary
-" let g:vimwiki_use_calendar=1
-" " " fancy todo listsyms
-" let g:vimwiki_listsyms = '✗○◐●✓'
-" " " some remaps
-" " " open Link in VSplite
-" nmap <leader>lh <Plug>VimwikiSplitLink
-" nmap <leader>lv <Plug>VimwikiVSplitLink
-"
-" " " from https://gist.github.com/enpassant/0496e3db19e32e110edca03647c36541
-" autocmd FileType vimwiki call SetMarkdownOptions()
-" function! SetMarkdownOptions()
-"   call VimwikiSet('syntax', 'markdown')
-"   call VimwikiSet('custom_wiki2html', 'wiki2html.sh')
-" endfunction
-" " :VimwikiAll2HTML and <leader>wh work well.
-
-" " 好马配好鞍: 一句话生成网页博客
-" command Postit :execute "w!" . "$HOME/path/to/posts/" . strftime("%Y-%m-%d-") . expand("%:t")
-
-" command NewPost call CreateNewPost()
-" function! CreateNewPost()
-"     let filename = input('Enter post title: ')
-"     let time = localtime()
-"     let date = strftime('%FT%T%z', time)
-"     " let frontmatter = "---\ntitle: " . filename . "\ndate: " . date . "\n---\n\n"
-"     let template = ["---", "title: \"" . filename . "\"", "date: " . date, "draft: True", "image: ", "tags: []"]
-"     call extend(template,["---", ""])
-"     call append(0, template)
-" endfunction
-" " }}}
-" " vim-instant-markdown-preview ------- {{{
-" " NOTE that npm install instant_markdown_d failed with
-" " with the newest version of node.js (v16.*), using the
-" " snap version of node (v14) or try 'fnm install'
-" " shortcut to preview:
-command Showmd :InstantMarkdownPreview
-" command MDPV :InstantMarkdownPreview
-" " let it be slow? (real-time update seems great)
-" let g:instant_markdown_slow = 0
-" let g:instant_markdown_slow = 1
-" " manual trigger the preview window
-let g:instant_markdown_autostart = 0
-" " uses MathJax
-let g:instant_markdown_mathjax = 1
-" " only if not want to load images, stylesheets etc.
-let g:instant_markdown_allow_external_content = 1
-" " to allow scripts to run
-let g:instant_markdown_allow_unsafe_content = 1
-" " new in ver0.2.0 and latter
-" " choose a custom port instead of default 8090
-" let g:instant_markdown_port = 8888
-" " auto-scrolls to Where the cursor is positioned
-let g:instant_markdown_autoscroll = 1
-" " choose a custom browser
-let g:instant_markdown_browser = "firefox --new-window"
-" " let's just keep it on local for now
-" let g:instant_markdown_open_to_the_world = 1
-let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
-" " }}}
 " " }}}
 " " vim-jedi --------------- {{{
 " " user preference:
@@ -359,36 +255,21 @@ let g:jedi#environment_path = "auto"
 " let g:jedi#environment_path = ".venv"
 " " displays function call signatures; 0-disable,1-popup,2-cml
 " let g:jedi#show_call_signatures = "1"
-" let g:jedi#show_call_signatures = "2"
+let g:jedi#show_call_signatures = "2"
 " " transparent jedi#show_call_signatures bg/fg color
 hi Function ctermbg=none ctermfg=blue
 hi jediFat ctermbg=none ctermfg=DarkRed
 hi jediFunction ctermbg=none ctermfg=LightRed
 " " }}}
-" " vim easy align --------------- {{{
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-" " }}}
-" " vim snip --------------- {{{
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsListSnippets="<c-tab>"
-" let g:UltiSnipsJumpForwardTrigger="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" " }}}
 " " vim-easymotion --------------- {{{
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1  " Turn on case-insensitive feature
-
 " " <Leader>f{char} to move to {char}
 map  <Leader>f <Plug>(easymotion-bd-f)
-
 " " Need one more keystroke, but on average, it may be more comfortable.
-" " s{char}{char} to move to {char}{char}
+" " s{char}{char} to move to {char}{char}, <leader>s work too
 nmap s <Plug>(easymotion-overwin-f2)
-
-" " JK motions: Line motions (relative linenum is good-enough)
+" " JK motions: Line motions (relative linenum is good-enough for me)
 " map <Leader>j <Plug>(easymotion-j)
 " map <Leader>k <Plug>(easymotion-k)
 " " }}}
@@ -425,7 +306,7 @@ map ][ <Plug>Markdown_MoveToPreviousSiblingHeader
 map <Plug> <Plug>Markdown_MoveToCurHeader
 " " }}}
 " " netrw gitignore ------------- {{{
-let g:netrw_winsize = 30
+let g:netrw_winsize = 22
 let g:netrw_liststyle = 0
 let g:netrw_list_hide= netrw_gitignore#Hide()
 "let g:netrw_list_hide= netrw_gitignore#Hide('my_gitignore_file')
@@ -435,7 +316,7 @@ let g:tagbar_sort = 0
 let g:tagbar_width = 28
 let g:tagbar_autofocus = 1
 let g:tagbar_position = 'topleft vertical'
-let g:tagbar_ctags_bin = "/home/ds01/ctags/uctags-2023.04.16-linux-x86_64/bin/ctags"
+let g:tagbar_ctags_bin = "/home/fmh/ctags/uctags-2023.04.16-linux-x86_64/bin/ctags"
 nnoremap <silent> <leader>b :TagbarToggle<cr>
 nnoremap <space>j :TagbarOpen fj<cr>
 " " }}}
@@ -448,18 +329,19 @@ endif
 " " NOTE that 'Gcd' is Fugitive's command ; more info: https://github.com/mileszs/ack.vim/issues/188
 :cnoreabbrev Ack Gcd <bar> Ack!
 nnoremap <leader>a :Ack
-command Todo Ack 'TODO|FIXME|CHANGED|HACK'
+command Todo Ack 'TODO|FIXME|REFACTOR|HACK'
 command Info Ack 'NOTE|INFO|IDEA|DEBUGGING'
 " " }}}
 " " ALE ---- {{{
 " Write this in your vimrc file
+let g:ale_python_ruff_auto_pipenv = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 1
-" let g:ale_sign_error = '☒'
+let g:ale_sign_error = '☒'
 let g:ale_sign_warning = '⚠'
-" let g:ale_echo_msg_error_str = 'E'
-" let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%-%code%] %s'
 let g:ale_set_highlights = 1
 " let g:ale_floating_window_border = repeat([''], 8)
@@ -480,10 +362,18 @@ let g:ale_fixers = {
             \}
 " " Bind F9 to fixing problems with ALE
 nmap <F9> <Plug>(ale_fix)
-" " Black --line-length=88, I prefer 79
-" let g:ale_python_black_options='--line-length=79'
 " " }}}
-" " GITGUTTER ---- {{{
+" " FZF and GITGUTTER ---- {{{
+" " using fzf
+set rtp+=~/.fzf
+" " fzf shotcut, NOTE the :G means Gitgutter is needed
+imap <c-x><c-o> <plug>(fzf-complete-line)
+map <space>t :Tags<cr>
+map <space>b :Buffers<cr>
+map <space>f :Gcd <bar> Files<cr>
+map <space>g :GFiles<cr>
+" " commit with verbose info
+nnoremap <space>c :G commit -v<cr>
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nmap ghs <Plug>(GitGutterStageHunk)
@@ -555,16 +445,7 @@ let g:NERDTrimTrailingWhitespace = 1
 " " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 " " }}}
-" " }}}
 " " ================================Part-6: Augroups=========== {{{
-
-" " for vimwiki md pandoc ------ {{{
-" augroup pandoc_syntax
-"     au! FileType vimwiki set syntax=markdown.pandoc
-"     au! BufRead,BufNewFile vimwiki set noimdisable
-"     au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set noimdisable
-" augroup END
-" " }}}
 
 " " make relativenumber only in working window --- {{{
 augroup BgHighlight
