@@ -10,33 +10,6 @@
 # Personal Aliases
 # ----------------
 
-# var/log/journal clean up:
-alias vlog100m="sudo journalctl --vacuum-size=100M"
-alias vlog14d="sudo journalctl --vacuum-time=14d"
-
-# ps and grep with header
-alias fmhps='ps -ef | egrep "PID|${USER}"'
-
-alias wechat='LANG=zh_CN.UTF-8 wine /home/ds01/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/WeChat/WeChat.exe'
-alias stopwinetricks='winetricks --optout'
-
-alias lsfonts='fc-list  | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
-alias lsfontszh='fc-list :lang=zh-cn | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
-
-alias vpngddst='sudo openvpn /etc/openvpn/gddst.x3322.net.ovpn'
-
-# server side UDP port temporary config: sudo iptables -I INPUT 1 -p udp --dport 60000:60010 -j ACCEPT
-alias mosh181='mosh -p 60001 --predict=always --experimental-remote-ip=remote --ssh="/usr/bin/ssh -p 40181 -i ~/.ssh/id_rsa" fmh@gddst.wicp.vip'
-alias mosh183='mosh -p 60001 --ssh="/usr/bin/ssh -p 40183 -i ~/.ssh/id_ed25519" fmh@gddst.wicp.vip'
-# alias mosh183='mosh -p 60001 --predict=always --experimental-remote-ip=remote --ssh="/usr/bin/ssh -p 40183 -i ~/.ssh/id_ed25519" fmh@gddst.wicp.vip'
-
-# xfce monitor setting extend to left
-alias monitorpd2left="xrandr --output HDMI-A-0 --auto --left-of eDP"
-alias monitorpd2right="xrandr --output HDMI-A-0 --auto --right-of eDP"
-
-#testPyPI: fmh99; PyPI: fan99; password see API-token in $HOME/.pypirc
-alias testpypi='twine upload --repository testpypi --skip-existing dist/*'
-
 alias qp='clear'
 alias gj='shutdown now'
 
@@ -44,51 +17,6 @@ alias gj='shutdown now'
 alias ..='cd ..'
 alias ...='cd ../..'
 
-# 如果终端不能访问此地址，可能需要检查防火墙端口设置 (ufw allow 8000/tcp)
-# 且已经设置: sudo ufw default deny incoming
-alias httpy='python3 -m http.server -b $(hostname -I | cut -d" " -f 1)'
-
-# 本地 venv, jupyterlab 环境(必须到相应的根目录再执行命令):
-# 指定pdb环境: PYTHONBREAKPOINT='IPython.core.debugger.set_trace' envpy run.py
-alias envpy='./.venv/bin/python3'
-alias envpip='./.venv/bin/pip3'
-alias envjpl='./.venv/bin/jupyter-lab'
-# base venv
-alias venvDS='source ~/venv/bin/activate'
-
-# 为什么非要连接服务器上的？无它，服务器性能强劲 (但要接受网络差的现实)
-alias jlab181='echo "connect to http://localhost:8181 (jupyterlab on svr181)" && ssh -NL localhost:8181:localhost:8181 fmhshell_181'
-alias hzzjlab='echo "connect to http://localhost:8900 (jupyterlab on svr183)" && ssh -NL localhost:8900:localhost:8900 fmhshell_183'
-alias jlab183='echo "connect to http://localhost:8183 (jupyterlab on svr183)" && ssh -NL localhost:8183:localhost:8183 fmhshell_183'
-alias tsb183='echo "connect to http://localhost:6006 (tensorboard on svr183)" && ssh -NL localhost:6006:localhost:6006 fmhshell_183'
-alias fcllm='echo "connect to http://localhost:7860 (gradio on svr183)" && ssh -NL localhost:7860:localhost:7860 fmhshell_183'
-alias bcllm='echo "connect to http://localhost:8501 (streamlit on svr183)" && ssh -NL localhost:8501:localhost:8501 fmhshell_183'
-# alias llmcpp='echo "connect to http://localhost:8080 (llama.cpp on svr183)" && ssh -NL localhost:8080:localhost:8080 fmhshell_183'
-alias llmcpp='echo "connect to http://localhost:8081 (llama.cpp on svr183)" && ssh -NL localhost:8081:localhost:8081 fmhshell_183'
-
-# using en_US.utf8 in R;
-# maybe better than change the locale or so
-alias R='LANGUAGE=en_US.UTF-8 R --no-save'
-
-alias py='python3'
-alias ipy='ipython3'
-alias envpip='.venv/bin/pip3'
-alias envpy='.venv/bin/python3'
-alias envipy='.venv/bin/ipython3'
-alias pipqh='pip install -i https://pypi.tuna.tsinghua.edu.cn/simple'
-
-# convert ipynb notebook to restructured format
-alias nb2rst='jupyter nbconvert --to rst'
-
-# cookiecutter alias
-alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
-
-alias julia='$HOME/Julia/julia-1.6.7/bin/julia'
-
-
-# -----------------------
-# common use sys commands
-# -----------------------
 # source ***
 alias srcsh='source ~/.bash_aliases'
 # wget continue download flags
@@ -116,15 +44,35 @@ alias sudodu1='sudo du -mh --max-depth=1 | sort -h'
 # rsync show progress info
 alias rsync='rsync -av --info=progress2'
 
+# var/log/journal clean up:
+alias vlog100m="sudo journalctl --vacuum-size=100M"
+alias vlog14d="sudo journalctl --vacuum-time=14d"
+
+# ps and grep with header
+alias fmhps='ps -ef | egrep "PID|${USER}"'
+
+alias lsfonts='fc-list  | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
+alias lsfontszh='fc-list :lang=zh-cn | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
+
+# xfce monitor setting extend to left
+alias monitorpd2left="xrandr --output HDMI-A-0 --auto --left-of eDP"
+alias monitorpd2right="xrandr --output HDMI-A-0 --auto --right-of eDP"
+
+#testPyPI: fmh99; PyPI: fan99; password see API-token in $HOME/.pypirc
+alias testpypi='twine upload --repository testpypi --skip-existing dist/*'
+
+# 踏雪无痕
+alias txwh='ssh -t dstsvr sudo -S lastlog --clear --user fmh'
+
 # --------------
 # edit dotfiles
 # --------------
 alias vimsh='vim $HOME/.bashrc'
 alias vimbz='vim $HOME/.bash_aliases'
+alias vimbl='vim $HOME/.bash_aliases_local'
 alias vimrc='vim $HOME/.vimrc'
 alias vimtx='vim $HOME/.tmux.conf'
 alias vimgc='vim $HOME/.gitconfig'
-alias vimbl='vim $HOME/.bash_aliases_local'
 
 # -------------
 # tmux commands
@@ -154,6 +102,23 @@ alias la='ll -A'           #  Show hidden files.
 alias hidden='ls -d .*'    # show dot files only
 alias hf="ls -d .* | grep '^\.'"    # exclude directories
 alias hd="ls -d .* | grep -v '^\.'" # keep directories only
+
+# 如果终端不能访问此地址，可能需要检查防火墙端口设置 (ufw allow 8000/tcp)
+# 且已经设置: sudo ufw default deny incoming
+alias httpy='python3 -m http.server -b $(hostname -I | cut -d" " -f 1)'
+# using en_US.utf8 in R;
+# maybe better than change the locale or so
+alias R='LANGUAGE=en_US.UTF-8 R --no-save'
+# python shortcuts
+alias py='python3'
+alias ipy='ipython3'
+alias pipqh='pip install -i https://pypi.tuna.tsinghua.edu.cn/simple'
+# convert ipynb notebook to restructured format
+alias nb2rst='jupyter nbconvert --to rst'
+# cookiecutter alias
+alias mkccds='cookiecutter -c v1 https://github.com/drivendata/cookiecutter-data-science'
+# Julia-lang
+alias julia='$HOME/Julia/julia-1.6.7/bin/julia'
 
 # ---------------
 # handy functions
@@ -260,9 +225,6 @@ if [ -f "$HOME/.bash.d/cht.sh" ]; then
     . ~/.bash.d/cht.sh
 fi
 
-# 踏雪无痕
-alias txwh='ssh -t dstsvr sudo -S lastlog --clear --user fmh'
-
 # pyenv
 PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
@@ -279,3 +241,31 @@ pyenv_install(){
     wget "https://mirrors.huaweicloud.com/python/$version/Python-$version.tar.xz" -P ~/.pyenv/cache/
     pyenv install $version
 }
+
+
+# # outdated aliases:
+# alias vpngddst='sudo openvpn /etc/openvpn/gddst.x3322.net.ovpn'
+# alias wechat='LANG=zh_CN.UTF-8 wine /home/ds01/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/WeChat/WeChat.exe'
+# alias stopwinetricks='winetricks --optout'
+# # server side UDP port temporary config: sudo iptables -I INPUT 1 -p udp --dport 60000:60010 -j ACCEPT
+# alias mosh181='mosh -p 60001 --predict=always --experimental-remote-ip=remote --ssh="/usr/bin/ssh -p 40181 -i ~/.ssh/id_rsa" fmh@gddst.wicp.vip'
+# alias mosh183='mosh -p 60001 --ssh="/usr/bin/ssh -p 40183 -i ~/.ssh/id_ed25519" fmh@gddst.wicp.vip'
+# # alias mosh183='mosh -p 60001 --predict=always --experimental-remote-ip=remote --ssh="/usr/bin/ssh -p 40183 -i ~/.ssh/id_ed25519" fmh@gddst.wicp.vip'
+#
+# # 为什么非要连接服务器上的？无它，服务器性能强劲 (但要接受网络差的现实)
+# alias jlab181='echo "connect to http://localhost:8181 (jupyterlab on svr181)" && ssh -NL localhost:8181:localhost:8181 fmhshell_181'
+# alias hzzjlab='echo "connect to http://localhost:8900 (jupyterlab on svr183)" && ssh -NL localhost:8900:localhost:8900 fmhshell_183'
+# alias jlab183='echo "connect to http://localhost:8183 (jupyterlab on svr183)" && ssh -NL localhost:8183:localhost:8183 fmhshell_183'
+# alias tsb183='echo "connect to http://localhost:6006 (tensorboard on svr183)" && ssh -NL localhost:6006:localhost:6006 fmhshell_183'
+# alias fcllm='echo "connect to http://localhost:7860 (gradio on svr183)" && ssh -NL localhost:7860:localhost:7860 fmhshell_183'
+# alias bcllm='echo "connect to http://localhost:8501 (streamlit on svr183)" && ssh -NL localhost:8501:localhost:8501 fmhshell_183'
+# # alias llmcpp='echo "connect to http://localhost:8080 (llama.cpp on svr183)" && ssh -NL localhost:8080:localhost:8080 fmhshell_183'
+# alias llmcpp='echo "connect to http://localhost:8081 (llama.cpp on svr183)" && ssh -NL localhost:8081:localhost:8081 fmhshell_183'
+# # 本地 venv, jupyterlab 环境(必须到相应的根目录再执行命令):
+# # 指定pdb环境: PYTHONBREAKPOINT='IPython.core.debugger.set_trace' envpy run.py
+# alias envpy='./.venv/bin/python3'
+# alias envpip='./.venv/bin/pip3'
+# alias envjpl='./.venv/bin/jupyter-lab'
+# # base venv
+# alias venvDS='source ~/venv/bin/activate'
+
