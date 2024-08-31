@@ -121,6 +121,20 @@ set conceallevel=0
 " " leader set to the comma, but the <space> also very helpful
 let mapleader=","
 
+" " inline math equation using $eqn$ instead of \( eqn \) which were copied from LLMChat
+function! ReplaceParensis()
+    %s/\\( /$/g
+    %s/\ \\)/$/g
+endfunction
+command! RPs call ReplaceParensis()
+" " multi-line math equations using $$eqn$$ instead of \[ eqn \] which were copied from LLMChat
+" " NOTE substitute '\[' using '\\\[', one more escape for '\' itself
+function! ReplaceBrackets()
+    %s/\\\[/$$/g
+    %s/\\]/$$/g
+endfunction
+command! RBs call ReplaceBrackets()
+
 " " quick save/exit etc
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
