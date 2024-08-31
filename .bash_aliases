@@ -235,9 +235,18 @@ eval "$(pyenv virtualenv-init -)"
 # sudo apt-get install build-essential zlib1g-dev libbz2-dev libreadline-dev
 #   \ libsqlite3-dev libssl-dev libncurses5-dev libncursesw5-dev tk-dev tcl-dev
 #   \ libffi-dev liblzma-dev
+# NOTE $1 must be x.y.z format; x.y not ok
 pyenv_install(){
     local version=${1:-"3.11.9"}
-    echo $version
+        # Regular expression to match x.y.z where x, y, and z are integers
+    if [[ $version =~ ^[2-4]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "Valid version format."
+    else
+        echo "Invalid version format. Please enter the version as x.y.z."
+        return 1
+    fi
+    echo "Proceeding with downloading Python $version..."
+    # wget "https://mirrors.sohu.com/python/$version/Python-$version.tar.xz" -P ~/.pyenv/cache/
     wget "https://mirrors.huaweicloud.com/python/$version/Python-$version.tar.xz" -P ~/.pyenv/cache/
     pyenv install $version
 }
