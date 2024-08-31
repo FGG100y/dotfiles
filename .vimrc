@@ -487,9 +487,7 @@ augroup filefmt_autocmds
     au FileType python,sh,julia,vimwiki,go,tex set colorcolumn=88
     au FileType python,sh,julia,markdown,vimwiki,go,tex set nowrap
     " auto begin in newline when exceed 88 chars when edit these filetypes
-    au FileType python,sh,julia,markdown,vimwiki,go,tex setlocal textwidth=88 formatoptions+=t
-    " gp for Chinese characters with formatoptions+=mM
-    au FileType python,sh,julia,markdown,vimwiki,tex,txt setlocal textwidth=88 formatoptions+=tmM
+    au FileType python,sh,julia,tex setlocal textwidth=88 formatoptions+=tmM
     " Don't add the comment prefix when I hit enter or o/O on a comment line
     au FileType python,sh,julia,markdown,vimwiki,vim,go,tex setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     " no-highlight when concealing (texts or equations)
@@ -501,11 +499,13 @@ augroup filefmt_autocmds
 augroup END
 " " }}}
 
-" no-highlight when concealing (texts or equations) -------------- {{{
+" " markdwon file format: gqq and no-highlight when concealing (texts or equations) -------------- {{{
 augroup filetype_md
     au!
     au BufNewFile,BufRead *.md set filetype=markdown
     au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+    " gqq for 中文字符 Chinese characters (with formatoptions+=mM is a MUST)
+    au FileType markdown,vimwiki,txt setlocal textwidth=88 formatoptions-=t formatoptions+=mM
 augroup END
 " }}}
 
