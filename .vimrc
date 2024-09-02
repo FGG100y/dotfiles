@@ -199,6 +199,23 @@ inoremap \rrt <c-r>\<ruby>“终端”<rt>terminal</rt></ruby><cr>
 " " insert the datetime; dtf=2024-08-22T11:05:57+0800 for hugo blog
 iab dtf <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
 iab dts <c-r>=strftime("%Y-%m-%d %a")<cr>
+" " insert eqnarray (in markdown)
+function! InsertEqnTemplate()
+  put ='$$'
+  put ='\begin{eqnarray}'
+  put =''
+  put ='\end{eqnarray}'
+  put ='$$'
+  normal 2k
+endfunction
+command! -nargs=0 InsertEqnTemplate :call InsertEqnTemplate()
+nnoremap <leader>ee :InsertEqnTemplate<CR>
+inoremap \ee <C-o>:InsertEqnTemplate<CR>
+
+
+" Map a key combination to call the function silently
+" inoremap <expr> <leader>ee "<C-O>:silent call InsertEqnArray()<CR>"
+
 " iab dts <c-r>=strftime("%a %d %b %Y %T")<cr>
 " " Em dash symbol
 iab emdash —
@@ -482,18 +499,14 @@ augroup END
 augroup filefmt_autocmds
     au!
     " au FileType python,sh,julia,vimwiki,go,tex highlight Excess ctermbg=Lightred guibg=Black
-    au FileType python,sh,julia,vimwiki,go,tex highlight Excess ctermbg=Red guibg=Black
-    au FileType python,sh,julia,vimwiki,go,tex match Excess /\%89v.*/
-    au FileType python,sh,julia,vimwiki,go,tex set colorcolumn=88
-    au FileType python,sh,julia,markdown,vimwiki,go,tex set nowrap
+    au FileType python,sh,julia,tex highlight Excess ctermbg=Red guibg=Black
+    au FileType python,sh,julia,tex match Excess /\%89v.*/
+    au FileType python,sh,julia,tex set colorcolumn=88
+    au FileType python,sh,julia,tex set nowrap
     " auto begin in newline when exceed 88 chars when edit these filetypes
     au FileType python,sh,julia,tex setlocal textwidth=88 formatoptions+=tmM
-    " Don't add the comment prefix when I hit enter or o/O on a comment line
-    au FileType python,sh,julia,markdown,vimwiki,vim,go,tex setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-    " no-highlight when concealing (texts or equations)
-    au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
-    " Align GitHub-flavored Markdown tables
-    au FileType markdown vmap <space><Bslash> :EasyAlign*<Bar><Enter>
+    " Don't add the comment prefix when I hit enter or o/O on a comment line by: setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    au FileType python,sh,julia,tex,vim setlocal formatoptions-=cro
     " do not popup docstring windown when using jedi completion
     au FileType python setlocal completeopt-=preview
 augroup END
@@ -503,9 +516,14 @@ augroup END
 augroup filetype_md
     au!
     au BufNewFile,BufRead *.md set filetype=markdown
+    " no-highlight when concealing (texts or equations)
     au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
     " gqq for 中文字符 Chinese characters (with formatoptions+=mM is a MUST)
     au FileType markdown,vimwiki,txt setlocal textwidth=88 formatoptions-=t formatoptions+=mM
+    " Align GitHub-flavored Markdown tables
+    au FileType markdown vmap <space><Bslash> :EasyAlign*<Bar><Enter>
+    " do not warp line
+    au FileType markdown,vimwiki,txt set nowrap
 augroup END
 " }}}
 
