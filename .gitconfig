@@ -77,6 +77,9 @@
     discard = restore
     unstage = restore --staged
 
+    # cherry-pick other branch's commit:
+    ; git cherry-pick <commit-hash>
+
 	# Show verbose output about tags, remotes
 	tags = tag -l
     # tagging older commit:
@@ -170,8 +173,9 @@
 	# View abbreviated SHA, description, and history graph of the latest 20 commits.
 	lg = log --pretty=oneline -n 20 --graph --abbrev-commit
 
-    # show the last commit
+    # show the last commit of current branch:
     last = log -1 HEAD --stat
+    ;last = log -1 HEAD --stat other-branch
 
     # show the last commit's statistic
     # stat = log -n 1 --stat
