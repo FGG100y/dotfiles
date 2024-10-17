@@ -195,7 +195,11 @@ inoremap jk <ESC>
 " " insert pwd string
 inoremap \fp <C-R>=getcwd()<CR>
 " " insert alias of 中英词语, '\' in '\<ruby>' for escape
-inoremap \rrt <c-r>\<ruby>“终端”<rt>terminal</rt></ruby><cr>
+inoremap \rb <c-r>\<ruby>“终端”<rt>terminal</rt></ruby><cr>
+" " insert python breakpoint()
+inoremap \bp <C-R>\breakpoint()<CR>
+" " insert python __name__
+inoremap \nm <C-R>\if __name__ == "__main__":<CR>
 " " groups of abbreviate
 " " insert the datetime; dtf=2024-08-22T11:05:57+0800 for hugo blog
 iab dtf <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
