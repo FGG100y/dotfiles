@@ -4,11 +4,14 @@
 # 这里大部分是可以直接照搬的，但挑选适合自己的即可（你不会知道别人的一些习惯会多离谱）
 #
 # Ubuntu 22.04-LTS ^^
-# last modified: 2023-03-18 09:39:40 星期六
+# last modified: 2024-10-17 Thu
 
 # ----------------
 # Personal Aliases
 # ----------------
+
+# 注释下面这一句，执行`source .bash_aliases`则会打印出所有命令别名(包括其他地方定义的)
+# alias
 
 alias qp='clear'
 alias gj='shutdown now'
@@ -64,9 +67,22 @@ alias testpypi='twine upload --repository testpypi --skip-existing dist/*'
 # 踏雪无痕
 alias txwh='ssh -t dstsvr sudo -S lastlog --clear --user fmh'
 
+# kde theme dark/light toggle/switch:
+alias toggletheme="/home/fmh/sourceCode/switchThemeDarkLight/theme_switcher.sh"
+
+# HF model download:
+alias hfdl="HF_ENDPOINT=https://hf-mirror.com python download_llm_huggingface.py --repo_id "
+alias msdl="python download_llm_modelscope.py --repo_id "
+
+
+# cursorAppImage
+alias cursorApp="/home/fmh/Downloads/Tools/cursor-0.41.1-build-2409189xe3envg5-x86_64.AppImage &"
+
 # --------------
 # edit dotfiles
 # --------------
+alias vi='vim'
+alias ve='view'
 alias vimsh='vim $HOME/.bashrc'
 alias vimbz='vim $HOME/.bash_aliases'
 alias vimbl='vim $HOME/.bash_aliases_local'
