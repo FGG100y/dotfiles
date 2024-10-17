@@ -186,6 +186,7 @@ nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " " You can run the macro on each line in a visual selection in a single operation:
 " " Visually select some lines (for example, type vip to select the current paragraph).
 " " Type :normal @q to run the macro from register q on each line.
+nnoremap <C-Q> @q
 " " -------------------------------------------------------------------
 " " Open help at vertical pane
 nnoremap <Space>h :vert help
@@ -513,17 +514,18 @@ augroup END
 " " }}}
 
 " " markdwon file format: gqq and no-highlight when concealing (texts or equations) -------------- {{{
-augroup filetype_md
+augroup filetype_md_txt
     au!
     au BufNewFile,BufRead *.md set filetype=markdown
+    au BufNewFile,BufRead *.txt set filetype=text
     " no-highlight when concealing (texts or equations)
     au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
     " gqq for 中文字符 Chinese characters (with formatoptions+=mM is a MUST)
-    au FileType markdown,vimwiki,txt setlocal textwidth=88 formatoptions-=t formatoptions+=mM
-    " Align GitHub-flavored Markdown tables
-    au FileType markdown vmap <space><Bslash> :EasyAlign*<Bar><Enter>
+    au FileType markdown,text setlocal textwidth=88 formatoptions-=t formatoptions+=mM
+    " Align GitHub-flavored Markdown tables ( set this other place already )
+    " au FileType markdown vmap <space><Bslash> :EasyAlign*<Bar><Enter>
     " do not warp line
-    au FileType markdown,vimwiki,txt set nowrap
+    au FileType markdown,text set nowrap
 augroup END
 " }}}
 
