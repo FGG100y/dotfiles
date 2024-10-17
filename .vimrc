@@ -268,6 +268,13 @@ ab :football: ⚽
 ab :notry: Do. Or do not. There is no try.
 " " }}}
 " " ================================Part-5: Plugin Config====== {{{
+" " easyAlign ----------------------------- {{{
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+au FileType * vmap <space><Bslash> :EasyAlign*<Bar><Enter>
+" " }}}
 " " Obsession ----------------------------- {{{
 function! StartObsessionInProjectRoot()
     " Find the directory containing the .git directory
