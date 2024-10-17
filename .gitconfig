@@ -76,6 +76,7 @@
     dump = cat-file -p
     discard = restore
     unstage = restore --staged
+    untrack = rm --cached
 
     # cherry-pick other branch's commit:
     ; git cherry-pick <commit-hash>
