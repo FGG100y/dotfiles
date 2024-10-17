@@ -351,7 +351,10 @@ map ][ <Plug>Markdown_MoveToPreviousSiblingHeader
 map <Plug> <Plug>Markdown_MoveToCurHeader
 " " }}}
 " " netrw gitignore ------------- {{{
-let g:netrw_winsize = 22
+" " 默认垂直分新窗口到左边；这里设置为分到右边
+let g:netrw_altv = 1
+" " 仅仅打开目录栏比较合适；当直接从目录栏打开文件编辑时就蛋疼
+" let g:netrw_winsize = 22
 let g:netrw_liststyle = 0
 let g:netrw_list_hide= netrw_gitignore#Hide()
 "let g:netrw_list_hide= netrw_gitignore#Hide('my_gitignore_file')
