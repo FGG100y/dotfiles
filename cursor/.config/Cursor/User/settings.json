@@ -1,0 +1,9 @@
+{
+    "window.commandCenter": 1,
+    "explorer.confirmDelete": false,
+    "vim.easymotion": true,
+    "vim.leader": ",",
+    "vim.vimrc.enable": true,
+    "editor.lineNumbers": "relative",
+    "workbench.colorTheme": "Default Light Modern"
+}

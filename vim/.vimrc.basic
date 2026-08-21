@@ -1,0 +1,272 @@
+" ================================ vimrc.basic ===== {{{
+" Shared basic config (plugin-free), sourced by both:
+"   - ~/.vimrc
+"   - ~/.config/nvim/init.vim
+" Keep plugin-specific settings OUT of this file.
+" Last-update: 2024-08-22 Thu
+
+set nocompatible 		" a warm greeting to 21st cent.
+
+" language en_US.utf8     " list here as a backup (not needed here, See .bashrc)
+
+" ================================Part-1: Colorscheme===== {{{
+" colorscheme when init with vimdiff (if alread in diffmode: colo zenburn)
+if &diff
+    silent! colorscheme zenburn   " zenburn is a plugin colorscheme, may be absent
+endif
+" colorscheme and cursorline/cursorcolumn style
+let current_scheme = get(g:, 'colors_name', 'default')
+if 'default' == current_scheme
+    " set bg=dark based on clock: (from help of Mixtral8x7b :)
+    let &background = strftime("%H") < 7 || strftime("%H") > 17 ? "dark" : "light"
+    set nocursorcolumn
+    set cursorline
+    hi CursorLine term=bold cterm=bold guibg=Grey40
+    hi ColorColumn ctermbg=lightblue guibg=lightgrey
+endif
+
+" visual mode highlight default with `term=reverse ctermbg=7 guibg=LightGrey`
+highlight Visual term=reverse ctermbg=7 ctermfg=yellow
+
+" 使用 键盘功能键Fn 的两个地方 --- {{{
+" when one need to copy the code only:
+nnoremap <F8> :set number! relativenumber!<CR>
+" }}}
+
+" whitespace highlight: ensure that the highlight group gets created and is
+" not cleared by future colorscheme commands:
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+" }}}
+" ================================Part-2: Highlight tags===== {{{
+" enable filetype plugin detection etc, such as:
+syntax on
+filetype plugin on
+filetype plugin indent on
+" Highlight TODO, FIXME, NOTE, etc. (must lie below `syntax on`)
+if has("autocmd")
+    if v:version > 701
+    autocmd Syntax * call matchadd('Todo', '\W\zs\(TODO\|FIXME\|REFACTOR\|DEBUG\)')
+    autocmd Syntax * call matchadd('Info', '\W\zs\(NOTE\|IDEA\|HACK\|STEP\|PART\)')
+    endif
+endif
+hi Todo guifg=#0f4f4f guibg=#ffdfaf ctermfg=208 ctermbg=NONE gui=bold cterm=NONE
+hi Info guifg=#0f4f4f guibg=#ffdfaf ctermfg=208 ctermbg=NONE gui=bold cterm=NONE
+" }}}
+" ================================Part-3: Settings=========== {{{
+" 设置为双字宽显示，否则无法完整显示如:☆
+set ambiwidth=double
+" term_256color, better visualization
+set t_Co=256
+" Do not need a mouse, otherwise :set mouse=n/v/i/a
+set mouse=
+" Searching
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+" UI settings
+set laststatus=2
+set ruler
+set number relativenumber
+set showcmd
+set wildmenu
+set showmatch
+set noshowmode
+" always keep cursor away 7 lines from the bottom
+set scrolloff=7
+set sidescrolloff=3
+" do not wrap the code
+set nowrap
+" code fold
+" press Space to toggle the current fold open/close;
+" with fmd=manual, create a fold by visually selecting lines
+set foldmethod=manual
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+" History
+set history=1024
+set viminfo+=h  " do no store searches
+" utf8 encoding
+set encoding=utf-8
+" tab and space
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+" If this many milliseconds nothing is typed the swap file will be
+" written to disk (see |crash-recovery|).  Also used for the
+" |CursorHold| autocommand event.
+set updatetime=4000
+" markdown concealed text hidden
+set conceallevel=0
+" }}}
+" ================================Part-4: Leader Commands==== {{{
+" leader set to the comma, but the <space> also very helpful
+let mapleader=","
+
+" inline math equation using $eqn$ instead of \( eqn \) which were copied from LLMChat
+function! ReplaceParensis()
+    %s/\\( /$/g
+    %s/\ \\)/$/g
+endfunction
+command! RPs call ReplaceParensis()
+" multi-line math equations using $$eqn$$ instead of \[ eqn \] which were copied from LLMChat
+function! ReplaceBrackets()
+    %s/\\\[/$$/g
+    %s/\\]/$$/g
+endfunction
+command! RBs call ReplaceBrackets()
+
+" quick save/exit etc
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
+nnoremap <leader>Q :q!<cr>
+" ---------------------------------------------------------
+" shotcut to edit the current editor's config ($MYVIMRC)
+nnoremap <leader>v :tabnew <bar> :e $MYVIMRC<cr>
+nnoremap <space>v :sp $MYVIMRC<cr>
+" ---------------------------------------------------------
+" common rule were: splitright & splitbelow
+" but sometimes need to split on leftabove or above
+nnoremap <leader>up :above split
+" yanking/pasting with system clipboard
+" pasting from sys clipboard to vim
+nnoremap <space>p "+gp
+" yank to sys clipboard only in Visual Mode
+vnoremap <space>y "+y
+" shotcuts to new tabs and moving around
+nnoremap <space>] :tabn<cr>
+nnoremap <space>[ :tabp<cr>
+" strip trailing whitespace (,,t)
+nnoremap <leader><leader>t :%s/\s\+$//ge<cr>
+" turn off highlights
+nnoremap <space><space> :nohlsearch<cr>
+" windows/panes resize
+nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+" Start recording keystrokes by typing qq.
+" End recording with q (first press Escape if you are in insert mode).
+" Play the recorded keystrokes by hitting space.
+nnoremap <C-Q> @q
+" -------------------------------------------------------------------
+" Open help at vertical pane
+nnoremap <Space>h :vert help
+" alternative way to back to normal mode
+inoremap jk <ESC>
+" insert pwd string
+inoremap \fp <C-R>=getcwd()<CR>
+" insert python breakpoint()
+inoremap \bp <C-R>\breakpoint()<CR>
+" insert python __name__
+inoremap \nm <C-R>\if __name__ == "__main__":<CR>
+" groups of abbreviate
+" insert the datetime; dtf=2024-08-22T11:05:57+0800 for hugo blog
+iab dtf <c-r>=strftime("%Y-%m-%dT%H:%M:%S%z")<cr>
+iab dts <c-r>=strftime("%Y-%m-%d")<cr>
+" insert the datetime; dtw=2024-08-22T11:05:57+08:00 for hugo blog
+iab dtw <c-r>=systemlist('date -Iseconds')[0]<cr>
+" insert eqnarray (in markdown)
+function! InsertEqnTemplate()
+  put ='$$'
+  put ='\begin{eqnarray}'
+  put =''
+  put ='\end{eqnarray}'
+  put ='$$'
+  normal 2k
+endfunction
+command! -nargs=0 InsertEqnTemplate :call InsertEqnTemplate()
+nnoremap <leader>ee :InsertEqnTemplate<CR>
+inoremap \ee <C-o>:InsertEqnTemplate<CR>
+
+" Em dash symbol
+iab emdash —
+" Emoji shortcuts
+ab :lrarrow: ⮂
+ab :lrarrow2: ⬌
+ab :lrarrow3: ⇋
+ab :rarrow: ⭢
+ab :larrow: ⭠
+ab :uarrow: ⭡
+ab :darrow: ⭣
+ab :branch: 
+ab :bug: 🐞
+ab :wilkyway: 🌌
+ab :rocket: 🚀
+ab :check: ✅
+ab :warning: ⚠️
+ab :bulb: 💡
+ab :pushpin: 📌
+ab :bomb: 💣
+ab :pill: 💊
+ab :construction: 🚧
+ab :pencil: 📝
+ab :point_right: 👉
+ab :book: 📖
+ab :link: 🔗
+ab :wrench: 🔧
+ab :callme: 🤙
+ab :email: 📧
+ab :computer: 💻
+ab :redheart: ❤️
+ab :wtf: 😱
+ab :toj: 😂
+ab :thanks: 😜
+ab :kidding: 🙄
+ab :weary: 😩
+ab :robot: 🤖
+ab :panda: 🐼
+ab :penguin: 🐧
+ab :globe: 🌏
+ab :cherry: 🍒
+ab :cheers: 🍻
+ab :football: ⚽
+ab :notry: Do. Or do not. There is no try.
+" }}}
+" ================================Part-6: Augroups=========== {{{
+" make relativenumber only in working window --- {{{
+augroup BgHighlight
+    au!
+    au WinEnter * set relativenumber
+    au WinLeave * set norelativenumber
+augroup END
+" }}}
+
+" vimscript file settings -------------- {{{
+augroup filetype_vim
+    au!
+    au FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+
+" highlight 'long' lines(>= 89 symbols) ------- {{{
+augroup filefmt_autocmds
+    au!
+    au FileType c,cpp,python,sh,julia,tex highlight Excess ctermbg=Red guibg=Black
+    au FileType c,cpp,python,sh,julia,tex match Excess /\%89v.*/
+    au FileType c,cpp,python,sh,julia,tex set colorcolumn=88
+    au FileType c,cpp,python,sh,julia,tex set nowrap
+    au FileType c,cpp,python,sh,julia,tex setlocal textwidth=88 formatoptions+=tmM
+    au FileType c,cpp,python,sh,julia,tex,vim setlocal formatoptions-=cro
+    au FileType c,cpp,python setlocal completeopt-=preview
+augroup END
+" }}}
+
+" markdwon file format: gqq and no-highlight when concealing (texts or equations) -------------- {{{
+augroup filetype_md_txt
+    au!
+    au BufNewFile,BufRead *.md set filetype=markdown
+    au BufNewFile,BufRead *.txt set filetype=text
+    " no-highlight when concealing (texts or equations)
+    au FileType markdown highlight Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+    " gqq for 中文字符 Chinese characters (with formatoptions+=mM is a MUST)
+    au FileType markdown,text setlocal textwidth=88 formatoptions-=t formatoptions+=mM
+    " do not warp line
+    au FileType markdown,text set nowrap
+augroup END
+" }}}
+" }}}

@@ -4,16 +4,24 @@
 # 这里大部分是可以直接照搬的，但挑选适合自己的即可（你不会知道别人的一些习惯会多离谱）
 #
 # Ubuntu 22.04-LTS ^^
-# last modified: 2024-10-17 Thu
+# last modified: 2024-09-20 Fri
 
 # ----------------
 # Personal Aliases
 # ----------------
 
+##启动之前要关掉VPN，否则无法弹出登录地址
+# sudo tailscale up
+## 关闭
+# sudo tailscale down
+
 # 注释下面这一句，执行`source .bash_aliases`则会打印出所有命令别名(包括其他地方定义的)
 # alias
 
-alias qp='clear'
+# must update several env vars before you can compile and run OpenVINO applications
+alias vino24='source /opt/intel/openvino_2024/setupvars.sh'
+alias vino25='source /opt/intel/openvino_2025/setupvars.sh'
+
 alias gj='shutdown now'
 
 # step back to parent dir
@@ -81,7 +89,7 @@ alias cursorApp="/home/fmh/Downloads/Tools/cursor-0.41.1-build-2409189xe3envg5-x
 # --------------
 # edit dotfiles
 # --------------
-alias vi='vim'
+alias vi='/usr/local/bin/vim'
 alias ve='view'
 alias vimsh='vim $HOME/.bashrc'
 alias vimbz='vim $HOME/.bash_aliases'
@@ -187,7 +195,7 @@ function extract()      # Handy Extract Program
 # complier for C++
 # -----------------
 # alias gpp='g++ -std=c++14 -Wall -Wextra -Werror'
-# alias gpp='g++ -std=c++11 -Wall -Wextra -Werror'
+alias mygpp11='g++ -std=c++11 -Wall -Wextra -Werror'
 # alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything'
 # alias clang='clang -std=c++11 -stdlib=libc++ -lc++ -lm -Werror -Weverything -Wno-c++98-compat-pedantic'
 
@@ -214,7 +222,7 @@ echo -ne "\e]12;green\a"
 export TERM=xterm-256color
 
 # trim path in prompt
-export PROMPT_DIRTRIM=2
+export PROMPT_DIRTRIM=0
 
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -294,3 +302,5 @@ pyenv_install(){
 # # base venv
 # alias venvDS='source ~/venv/bin/activate'
 
+# ANDROID_HOME for bazel
+export ANDROID_HOME=$HOME/Android/Sdk/

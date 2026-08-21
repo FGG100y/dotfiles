@@ -2,3 +2,9 @@ bakfiles/
 *.orig
 *.swp
 TODO/
+
+# 绝不入库（密钥类）
+*.local
+node_modules/
+package-lock.json
+bun.lock

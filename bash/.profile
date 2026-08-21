@@ -26,12 +26,11 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-GTK_MODULES="$GTK_MODULES:canberra-gtk-module"
-export  GTK_MODULES
-
-# pyenv:
+# pyenv setup:
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# Created by `pipx` on 2024-07-27 01:20:08
+export PATH="$PATH:/home/fmh/.local/bin"

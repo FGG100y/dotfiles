@@ -11,24 +11,18 @@
 #
 # <<以上三句应该加入到你的 .bashrc 文件
 
-# SVR_HOST (是可以外网连接的那个，通常你要去问网管大佬)：
-SVR_HOST="your.great.vip"
-HOSTPORT="2221"
+local_user='fmh'
+alias toprj='cd /home/$local_user/sourceCode/prjs/'
+alias tosrc='cd /home/$local_user/sourceCode/fmh-gh-repos/'
+alias tovim='cd /home/$local_user/.vim/pack/vendor/start/'
+# alias tollm='cd /home/$local_user/Downloads/Tools/LLMs/'
+alias towork='cd /home/$local_user/workSpace/'
+alias torepo='cd /home/$local_user/gitrepos/'
+alias toblog='cd /home/$local_user/blog/content/posts/'
 
-# connect to neo4j on a server (neo4j setup was outdated)
-function neo4jbrowser() {
-    user="${1:-dsgdb}"
-    port="${2:-7474}"
-    boltport="${3:-7687}"
-    hostport=$HOSTPORT
-    svr_host=$SVR_HOST
-    url="http://localhost:$port"
-    echo "Neo4j-browser: Opening $url in the browser"
-    cmd="ssh -CNL $port:localhost:$port -CNL $boltport:localhost:$boltport \
-        $user@$svr_host -p$hostport"
-    echo "running '$cmd'"
-    eval "$cmd"
-}
+# SVR_HOST (是可以外网连接的那个，通常你要去问网管大佬)：
+SVR_HOST="gddst.wicp.vip"
+HOSTPORT="2221"
 
 # svr -- port 8080 to llama; port 7860 to vicuna or codegeex2.
 function connect_llm_server() {
@@ -56,9 +50,19 @@ function connect_jpl_server() {
     eval "$cmd"
 }
 
-local_user='ds01'
-alias torepo='cd /home/$local_user/gitrepos/'
-alias tolab='cd /home/$local_user/dataGroup/fmhlab/'
-alias tovim='cd /home/$local_user/.vim/pack/vendor/start/'
-alias tollm='cd /home/$local_user/Downloads/Tools/LLMs/'
-alias towork='cd /home/$local_user/dataGroup/workSpace/'
+
+# # connect to neo4j on a server (neo4j setup was outdated)
+# function neo4jbrowser() {
+#     user="${1:-dsgdb}"
+#     port="${2:-7474}"
+#     boltport="${3:-7687}"
+#     hostport=$HOSTPORT
+#     svr_host=$SVR_HOST
+#     url="http://localhost:$port"
+#     echo "Neo4j-browser: Opening $url in the browser"
+#     cmd="ssh -CNL $port:localhost:$port -CNL $boltport:localhost:$boltport \
+#         $user@$svr_host -p$hostport"
+#     echo "running '$cmd'"
+#     eval "$cmd"
+# }
+

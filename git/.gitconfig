@@ -27,8 +27,8 @@
 
 ; [url "https://github.com/"]
 ;     insteadOf = https://githubfast.com/
-;     ; insteadOf = https://kkgithub.com/
-;     ; insteadOf = https://521github.com/
+; ;     ; insteadOf = https://kkgithub.com/
+; ;     ; insteadOf = https://521github.com/
 
 [apply]
 	# Detect whitespace errors when applying a patch.
@@ -127,6 +127,8 @@
     ; stsp = stash show -p 0
 
     # -------about (remote) branch-------------------
+    # 反转提交（就是撤销上一次提交的提交，团队中慎用，要先沟通）尤其是要将撤销合并到其他分支
+    rev = revert HEAD
 
     # push a local one to new remote repo (say, github.com) the first time:
     # One must create an empty github repo first, then:
@@ -215,3 +217,12 @@
 
 	# find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[safe]
+	directory = *
+[init]
+	defaultBranch = main

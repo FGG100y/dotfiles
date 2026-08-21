@@ -1,0 +1,81 @@
+""" Map leader to , (or space) ---------------------
+let mapleader=","
+""" alternative way to back to normal mode
+inoremap jk <ESC>
+""" quick save/exit etc
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
+nnoremap <leader>Q :q!<cr>
+""" shotcut to edit vimrc
+nnoremap <leader>v :tabnew <bar> :e ~/.ideavimrc<cr>
+" nnoremap <space>v :sp $MYVIMRC<cr>
+""" shotcuts to new tabs and moving around
+""" NOTE that 'Ctrl-w T' move the current pane to newtab
+""" NOTE that 'Ctrl-w R' swap the splits top/bottom or left/right
+nnoremap <space>] :tabn<cr>
+nnoremap <space>[ :tabp<cr>
+""" Ctrl-h/j/k/l to jump around (as backup when not in tmux)
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+""" windows/panes resize
+nnoremap <silent> <Space>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Space>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+""" turn off highlights
+"nnoremap <space><space> :nohlsearch<cr>
+
+""" Plugins  --------------------------------
+set surround
+" set multiple-cursors
+" set commentary
+" set argtextobj
+" set easymotion
+" set textobj-entire
+" set ReplaceWithRegister
+
+""" Plugin settings -------------------------
+" let g:argtextobj_pairs="[:],(:),<:>"
+" " vim-easymotion --------------- {{{
+" let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" let g:EasyMotion_smartcase = 1  " Turn on case-insensitive feature
+" " " <Leader>f{char} to move to {char}
+" map  <Leader>f <Plug>(easymotion-bd-f)
+" " " Need one more keystroke, but on average, it may be more comfortable.
+" " " s{char}{char} to move to {char}{char}, <leader>s work too
+" nmap s <Plug>(easymotion-overwin-f2)
+" " " JK motions: Line motions (relative linenum is good-enough for me)
+" " map <Leader>j <Plug>(easymotion-j)
+" " map <Leader>k <Plug>(easymotion-k)
+" " }}}
+
+""" Common settings -------------------------
+set smartcase
+set showmode
+set scrolloff=5
+set incsearch
+set hlsearch
+set number
+set relativenumber
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+""" Mappings --------------------------------
+" map <leader>f <Plug>(easymotion-s)
+" map <leader>e <Plug>(easymotion-f)
+"
+" map <leader>d <Action>(Debug)
+" map <leader>r <Action>(RenameElement)
+" map <leader>c <Action>(Stop)
+" map <leader>z <Action>(ToggleDistractionFreeMode)
+"
+" map <leader>s <Action>(SelectInProjectView)
+" map <leader>a <Action>(Annotate)
+" map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
+" map <S-Space> <Action>(GotoNextError)
+"
+" map <leader>b <Action>(ToggleLineBreakpoint)
+" map <leader>o <Action>(FileStructurePopup)

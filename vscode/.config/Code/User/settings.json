@@ -1,0 +1,5 @@
+{
+    "editor.renderWhitespace": "all",
+    "editor.minimap.enabled": false,
+    "markdown.extension.preview.autoShowPreviewToSide": true
+}
