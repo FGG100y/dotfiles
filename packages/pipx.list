@@ -1,0 +1,8 @@
+# pipx tools, one per line. Installed by bootstrap.sh.
+black
+cookiecutter-data-science
+gpustat
+isort
+jupyterlab
+pip-tools
+ruff

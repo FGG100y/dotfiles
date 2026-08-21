@@ -1,0 +1,14 @@
+# apt packages, one per line ('#' comments). Installed by bootstrap.sh.
+stow
+vim
+git
+tmux
+curl
+jq
+ripgrep
+silversearcher-ag
+build-essential
+python3-pip
+python3-venv
+# NOTE: fzf not listed — apt on 22.04 ships 0.29 (too old); install via ~/.fzf clone (see README).
+# NOTE: apt tmux is 3.2a on 22.04; .tmux.conf needs >=3.6 (extended-keys/OSC52). See README appendix.
