@@ -63,7 +63,7 @@ export DEEPSEEK_API_KEY=sk-xxx
 
 | 包 | 内容 |
 |---|---|
-| bash | .bashrc .bash_aliases .bash_aliases_local .profile .fzf.bash |
+| bash | .bashrc .bash_aliases .profile .fzf.bash |
 | vim | .vimrc .vimrc.basic（nvim 共用基础配置） .vim/pack/bundle/opt/google_python_style（无 git 的本地插件） |
 | nvim | .config/nvim（lazy.nvim + lazy-lock.json 锁版本） |
 | tmux | .tmux.conf .tmux/bin/{battery_status.sh,toggle-theme} |
@@ -89,10 +89,23 @@ cd ~/dotfiles && stow -t "$HOME" bash vim nvim tmux git claude opencode gh vscod
 - 首次部署时若 home 已有同名真实文件，stow 会报冲突。确认内容一致后 `rm` 原文件再 stow，或用 `stow --adopt`。
 - **`--adopt` 会用 home 文件内容覆盖仓库文件**（再建链接），只在两者一致时安全。
 
-## 本机差异
+## 新机器三问（机器专属内容统一出口，不用改仓库）
 
-- `.bashrc` 的别名机制是"文件存在即 source"（`.bash_aliases` / `.bash_aliases_local`），无 hostname 逻辑；某台机器专属的东西放 `~/.bashrc.local`。
-- `.bashrc` 中 node18 / pi-node / opencode / pyenv / JBR 等 PATH 是本机安装位置，新机器缺目录时无副作用（PATH 可含不存在的目录）。
+| 需求 | 出口 |
+|---|---|
+| 改环境变量 / 密钥 | `~/.bashrc.local`（.bashrc 末尾自动 source，不入库） |
+| 加机器专属别名/函数 | `~/.bash_aliases_$(hostname)`（存在即 source，不入库；参考 `legacy/.bash_aliases_local`） |
+| 装工具 | `./bootstrap.sh`（缺什么它会检测） |
+
+**自动降级约定**：所有路径 `$HOME` 化；所有工具引用带 `command -v`/文件存在性守卫——某工具没装，相关配置静默跳过，登录 shell 不报错。
+
+**新机器检查清单**（应全部无输出）：
+```bash
+grep -rn '/home/fmh' ~/dotfiles --exclude-dir=.git --exclude-dir=legacy
+```
+
+**其他本机差异**：
+- `.bashrc` 中 node18 / pi-node / opencode / pyenv / JBR 等 PATH 是本机安装位置，缺目录时无副作用，且均有存在性守卫。
 - `~/.config/git/ignore` 全局忽略 `**/.claude/settings.local.json`。
 
 ## 自编译工具（不脚本化，见 bootstrap 提醒）
@@ -112,6 +125,7 @@ cd tmux-3.7b && ./configure && make && cp tmux ~/.local/bin/
 
 - `legacy/windows/mini_vimrc` —— Windows 用 vim-plug 版配置
 - `legacy/server/.bash_aliases_server` —— svr81 旧机器别名
+- `legacy/.bash_aliases_local` —— 旧"local 机器"别名模板；现在机器专属别名放 `~/.bash_aliases_$(hostname)`
 
 ## 历史
 

@@ -26,11 +26,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# pyenv setup:
+# pyenv setup (no-op when pyenv is not installed)
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# Created by `pipx` on 2024-07-27 01:20:08
-export PATH="$PATH:/home/fmh/.local/bin"
+if command -v pyenv >/dev/null; then
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi

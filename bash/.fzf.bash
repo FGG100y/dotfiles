@@ -4,4 +4,4 @@ if [[ ! "$PATH" == */$HOME/.fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
-eval "$(fzf --bash)"
+command -v fzf >/dev/null && eval "$(fzf --bash)"

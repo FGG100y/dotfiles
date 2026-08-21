@@ -118,6 +118,11 @@ if [ -f ~/.bash_aliases_local ]; then
     . ~/.bash_aliases_local
 fi
 
+# per-machine aliases: ~/.bash_aliases_<hostname> (not tracked in repo)
+if [ -f "$HOME/.bash_aliases_$(hostname)" ]; then
+    . "$HOME/.bash_aliases_$(hostname)"
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -131,8 +136,8 @@ fi
 
 # Created by `pipx` on 2024-07-27 01:20:08
 export PATH="$PATH:$HOME/.local/bin"
-eval "$(register-python-argcomplete pipx)"
-export PIPX_DEFAULT_PYTHON="$HOME/.pyenv/versions/3.11.9/bin/python"
+command -v pipx >/dev/null && eval "$(register-python-argcomplete pipx)"
+[ -x "$HOME/.pyenv/versions/3.11.9/bin/python" ] && export PIPX_DEFAULT_PYTHON="$HOME/.pyenv/versions/3.11.9/bin/python"
 
 # node18
 export PATH="$PATH:$HOME/node18.18.1/bin"
@@ -180,7 +185,7 @@ omo() {
 
   OPENCODE_CONFIG_CONTENT="$updated_json" opencode "$@"
 }
-eval "$(uv generate-shell-completion bash)"
+command -v uv >/dev/null && eval "$(uv generate-shell-completion bash)"
 
 ## claude code & LLM providers (secrets live in ~/.bashrc.local)
 ## DeepSeek
@@ -201,7 +206,7 @@ export CLAUDE_CODE_AUTO_COMPACT_WINDOW=786432
 export PATH="$HOME/.local/share/pi-node/node-v22.23.2-linux-x64/bin:$PATH"
 
 # Java: 命令行 launcher 统一到 JBR 21（与 Gradle daemon toolchain 保持一致）
-export JAVA_HOME="$HOME/.jdks/jbr-21.0.11"
+[ -d "$HOME/.jdks/jbr-21.0.11" ] && export JAVA_HOME="$HOME/.jdks/jbr-21.0.11"
 
 # machine-local secrets, never commit
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local

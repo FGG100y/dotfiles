@@ -153,7 +153,10 @@ let g:tagbar_sort = 0
 let g:tagbar_width = 28
 let g:tagbar_autofocus = 1
 let g:tagbar_position = 'topleft vertical'
-let g:tagbar_ctags_bin = "/home/fmh/ctags/uctags-2023.04.16-linux-x86_64/bin/ctags"
+let g:tagbar_ctags_bin = expand('$HOME/ctags/uctags-2023.04.16-linux-x86_64/bin/ctags')
+if !executable(g:tagbar_ctags_bin)
+  let g:tagbar_ctags_bin = 'ctags'
+endif
 nnoremap <silent> <leader>b :TagbarToggle<cr>
 nnoremap <space>j :TagbarOpen fj<cr>
 " " }}}

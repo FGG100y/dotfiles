@@ -19,8 +19,8 @@
 # alias
 
 # must update several env vars before you can compile and run OpenVINO applications
-alias vino24='source /opt/intel/openvino_2024/setupvars.sh'
-alias vino25='source /opt/intel/openvino_2025/setupvars.sh'
+[ -f /opt/intel/openvino_2024/setupvars.sh ] && alias vino24='source /opt/intel/openvino_2024/setupvars.sh'
+[ -f /opt/intel/openvino_2025/setupvars.sh ] && alias vino25='source /opt/intel/openvino_2025/setupvars.sh'
 
 alias gj='shutdown now'
 
@@ -76,7 +76,7 @@ alias testpypi='twine upload --repository testpypi --skip-existing dist/*'
 alias txwh='ssh -t dstsvr sudo -S lastlog --clear --user fmh'
 
 # kde theme dark/light toggle/switch:
-alias toggletheme="/home/fmh/sourceCode/switchThemeDarkLight/theme_switcher.sh"
+[ -x "$HOME/sourceCode/switchThemeDarkLight/theme_switcher.sh" ] && alias toggletheme="$HOME/sourceCode/switchThemeDarkLight/theme_switcher.sh"
 
 # HF model download:
 alias hfdl="HF_ENDPOINT=https://hf-mirror.com python download_llm_huggingface.py --repo_id "
@@ -84,7 +84,7 @@ alias msdl="python download_llm_modelscope.py --repo_id "
 
 
 # cursorAppImage
-alias cursorApp="/home/fmh/Downloads/Tools/cursor-0.41.1-build-2409189xe3envg5-x86_64.AppImage &"
+[ -x "$HOME/Downloads/Tools/cursor-0.41.1-build-2409189xe3envg5-x86_64.AppImage" ] && alias cursorApp="$HOME/Downloads/Tools/cursor-0.41.1-build-2409189xe3envg5-x86_64.AppImage &"
 
 # --------------
 # edit dotfiles
