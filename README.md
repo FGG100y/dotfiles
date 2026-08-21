@@ -64,7 +64,7 @@ export DEEPSEEK_API_KEY=sk-xxx
 | 包 | 内容 |
 |---|---|
 | bash | .bashrc .bash_aliases .bash_aliases_local .profile .fzf.bash |
-| vim | .vimrc .vimrc.basic（nvim 共用基础配置） |
+| vim | .vimrc .vimrc.basic（nvim 共用基础配置） .vim/pack/bundle/opt/google_python_style（无 git 的本地插件） |
 | nvim | .config/nvim（lazy.nvim + lazy-lock.json 锁版本） |
 | tmux | .tmux.conf .tmux/bin/{battery_status.sh,toggle-theme} |
 | git | .gitconfig .config/git/ignore |
