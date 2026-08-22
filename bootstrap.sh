@@ -96,6 +96,10 @@ tmux_bin() {
 }
 
 phase_post() {
+    # 装 pre-commit 密钥扫描钩子（symlink 到仓库内版本，随 git pull 更新）
+    if [ -f "$DOTFILES_DIR/hooks/pre-commit" ] && [ ! -e "$DOTFILES_DIR/.git/hooks/pre-commit" ]; then
+        run ln -s ../../hooks/pre-commit "$DOTFILES_DIR/.git/hooks/pre-commit"
+    fi
     # detection-driven: only list what THIS machine actually lacks
     cat <<EOF
 

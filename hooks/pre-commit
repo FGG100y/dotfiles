@@ -1,0 +1,40 @@
+#!/bin/bash
+# pre-commit：阻止密钥进入提交。只扫描 staged 内容（git diff --cached），两层检查：
+#   1. 精确匹配 ~/.bashrc.local 中敏感变量的真实值（运行时读取，值本身不入库）
+#   2. 泛化正则：常见密钥形态（OpenAI/GitHub/AWS/Slack/Google 等）
+# 误报时手动 git commit --no-verify 绕过（claude 的 git-guard 会拦 --no-verify，需人工执行）。
+
+fail() { echo "❌ pre-commit: $*" >&2; exit 1; }
+
+DIFF=$(git diff --cached 2>/dev/null)
+
+# --- 1. 真实值精确匹配 ---
+LOCAL_FILE="$HOME/.bashrc.local"
+if [ -r "$LOCAL_FILE" ]; then
+    while IFS= read -r line; do
+        line="${line#export }"
+        case "$line" in
+            *=*) ;; *) continue ;;
+        esac
+        name="${line%%=*}"
+        case "$name" in
+            *KEY|*TOKEN|*SECRET|*PASSWORD|*PASSWD) ;;
+            *) continue ;;
+        esac
+        val="${line#*=}"
+        val="${val#\"}"; val="${val%\"}"
+        val="${val#\'}"; val="${val%\'}"
+        [ -n "$val" ] || continue
+        if printf '%s' "$DIFF" | grep -qF -- "$val"; then
+            fail "staged 内容包含 ~/.bashrc.local 中 $name 的真实值"
+        fi
+    done < "$LOCAL_FILE"
+fi
+
+# --- 2. 泛化正则 ---
+if printf '%s' "$DIFF" | grep -qE \
+    'sk-[A-Za-z0-9]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{30,}'; then
+    fail "staged 内容疑似含密钥。密钥请放 ~/.bashrc.local（模板见 README）"
+fi
+
+exit 0

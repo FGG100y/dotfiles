@@ -59,6 +59,15 @@ export DEEPSEEK_API_KEY=sk-xxx
 }
 ```
 
+## 防线：pre-commit 钩子
+
+`hooks/pre-commit`（bootstrap 的 post 阶段自动 symlink 到 `.git/hooks/`）在每次提交前扫描 staged 内容：
+
+1. 与 `~/.bashrc.local` 中敏感变量的**真实值**精确匹配
+2. 泛化正则匹配常见密钥形态（`sk-…`、`ghp_…`、`AKIA…` 等）
+
+命中即拒绝提交。确属误报时手动 `git commit --no-verify` 绕过。
+
 ## 包布局
 
 | 包 | 内容 |
