@@ -92,8 +92,8 @@ hi Info guifg=#0f4f4f guibg=#ffdfaf ctermfg=208 ctermbg=NONE gui=bold cterm=NONE
 set ambiwidth=double
 " term_256color, better visualization
 set t_Co=256
-" Do not need a mouse, otherwise :set mouse=n/v/i/a
-set mouse=
+" 'mouse' 非空才会开启终端鼠标上报，否则收不到滚轮/双指滑动事件
+set mouse=nvi
 " Searching
 set incsearch
 set hlsearch
