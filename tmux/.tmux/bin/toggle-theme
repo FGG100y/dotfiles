@@ -32,14 +32,33 @@ case $current_window_style in
         tmux set window-style $alternate_window_style
         tmux set pane-border-style 'fg=#dddddd,bg=#ffffff'
         tmux set pane-active-border-style 'fg=#aaaaaa,bg=#ffffff'
+        new_bg=light
+        tmux set -g @theme "$new_bg"
         ;;
     *)
         # Change back to the default window style.
         tmux set window-style $default_window_style
         tmux set pane-border-style 'fg=#444444'
         tmux set pane-active-border-style 'fg=#666666'
+        new_bg=dark
+        tmux set -g @theme "$new_bg"
         ;;
 esac
+
+# Push the new background to running editors (event-driven, no polling).
+# Neovim: every instance registers a default server socket in $XDG_RUNTIME_DIR.
+if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+    for server in "$XDG_RUNTIME_DIR"/nvim.*; do
+        [ -e "$server" ] || continue
+        nvim --server "$server" --remote-expr "execute('set background=$new_bg')" \
+            >/dev/null 2>&1 &
+    done
+fi
+# Plain Vim has no reachable RPC: send keys to panes whose foreground command is vim/vi.
+for pane in $(tmux list-panes -a -F '#{pane_id} #{pane_current_command}' |
+              awk -v bg="$new_bg" '$2=="vim" || $2=="vi" {print $1}'); do
+    tmux send-keys -t "$pane" Escape Escape ":set background=$bg" Enter
+done
 
 # # backup method
 # case $current_window_style in

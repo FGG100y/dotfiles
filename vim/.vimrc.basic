@@ -17,8 +17,39 @@ endif
 " colorscheme and cursorline/cursorcolumn style
 let current_scheme = get(g:, 'colors_name', 'default')
 if 'default' == current_scheme
-    " set bg=dark based on clock: (from help of Mixtral8x7b :)
-    let &background = strftime("%H") < 7 || strftime("%H") > 17 ? "dark" : "light"
+    " background follows: tmux toggle (@theme) > KDE color scheme > clock
+    function! s:apply_system_bg() abort
+        let l:cs = ''
+        " 1) tmux theme toggle: @theme set by ~/.tmux/bin/toggle-theme
+        if !empty($TMUX)
+            let l:cs = system('tmux show -gv @theme 2>/dev/null')
+        endif
+        " 2) KDE system color scheme (kdeglobals)
+        if empty(l:cs)
+            let l:f = expand('$HOME/.config/kdeglobals')
+            if filereadable(l:f)
+                let l:in_general = 0
+                for l:line in readfile(l:f)
+                    if l:line =~# '^\s*\[General\]'
+                        let l:in_general = 1
+                    elseif l:in_general && l:line =~# '^\s*\['
+                        break
+                    elseif l:in_general && l:line =~? '^\s*ColorScheme\s*='
+                        let l:cs = substitute(l:line, '.*=\s*', '', '')
+                        break
+                    endif
+                endfor
+            endif
+        endif
+        " 3) clock fallback
+        if empty(l:cs)
+            let l:cs = strftime('%H') < 7 || strftime('%H') > 17 ? 'Dark' : 'Light'
+        endif
+        let &background = l:cs =~? 'dark' ? 'dark' : 'light'
+    endfunction
+    call s:apply_system_bg()
+    " runtime switches are pushed by ~/.tmux/bin/toggle-theme
+    " (nvim RPC / tmux send-keys) -- no polling timer here
     set nocursorcolumn
     set cursorline
     hi CursorLine term=bold cterm=bold guibg=Grey40
