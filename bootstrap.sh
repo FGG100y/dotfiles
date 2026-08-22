@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-shot environment restore on a new machine.
-# Usage: bootstrap.sh [--dry-run] [--skip apt,pipx,apps,stow,vimpack,post] [--only ...]
+# Usage: bootstrap.sh [--dry-run] [--skip apt,pipx,apps,extras,stow,vimpack,post] [--only ...]
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -12,7 +12,7 @@ ONLY=""
 usage() {
     cat <<EOF
 Restore working environment on a new machine.
-Phases: apt pipx apps stow vimpack post
+Phases: apt pipx apps extras stow vimpack post
 
 Options:
   -n, --dry-run    print commands without running them
@@ -66,6 +66,14 @@ phase_apps() {
     have opencode || run bash -c 'curl -fsSL https://opencode.ai/install | bash'
 }
 
+phase_extras() {
+    # optional tools referenced by the configs; install only when missing
+    [ -d "$HOME/.fzf" ] || run bash -c 'git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --all'
+    [ -x "$HOME/.local/bin/uv" ] || run bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
+    [ -x "$HOME/.pyenv/bin/pyenv" ] || run bash -c 'curl https://pyenv.run | bash'
+    [ -s "$HOME/.nvm/nvm.sh" ] || run bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'
+}
+
 phase_stow() {
     have stow || run sudo apt-get install -y stow
     cd "$DOTFILES_DIR"
@@ -79,24 +87,48 @@ phase_vimpack() {
     run bash "$DOTFILES_DIR/vim-packsync.sh"
 }
 
+tmux_bin() {
+    if [ -x "$HOME/.local/bin/tmux" ]; then
+        echo "$HOME/.local/bin/tmux"
+    elif have tmux; then
+        command -v tmux
+    fi
+}
+
 phase_post() {
+    # detection-driven: only list what THIS machine actually lacks
     cat <<EOF
 
-===== 手动收尾 =====
-[1] gh auth login
-[2] 密钥: 写进 ~/.bashrc.local（export ANTHROPIC_AUTH_TOKEN=... 等），模板见 README；
-    Claude Code 若不经 shell 启动，另建 ~/.claude/settings.local.json（README 有模板）
-[3] tmux: apt 版 3.2a 缺 extended-keys/OSC52 支持，按 README 附录自编译 3.7b 放 ~/.local/bin
-[4] fzf: git clone https://github.com/junegunn/fzf ~/.fzf && ~/.fzf/install
-[5] tmux 插件: tmux 内 prefix-I（tpm 自动装）
-[6] nvim: 首次启动 lazy.nvim 按 lazy-lock.json 自动装
-[7] YCM: cd ~/.vim/pack/vendor/start/YouCompleteMe && python3 install.py
+===== 手动收尾（只列当前机器缺的）=====
 EOF
+    if have gh && gh auth status >/dev/null 2>&1; then
+        echo "  gh: OK"
+    else
+        echo "  [gh] gh auth login"
+    fi
+    [ -f "$HOME/.bashrc.local" ] || echo "  [密钥] 建 ~/.bashrc.local（export ANTHROPIC_AUTH_TOKEN=...，模板见 README）"
+    [ -f "$HOME/.claude/settings.local.json" ] || echo "  [claude] 不经 shell 启动 claude 时，建 ~/.claude/settings.local.json（模板见 README）"
+    tb="$(tmux_bin)"
+    if [ -z "$tb" ]; then
+        echo "  [tmux] 未安装；apt 阶段应已装，若没有请检查"
+    else
+        ver="$("$tb" -V 2>/dev/null | awk '{print $2}' | sed 's/[^0-9.]//g')"
+        if [ -n "$ver" ] && [ "$(printf '%s\n3.6' "$ver" | sort -V | head -1)" != "3.6" ]; then
+            echo "  [tmux] 版本 $ver < 3.6，extended-keys/OSC52 会报错；按 README 附录自编译 3.7b 到 ~/.local/bin"
+        else
+            echo "  tmux: OK ($ver)"
+        fi
+    fi
+    [ -d "$HOME/.tmux/plugins/tpm" ] || echo "  [tmux] 插件: tmux 内 prefix-I（tpm 自动装）"
+    [ -d "$HOME/.local/share/nvim/lazy" ] || echo "  [nvim] 首次启动 lazy.nvim 按 lazy-lock.json 自动装"
+    if [ -d "$HOME/.vim/pack/vendor/start/YouCompleteMe" ] && [ ! -d "$HOME/.vim/pack/vendor/start/YouCompleteMe/third_party/ycmd" ]; then
+        echo "  [YCM] cd ~/.vim/pack/vendor/start/YouCompleteMe && python3 install.py"
+    fi
 }
 
 main() {
     parse_args "$@"
-    for ph in apt pipx apps stow vimpack post; do
+    for ph in apt pipx apps extras stow vimpack post; do
         skip_phase "$ph" || "phase_$ph"
     done
 }

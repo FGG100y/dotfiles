@@ -11,9 +11,9 @@ sudo apt install git stow
 # 2. 克隆仓库
 git clone git@github.com:FGG100y/dotfiles.git ~/dotfiles
 
-# 3. 一键 bootstrap：apt + pipx + claude/opencode 安装 + stow 部署
+# 3. 一键 bootstrap：apt + pipx + claude/opencode + 可选工具(uv/pyenv/nvm/fzf) + stow 部署
 cd ~/dotfiles && ./bootstrap.sh
-#    可用 --dry-run 预览、--skip apt,pipx,... 跳阶段
+#    可用 --dry-run 预览、--skip apt,pipx,... 跳阶段；结尾只列当前机器真缺的手动项
 
 # 4. vim pack 插件
 ./vim-packsync.sh        # 之后更新用 ./vim-packsync.sh --update
