@@ -97,8 +97,15 @@ tmux_bin() {
 
 phase_post() {
     # 装 pre-commit 密钥扫描钩子（symlink 到仓库内版本，随 git pull 更新）
-    if [ -f "$DOTFILES_DIR/hooks/pre-commit" ] && [ ! -e "$DOTFILES_DIR/.git/hooks/pre-commit" ]; then
-        run ln -s ../../hooks/pre-commit "$DOTFILES_DIR/.git/hooks/pre-commit"
+    if [ -f "$DOTFILES_DIR/hooks/pre-commit" ]; then
+        # 新机器 clone 时 init.templateDir 可能已放进一份副本，统一换成 symlink
+        [ -L "$DOTFILES_DIR/.git/hooks/pre-commit" ] || run ln -sf ../../hooks/pre-commit "$DOTFILES_DIR/.git/hooks/pre-commit"
+    fi
+    # 全局 git 模板：新 init/clone 的仓库自动带上同一钩子
+    if [ -f "$DOTFILES_DIR/hooks/pre-commit" ]; then
+        run mkdir -p "$HOME/.git-template/hooks"
+        run cp "$DOTFILES_DIR/hooks/pre-commit" "$HOME/.git-template/hooks/pre-commit"
+        run git config --global init.templateDir "$HOME/.git-template"
     fi
     # detection-driven: only list what THIS machine actually lacks
     cat <<EOF

@@ -68,6 +68,9 @@ export DEEPSEEK_API_KEY=sk-xxx
 
 命中即拒绝提交。确属误报时手动 `git commit --no-verify` 绕过。
 
+全局生效：bootstrap 的 post 阶段把钩子同步到 `~/.git-template/` 并设置
+`git config --global init.templateDir`，此后本机 `git init` / `git clone` 的新仓库自动携带。
+
 ## 包布局
 
 | 包 | 内容 |
