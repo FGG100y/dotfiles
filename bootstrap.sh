@@ -105,7 +105,7 @@ phase_post() {
     if [ -f "$DOTFILES_DIR/hooks/pre-commit" ]; then
         run mkdir -p "$HOME/.git-template/hooks"
         run cp "$DOTFILES_DIR/hooks/pre-commit" "$HOME/.git-template/hooks/pre-commit"
-        run git config --global init.templateDir "$HOME/.git-template"
+        run git config --global init.templateDir "~/.git-template"
     fi
     # detection-driven: only list what THIS machine actually lacks
     cat <<EOF

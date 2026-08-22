@@ -226,3 +226,4 @@
 	directory = *
 [init]
 	defaultBranch = main
+	templateDir = ~/.git-template
