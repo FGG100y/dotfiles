@@ -20,7 +20,7 @@ cd ~/dotfiles && ./bootstrap.sh
 
 # 5. 手动收尾（bootstrap 结尾也会提醒）：
 #    - gh auth login
-#    - 密钥写入 ~/.bashrc.local / ~/.claude/settings.local.json（见下）
+#    - 密钥写入 ~/.bashrc.local（见下）
 #    - tmux 内 prefix-I 装 tpm 插件；nvim 首次启动自动装 lazy 插件
 ```
 
@@ -40,7 +40,7 @@ cd ~/dotfiles && stow -t ~ foo && git add foo && git commit -m 'Add foo'
 | 密钥 | 位置 |
 |---|---|
 | shell 环境变量（ANTHROPIC_AUTH_TOKEN、DEEPSEEK_API_KEY…） | `~/.bashrc.local`（.bashrc 末尾自动 source） |
-| Claude Code 的 env（不经 shell 启动时） | `~/.claude/settings.local.json`（已被全局 gitignore） |
+| 项目级 Claude Code env（换供应商/模型时） | 项目 `.claude/settings.local.json`（`~/.config/git/ignore` 已全局忽略，不进 git） |
 
 ```bash
 # ~/.bashrc.local
@@ -49,7 +49,7 @@ export DEEPSEEK_API_KEY=sk-xxx
 ```
 
 ```json
-// ~/.claude/settings.local.json
+// <项目>/.claude/settings.local.json —— 只在该项目生效
 {
   "env": {
     "ANTHROPIC_AUTH_TOKEN": "sk-xxx",
@@ -58,6 +58,30 @@ export DEEPSEEK_API_KEY=sk-xxx
   }
 }
 ```
+
+> 注意：用户级 `~/.claude/settings.local.json` **不存在**——Claude Code 不读这个文件。只有从 `$HOME` 启动时它才会被当作「home 目录这个项目」的项目级 local 文件偶然生效，其他目录下静默无效（`/status` → Setting sources 可验证）。
+
+## Claude Code 模型/供应商配置（备忘：方案待定，尚未迁移）
+
+现状：`.bashrc` 的 `## DeepSeek` 块 export 端点 + 模型槽位（入库）；token 在 `~/.bashrc.local`。待决定是否迁移、多供应商怎么组织。
+
+官方结论（2026-08 查 code.claude.com/docs）：
+
+- 供应商是**进程级**配置：一个会话只有一个 `ANTHROPIC_BASE_URL`；settings.json 不能写多个 env 块，也不存在「按模型路由端点」。
+- settings 文件的 env **覆盖** shell 同名变量（改完需重启）。因此入库的 `~/.claude/settings.json` 不能放 env——否则 shell / 项目 local 层全部失效。
+- 模型是槽位映射：`ANTHROPIC_MODEL` + `ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU,FABLE}_MODEL` + `CLAUDE_CODE_SUBAGENT_MODEL`（官方变量，管子代理），`/model` 切换；`ANTHROPIC_SMALL_FAST_MODEL` 已废弃（= HAIKU）。
+- 自定义 base_url 下模型 ID 不做校验，端点接受什么就写什么。
+- 更多模型入口：`CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1`（端点实现 `GET /v1/models` 时，所有模型自动进 `/model` 列表）；`ANTHROPIC_CUSTOM_MODEL_OPTION`（手动加一条自定义项）。
+
+多供应商候选方案（选定后再动 bashrc）：
+
+| 方案 | 形态 | 适用 |
+|---|---|---|
+| A 按项目隔离 | 项目 `.claude/settings.local.json` 覆盖 base_url/model，优先级高于用户级 settings.json | 不同项目不同供应商 |
+| B 网关聚合 | LiteLLM / one-api 单端点路由多上游 + discovery=1 | 一个会话内混用多供应商模型 |
+| C 多 profile | `claude --settings ~/.claude/profiles/xxx.json` | 纯 CLI 按次切换 |
+
+机器本地的全局层只有 shell（`~/.bashrc.local`）；用户级 settings.local.json 不存在（见「密钥放哪」）。
 
 ## 防线：pre-commit 钩子
 
